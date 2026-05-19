@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace CalculationTool
 {
@@ -9,9 +10,15 @@ namespace CalculationTool
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            //CORS inschakelen
+            var cors = new EnableCorsAttribute(
+            "http://localhost:5173", //react dev server
+            "*",
+            "*"
+        );
 
-            // Web API routes
+            config.EnableCors(cors);
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
