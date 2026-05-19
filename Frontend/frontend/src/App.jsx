@@ -1,15 +1,19 @@
-import { useState } from 'react'
-import { useEffect } from "react";
-import { getTest } from './services/api';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import AppLayout from "./layout/AppLayout";
 
-function App() {
-  const [count, setCount] = useState(0)
+import Dashboard from "./pages/Dashboard";
+// import Order from "./pages/Order";
+// import Offerte from "./pages/Offerte";
+// import Admin from "./pages/Admin";
 
-   useEffect(() => {
-    getTest().then(console.log);
-  }, []);
-  
-  return <h1 >Hello React</h1>;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App;

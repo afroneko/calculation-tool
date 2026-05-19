@@ -1,10 +1,12 @@
 import axios from "axios";
 
-export default axios.create({
-    baseURL: "https://localhost:44300/api"
+//backend connectie
+const api = axios.create({
+    baseURL: "https://localhost:44335/api"
 });
 
+
 export function getTest() {
-  return fetch("http://localhost:5173/api/test")
-    .then(res => res.text());
+  return api.get("/test");
 }
+
