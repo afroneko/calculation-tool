@@ -1,6 +1,26 @@
+:root {
+  --text-color: #05162F;
+  --primary-blue: #123154;
+  --secundary-blue: #1E5088;
+  --background-color: #F0F0F0;
+  --primary-grey: #AFABA5;
+  --secundary-grey: #D6D6D6;
+  --primary-white: #FFFFFF;
+  --secundary-white: #EBEBEB;
+  --accent-orange: #E77B2D;
+  --accent-blue: #DEEAF8;
+  --primary-check: #85BE81;
+  --secundary-check: #EDF7EC;
+  --primary-warning: #E9C572;
+  --secundary-warning: #F9EDDC;
+  --primary-problem: #C43A43;
+  --secundary-problem: #F9E8EA;
+}
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
+  background-color: var(--background-color);;
 }
 
 .app-container {
