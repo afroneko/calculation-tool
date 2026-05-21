@@ -1,5 +1,7 @@
 import "../styles/layout.css";
-import ClickableCard from "../components/cards/ClickableCard";
+import "../styles/global.css";
+import ClickableCard from "../components/cards/clickable/ClickableCard";
+import { Icon } from "@iconify/react";
 
 export default function Dashboard() {
   return (
@@ -10,20 +12,19 @@ export default function Dashboard() {
       </div>
 
       <div className="grid">
-        <div className="leftColumn">
-           <ClickableCard
-              key={plant.plant_id}
-              name={plant.plant_name}
-              species={plantTypes[plant.plant_id] || "Loading..."}
-              image={cactusPfp}
-            />
-        </div>
-           <ClickableCard
-              key={plant.plant_id}
-              name={plant.plant_name}
-              species={plantTypes[plant.plant_id] || "Loading..."}
-              image={cactusPfp}
-            />
+         <ClickableCard
+        title="Offerte calculeren"
+        description="Maak een nieuwe calculatie voor een offerte"
+        icon="mdi:cloud"
+        onClick={() => console.log("Navigate to calculatie")}
+      />
+
+       <ClickableCard
+        title="Directe order calculeren"
+        description="Maak een nieuwe calculatie voor een directe order"
+        icon="mdi:cloud"
+        onClick={() => console.log("Navigate to calculatie")}
+      />
       </div>
 
     </div>
