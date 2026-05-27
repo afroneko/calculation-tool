@@ -1,12 +1,13 @@
 import Sidebar from "../components/sidebar/Sidebar";
 import { Outlet } from "react-router-dom";
+import "../styles/layout.css";
 
 export default function AppLayout() {
   return (
-    <div className="flex">
+    <div className="layout">
       <Sidebar />
 
-      <main className="flex-1 bg-gray-100 min-h-screen p-6">
+      <main className="content">
         <Outlet />
       </main>
     </div>

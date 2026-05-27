@@ -1,0 +1,28 @@
+.pageTitle {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  color: var(--text-color);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  align-items: start;
+  margin-bottom: 32px;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
