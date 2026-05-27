@@ -15,7 +15,7 @@ export default function ClickableCard({
     >
       {/* Icon box */}
       <div className="clickable-card_icon-box">
-        {icon && <Icon icon={icon} size={24} />}
+        <Icon icon="simple-line-icons:cloud-upload"/>
       </div>
 
       {/* Text */}
@@ -29,7 +29,7 @@ export default function ClickableCard({
 
       {/* Arrow */}
       <div className="clickable-card_arrow">
-        <Icon icon="mdi:arrow-right" size={20} />
+        <Icon icon="mdi-light:arrow-right"/>
       </div>
     </div>
   );

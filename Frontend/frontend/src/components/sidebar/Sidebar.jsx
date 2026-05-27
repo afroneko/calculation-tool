@@ -1,8 +1,6 @@
-import "./sidebar.css";
-import "../../styles/global.css";
 import { NavLink, useNavigate } from "react-router-dom"; 
 import { Icon } from "@iconify/react";
-import calculatorIcon from "../../assets/navbarIcons/calculator.svg";
+import "./Sidebar.css";
 
 export default function Sidebar() {
   return (
@@ -10,35 +8,36 @@ export default function Sidebar() {
             <div className="imageAndTitle">
                 {/* <img src={logo} alt="Flora Vitals logo" className="logo" /> */}
                 <h2 className="title">Tummers</h2>
-                <p className="subtitle">calculations</p>
+                
             </div>
-
-            <hr className="sidebar-divider" />
+            <p className="subtitle">calculations</p>
 
             <ul>
                 <li>
                     <NavLink to="/" className="nav-link">
-                        <Icon  icon="mdi:home" />
+                        <Icon icon="clarity:home-line" className="nav-icon" />
                         Dashboard
+                    </NavLink>
+                </li>
+                 <li>
+                    <NavLink to="/overview" className="nav-link">
+                        <Icon icon="ph:calculator" className="nav-icon" />
+                        Order
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/overview" className="nav-link">
-                        {/* <img src={calculatorIcon} alt="Calculator icon" className="navbar-icon" /> */}
+                        <Icon icon="ph:calculator" className="nav-icon" />
                         Offerte
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to="/profile" className="nav-link">
-                        {/* <img src={userIcon} alt="User icon" className="sapling-icon" /> */}
-                        Order
                     </NavLink>
                 </li>
             </ul>
 
+            <hr className="sidebar-divider" />
+
             {/* Logout button */}
             <NavLink to="/logout" className="nav-link">
-                {/* <img src={logoutIcon} alt="Logout icon" className="sapling-icon" /> */}
+                <Icon icon="lets-icons:user-light" className="nav-icon" />
                 Admin
             </NavLink>
         </nav>

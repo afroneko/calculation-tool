@@ -19,6 +19,6 @@
 
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   background-color: var(--background-color);;
 }
