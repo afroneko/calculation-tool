@@ -35,8 +35,8 @@ export default function Sidebar() {
 
             <hr className="sidebar-divider" />
 
-            {/* Logout button */}
-            <NavLink to="/logout" className="nav-link">
+            {/* Login button */}
+            <NavLink to="/login" className="nav-link">
                 <Icon icon="lets-icons:user-light" className="nav-icon" />
                 Admin
             </NavLink>
