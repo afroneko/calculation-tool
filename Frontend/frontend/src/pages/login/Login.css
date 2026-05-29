@@ -15,17 +15,21 @@ input:-webkit-autofill:focus {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: var(--text-color);
 }
 
 /* login grid */
 .login-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--accent-blue);
   padding: 2rem 3rem;
   border-radius: 15px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  width: 480px;
-  height: fit-content;
-}
+  width: 400px;
+  height: 310px;
+} */
 
 /* input fields */
 .input-group {
