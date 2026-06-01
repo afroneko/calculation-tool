@@ -1,6 +1,9 @@
 import './Login.css'
+import { Outlet } from 'react-router-dom';
+import Layout from '../../layout/AppLayout';
 import { useNavigate } from 'react-router-dom'; // Import navigation hook
 import { useState } from 'react';
+import Dashboard from '../Dashboard';
 
 
 function Login() {
@@ -8,6 +11,15 @@ function Login() {
 
 return (
   
+<div className="login-page">
+  <div className="background-content">
+    <Layout>
+      <Dashboard />
+    </Layout>
+  </div>
+
+  <div className="blur-overlay"></div>
+
     <div className="login-wrapper">
       <div className="login-box">
         
@@ -38,6 +50,7 @@ return (
         </form>
       </div>
       
+    </div>
     </div>
   )
 }

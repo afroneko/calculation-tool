@@ -9,13 +9,41 @@ input:-webkit-autofill:focus {
   transition: background-color 5000s ease-in-out 0s;
 }
 
+.login-page {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Dashboard op achtergrond */
+.background-content {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+/* Blur laag */
+.blur-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  background: rgba(0, 0, 0, 0.3);
+}
+
 /* flex box for login grid */
 .login-wrapper {
+  position :fixed;
+  inset: 0;
+  z-index: 9999;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--text-color);
 }
 
 /* login grid */
