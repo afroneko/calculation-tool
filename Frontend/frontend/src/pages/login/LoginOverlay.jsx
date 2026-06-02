@@ -1,58 +1,55 @@
 import './Login.css'
-import { Outlet } from 'react-router-dom';
-import Layout from '../../layout/AppLayout';
-import { useNavigate } from 'react-router-dom'; // Import navigation hook
-import { useState } from 'react';
-import Dashboard from '../Dashboard';
+import { Icon } from "@iconify/react";
 
 
-function Login() {
-  const navigate = useNavigate(); // Navigation hook
+function LoginOverlay() {
 
 return (
   
 <div className="login-page">
-  <div className="background-content">
-    <Layout>
-      <Dashboard />
-    </Layout>
-  </div>
 
   <div className="blur-overlay"></div>
 
     <div className="login-wrapper">
       <div className="login-box">
+        <div className="login-avatar">
+          <Icon icon="lets-icons:user-light" className="login-icon" />
+        </div>
         
-        <form className="login-form">
+        <form className="login-form"
+          onSubmit={(e) => {
+            e.preventDefault();
+            onLogin?.();
+          }}
+        >
           <div className='input-group'>
             <div className='input-wrapper'>
-              <label htmlFor="username">Gebruikersnaam</label>
               <input
                 type="text"
                 id="username"
                 name="username"
+                placeholder="Gebruikersnaam"
               />
             </div>
 
             <div className='input-wrapper'>
-              <label htmlFor="password">Wachtwoord</label>
               <input
               type='password'
                 id="password"
                 name="password"
+                placeholder="Wachtwoord"
               />
             </div>
           </div>
 
-            <button type="submit" className="btn login-btn">
+            <button type="submit" className="btn">
               Inloggen
             </button>
-        </form>
+          </form>
+        </div>
       </div>
-      
-    </div>
     </div>
   )
 }
 
-export default Login;
+export default LoginOverlay;
