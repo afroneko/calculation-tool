@@ -14,7 +14,7 @@ input:-webkit-autofill:focus {
   overflow: hidden;
 }
 
-/* Blur laag */
+/* Blur achtergrond */
 .blur-overlay {
   position: fixed;
   inset: 0;
@@ -54,6 +54,24 @@ input:-webkit-autofill:focus {
     font-size: 72px;
 }
 
+.back-btn {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+
+  background: transparent;
+  border: none;
+  color: var(--accent-orange);
+  font-size: 38px;
+
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.back-btn:hover {
+  transform: translateX(-3px);
+}
+
 /* login grid */
 .login-box {
   display: flex;
@@ -64,46 +82,41 @@ input:-webkit-autofill:focus {
   padding-top: 80px;
   border-radius: 12px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  width: 400px;
+  width: 420px;
   height: 310px;
   position: fixed;
 } 
 
-/* input fields */
-.input-group {
+/* input fields and button */
+.content-group {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
-/* wrapper for label and input field */
+/* wrapper for icon and input field */
 .input-wrapper {
+  display: flex;
+  justify-content: center;
   align-items: center;
   position: relative; 
   background-color: var(--secundary-blue);
   margin-bottom: 20px;
   width: 280px;
+  height: 60px;
   overflow: hidden;
 }
 
-/* .input-wrapper::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
-  height: 100%;
-  background-color: var(--secundary-blue);
-  transform: scaleY(0);
-  transition: transform 0.3s ease;
-  transform-origin: top;
+.input-icon {
+  /* left: 15px; */
+  color: var(--background-color);
+  background-color: var(--primary-blue);
+  font-size: 52px;
+  width: 80px;
+  height: 80px;
 }
-
-.input-wrapper:has(input:focus)::before {
-  transform: scaleY(1);
-} */
 
 /* input styling */
 .login-form input {
@@ -111,20 +124,28 @@ input:-webkit-autofill:focus {
   border: none;
   outline: none;
   background-color: var(--secundary-blue);
-  color: white;
+  color: var(--background-color);
   font-size: 1rem;
   width: 100%;
 }
 
+.login-form input::placeholder {
+  color: var(--background-color);
+  opacity: 1;
+}
 
-/* button styling */
+
+/* login button styling */
 .btn {
-  max-width: 115px;
+  width: 70%;
+  height: 55px;
   padding: 0.6rem;
+  margin-top: 30px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   font-weight:bold;
-  font-size: 0.9rem;
+  letter-spacing: 0.2em;
+  font-size: 1.2rem;
   cursor: pointer;
   background-color: var(--primary-blue);
   color: var(--accent-orange);
