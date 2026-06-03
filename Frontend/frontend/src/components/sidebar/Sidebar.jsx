@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "./Sidebar.css";
 
-export default function Sidebar() {
+export default function Sidebar({ onAdminClick }) {
   return (
     <nav className="sidebar">
             <div className="imageAndTitle">
@@ -35,10 +35,17 @@ export default function Sidebar() {
 
             <hr className="sidebar-divider" />
 
-            {/* Logout button */}
-            <NavLink to="/logout" className="nav-link">
-                <Icon icon="lets-icons:user-light" className="nav-icon" />
-                Admin
+            {/* Login button */}
+            <NavLink 
+              to="/admin"
+              className="nav-link"
+              onClick={(e) => {
+                  e.preventDefault();
+                  onAdminClick();
+              }} 
+            >
+              <Icon icon="lets-icons:user-light" className="nav-icon" />
+              Admin
             </NavLink>
         </nav>
   );
