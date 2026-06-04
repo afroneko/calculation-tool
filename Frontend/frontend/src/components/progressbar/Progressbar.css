@@ -1,0 +1,67 @@
+.stepper {
+  display: flex;
+  align-items: flex-start;
+}
+
+.step-wrapper {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.step-circle {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 600;
+  z-index: 2;
+}
+
+/* Nog te doen */
+.step-circle.upcoming {
+  background: #d8d8d8;
+  color: #666;
+}
+
+/* Huidige stap */
+.step-circle.active {
+  background: #183a6d;
+  color: white;
+}
+
+/* Voltooid */
+.step-circle.completed {
+  background: #f28c28;
+  color: white;
+}
+
+.step-line {
+  flex: 1;
+  height: 2px;
+  background: #d8d8d8;
+  margin: 0 12px;
+}
+
+.step-line.completed {
+  background: #183a6d;
+}
+
+.step-text {
+  position: absolute;
+  margin-top: 70px;
+  text-align: center;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: #666;
+}
