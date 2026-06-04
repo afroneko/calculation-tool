@@ -75,40 +75,43 @@ export default function ProgressBar() {
     const currentSlug = location.pathname.split("/").pop();
     const currentIndex = steps.findIndex(
         (step) => step.slug === currentSlug);
+        const fillPct =
+    currentIndex <= 0 ? 0 : (currentIndex / (steps.length - 1)) * 100;
+
   return (
+
     <div className="progress-bar">
-      {steps.map((step, index) => {
-        let state = "upcoming";
+      <div className="progress-line" >
+        <div
+          className="progress-line-fill"
+          style={{ width: `${fillPct}%` }}
+        />
+      </div>
 
-        if (index < currentIndex) {
-          state = "completed";
-        } else if (index === currentIndex) {
-          state = "active";
-        }
+          {steps.map((step, index) => {
+            let state = STEP_STATE.UPCOMING;
 
-        return (
-          <div className="step-container" key={step.slug}>
-            <div className="step-top">
-              <div className={`step-circle ${state}`}>
-                {state === STEP_STATE.COMPLETED ? "✓" : index + 1}
+            if (index < currentIndex) {
+              state = STEP_STATE.COMPLETED;
+            } else if (index === currentIndex) {
+              state = STEP_STATE.ACTIVE;
+            }
+
+            return (
+              <div className="step-container" key={step.slug}>
+               
+                  <div className={`step-circle ${state}`}>
+                    {state === STEP_STATE.COMPLETED ? "✓" : index + 1}
+                  </div>
+
+
+                <div className="step-content">
+                  <div className="step-title">{step.title}</div>
+                  <div className="step-subtitle">{step.subtitle}</div>
+                </div>
               </div>
-
-              {index < steps.length - 1 && (
-                <div
-                  className={`step-line ${
-                    index < currentIndex ? "completed" : ""
-                  }`}
-                />
-              )}
-            </div>
-
-            <div className="step-content">
-              <div className="step-title">{step.title}</div>
-              <div className="step-subtitle">{step.subtitle}</div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
     </div>
   );
 }

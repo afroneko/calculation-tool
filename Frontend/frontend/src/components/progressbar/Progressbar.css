@@ -1,67 +1,83 @@
-.stepper {
+.progress-bar {
+  position: relative;
   display: flex;
-  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.step-wrapper {
+.progress-line {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #d1d5db;
+  z-index: 0;
+}
+ 
+/* Gekleurde vulling voor voltooide stappen */
+.progress-line-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: #183153;
+  transition: width 0.4s ease;
+}
+
+.step-container {
+  position: relative;
+  z-index: 1;
+
   display: flex;
+  flex-direction: column;
   align-items: center;
+
   flex: 1;
 }
 
 .step-circle {
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
+  flex-shrink: 0;
+
   font-weight: 600;
-  z-index: 2;
+  font-size: 16px;
 }
 
-/* Nog te doen */
-.step-circle.upcoming {
-  background: #d8d8d8;
-  color: #666;
-}
-
-/* Huidige stap */
-.step-circle.active {
-  background: #183a6d;
-  color: white;
-}
-
-/* Voltooid */
 .step-circle.completed {
-  background: #f28c28;
+  background: #f59e0b;
   color: white;
 }
 
-.step-line {
-  flex: 1;
-  height: 2px;
-  background: #d8d8d8;
-  margin: 0 12px;
+.step-circle.active {
+  background: #183153;
+  color: white;
 }
 
-.step-line.completed {
-  background: #183a6d;
+.step-circle.upcoming {
+  background: #d1d5db;
+  color: #4b5563;
+  border: 2px solid #d1d5db;
 }
 
-.step-text {
-  position: absolute;
-  margin-top: 70px;
+.step-content {
+  margin-top: 12px;
   text-align: center;
 }
 
-.title {
+.step-title {
   font-weight: 600;
+  font-size: 14px;
 }
 
-.subtitle {
-  font-size: 0.85rem;
-  color: #666;
+.step-subtitle {
+  font-size: 12px;
+  color: #6b7280;
 }
