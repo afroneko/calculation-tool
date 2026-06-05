@@ -5,24 +5,29 @@
   width: 100%;
 }
 
-.progress-line {
+.progress-line-wrapper {
   position: absolute;
   top: 20px;
-  left: 0;
-  right: 0;
+
+  left: calc(100% / 18);
+  right: calc(100% / 18);
+
   height: 2px;
-  background: #d1d5db;
-  z-index: 0;
+}
+
+.progress-line {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--primary-grey);
 }
  
-/* Gekleurde vulling voor voltooide stappen */
 .progress-line-fill {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 2px;
-  background: #183153;
-  transition: width 0.4s ease;
+  height: 100%;
+  transition: left 0.3s, width 0.3s;
+  background: var(--text-color);
 }
 
 .step-container {
@@ -37,11 +42,12 @@
 }
 
 .step-circle {
-  width: 40px;
-  height: 40px;
+  width: 47px;
+  height: 47px;
   border-radius: 50%;
 
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 
@@ -52,19 +58,50 @@
 }
 
 .step-circle.completed {
-  background: #f59e0b;
-  color: white;
+  background: var(--secundary-grey);
 }
 
 .step-circle.active {
-  background: #183153;
+  background: var(--secundary-grey);
   color: white;
 }
 
 .step-circle.upcoming {
-  background: #d1d5db;
-  color: #4b5563;
-  border: 2px solid #d1d5db;
+  background: var(--secundary-white);
+  color: var(--text-color);
+}
+
+.step-number {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-container.active .step-number {
+  background-color: var(--text-color);
+}
+
+.step-container.upcoming .step-number {
+  background-color: var(--primary-grey);
+  color: var(--text-color);
+}
+
+.step-container.completed .step-number {
+  color: var(--accent-orange);
+  border: 2px solid var(--accent-orange);
+}
+
+.step-icon {
+  font-size: 1.2rem;
+  color: var(--text-color);
+}
+
+.step-container.upcoming .step-icon {
+  color: var(--primary-grey);
 }
 
 .step-content {
@@ -75,9 +112,10 @@
 .step-title {
   font-weight: 600;
   font-size: 14px;
+  color: var(--text-color);
 }
 
 .step-subtitle {
   font-size: 12px;
-  color: #6b7280;
+  color: var(--text-color);
 }
