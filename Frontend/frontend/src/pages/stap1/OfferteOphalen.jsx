@@ -5,6 +5,8 @@ import ProgressCard from "../../components/cards/progress/ProgressCard";
 import { useNavigate } from "react-router-dom";
 
 export default function OfferteOphalen() {
+  const navigate = useNavigate();
+  
   return (
     <div className="page">
       <h1>Offerte Ophalen</h1>
@@ -17,15 +19,15 @@ export default function OfferteOphalen() {
 
         <div className="grid">
           <DetailCard />
-          <ProgressCard />
+          <ProgressCard
+          currentStep={0}
+          totalSteps={8}
+          onNext={() => navigate("/stap2")}
+          showPrevious={false}
+          />
         </div>
 
-        <div className="actions">
-          <button className="next-button" onClick={() => navigate("/stap2")}>
-            Volgende stap →
-          </button>
-        </div>
       </div>
-      </div>
+    </div>
   );
 }

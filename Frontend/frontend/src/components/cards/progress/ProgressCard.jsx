@@ -6,7 +6,7 @@ export default function ProgressCard({
   totalSteps,
   onPrevious,
   onNext,
-  previousDisabled = false,
+  showPrevious = true,
 }) {
   const percentage = Math.round((currentStep / totalSteps) * 100);
 
@@ -34,13 +34,14 @@ export default function ProgressCard({
       <span className="progress-card__percentage">{percentage}%</span>
 
       <div className="progress-card__actions">
-        <button
-          className="progress-card__btn progress-card__btn--secondary"
-          onClick={onPrevious}
-          disabled={previousDisabled}
-        >
-          ← Vorige stap
-        </button>
+        {showPrevious && (
+          <button
+            className="progress-card__btn progress-card__btn--secondary"
+            onClick={onPrevious}
+          >
+            ← Vorige stap
+          </button>
+        )}
         <button
           className="progress-card__btn progress-card__btn--primary"
           onClick={onNext}

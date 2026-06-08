@@ -1,8 +1,10 @@
 import "./DxfInvoer.css";
 import Progressbar from "../../components/progressbar/Progressbar";
 import OfferteStapLayout from "../../layout/OfferteStapLayout";
+import { useNavigate } from "react-router-dom";
 
 export default function DxfInvoer() {
+const navigate = useNavigate();
 
   return (
     <div className="dxf-invoer-page">
@@ -17,13 +19,13 @@ export default function DxfInvoer() {
         verkoper: 'Senne Scheeren',
         aangemaaktOp: '10-05-2026',
       }}
-      voortgang={{ stap: 2, totaal: 8 }}
-      onVorige={() => navigate('/stap/2')}
-      onVolgende={() => navigate('/stap/4')}
+      voortgang={{ stap: 1, totaal: 8 }}
+      onVorige={() => navigate('/stap/1')}
+      onVolgende={() => navigate('/stap/3')}
     >
       {/* Hier komt je tabel, form, of andere content */}
-      <h2>Materiaal selecteren</h2>
-      <p>Selecteer het juiste materiaal, dikte en aantallen.</p>
+      <h2>DXF bestanden laden</h2>
+      <p>Upload de DXF bestanden van de onderdelen</p>
       {/* ... */}
     </OfferteStapLayout>
     </div>
