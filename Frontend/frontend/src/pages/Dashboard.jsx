@@ -17,7 +17,7 @@ export default function Dashboard() {
         title="Offerte calculeren"
         description="Maak een nieuwe calculatie voor een offerte"
         icon="mdi:cloud"
-        onClick={() => navigate("/offerteStap1")}
+        onClick={() => navigate("/stap1")}
       />
 
        <ClickableCard

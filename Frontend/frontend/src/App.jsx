@@ -3,7 +3,7 @@ import AppLayout from "./layout/AppLayout";
 import Dashboard from "./pages/Dashboard";
 import OfferteOphalen from "./pages/stap1/OfferteOphalen";
 import Login from "./pages/login/LoginOverlay";
-import DxfInvoer from "./pages/stap2/dxfInvoer";
+import DxfInvoer from "./pages/stap2/DxfInvoer";
 
 export default function App() {
   return (
