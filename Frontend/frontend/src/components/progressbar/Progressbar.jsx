@@ -1,51 +1,61 @@
-import "./ProgressBar.css";
+import "./Progressbar.css";
+import { Icon } from "@iconify/react";
 import { useLocation } from "react-router-dom";
 
 const steps = [
   {
-    slug: "offerte-ophalen",
+    slug: "stap1",
     title: "Offerte ophalen",
     subtitle: "Gegevens importeren",
+    icon: "material-symbols-light:download",
   },
   {
-    slug: "dxf-invoer",
+    slug: "stap2",
     title: "DXF invoer",
     subtitle: "Bestanden laden",
+    icon: "pepicons-pencil:file",
   },
   {
-    slug: "materiaal-diktes",
+    slug: "stap3",
     title: "Materiaal & diktes",
     subtitle: "Selecteer materiaal",
+    icon: "proicons:layers",
   },
   {
-    slug: "nesting",
+    slug: "stap4",
     title: "Nesting",
     subtitle: "Plaatindeling",
+    icon: "mdi-light:grid",
   },
   {
-    slug: "bewerkingen",
+    slug: "stap5",
     title: "Bewerkingen",
     subtitle: "Tijden en bewerkingen",
+    icon: "fluent:person-wrench-20-regular",
   },
   {
-    slug: "externe-bewerkingen",
+    slug: "stap6",
     title: "Externe bewerkingen",
     subtitle: "Bewerkingen",
+    icon: "fluent:arrow-trending-wrench-20-regular",
   },
   {
-    slug: "calculatie",
+    slug: "stap7",
     title: "Calculatie",
     subtitle: "Kostenoverzicht",
+    icon: "ph:calculator",
   },
   {
-    slug: "controle",
+    slug: "stap8",
     title: "Controle",
     subtitle: "Validatie",
+    icon: "material-symbols-light:data-check-rounded",
   },
   {
-    slug: "export",
+    slug: "stap9",
     title: "Export",
     subtitle: "Ridder, mail, pdf",
+    icon: "material-symbols-light:upload",
   },
 ];
 
@@ -70,45 +80,63 @@ function getStepState(stepId, currentStep) {
   return STEP_STATE.UPCOMING;
 }
 
-export default function ProgressBar() {
+export default function Progressbar() {
     const location = useLocation();
     const currentSlug = location.pathname.split("/").pop();
-    const currentIndex = steps.findIndex(
-        (step) => step.slug === currentSlug);
+    const currentIndex = steps.findIndex((step) => step.slug === currentSlug);
+    const segmentWidth = 100 / (steps.length - 1);
+    let fillLeft;
+    let fillWidth;
+
+    if (currentIndex === 0) {
+      fillLeft = 0;
+      fillWidth = segmentWidth / 2;
+    } else if (currentIndex === steps.length - 1) {
+      fillLeft = 100 - segmentWidth / 2;
+      fillWidth = segmentWidth / 2;
+    } else {
+      fillLeft = currentIndex * segmentWidth - segmentWidth / 2;
+      fillWidth = segmentWidth;
+    }
+
   return (
+
     <div className="progress-bar">
-      {steps.map((step, index) => {
-        let state = "upcoming";
+      <div className="progress-line-wrapper">
+        <div className="progress-line" >
+          <div
+            className="progress-line-fill"
+            style={{ left: `${fillLeft}%`, width: `${fillWidth}%` }}
+          />
+        </div>
+      </div>
 
-        if (index < currentIndex) {
-          state = "completed";
-        } else if (index === currentIndex) {
-          state = "active";
-        }
+          {steps.map((step, index) => {
+            let state = STEP_STATE.UPCOMING;
 
-        return (
-          <div className="step-container" key={step.slug}>
-            <div className="step-top">
-              <div className={`step-circle ${state}`}>
-                {state === STEP_STATE.COMPLETED ? "✓" : index + 1}
+            if (index < currentIndex) {
+              state = STEP_STATE.COMPLETED;
+            } else if (index === currentIndex) {
+              state = STEP_STATE.ACTIVE;
+            }
+
+            return (
+              <div className={`step-container ${state}`} key={step.slug}>
+               
+                  <div className={`step-circle ${state}`}>
+                    <span className={`step-number ${state}`}>
+                      {state === STEP_STATE.COMPLETED ? "✓" : index + 1}
+                    </span>
+                    <Icon icon={step.icon} className="step-icon" />
+                  </div>
+                
+                <div className="step-content">
+                  <div className="step-title">{step.title}</div>
+                  <div className="step-subtitle">{step.subtitle}</div>
+                </div>
               </div>
-
-              {index < steps.length - 1 && (
-                <div
-                  className={`step-line ${
-                    index < currentIndex ? "completed" : ""
-                  }`}
-                />
-              )}
-            </div>
-
-            <div className="step-content">
-              <div className="step-title">{step.title}</div>
-              <div className="step-subtitle">{step.subtitle}</div>
-            </div>
-          </div>
-        );
-      })}
+            );
+          })}
     </div>
   );
 }

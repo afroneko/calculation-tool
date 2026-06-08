@@ -5,6 +5,155 @@
 }
 
 .content {
-  padding: 24px 75px;
+  padding: 24px 35px;
 }
+
+.offerte-stap-layout {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+          padding: 20px 8px;
+          min-height: 100%;
+          box-sizing: border-box;
+          background: #f0f2f5;
+          font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+ 
+        /* Tweekoloms grid */
+        .offerte-stap-layout__grid {
+          display: grid;
+          grid-template-columns: 1fr 280px;
+          gap: 24px;
+          align-items: start;
+        }
+ 
+        /* Hoofd-content */
+        .offerte-stap-layout__content {
+          background: #ffffff;
+          border-radius: 10px;
+          padding: 28px 32px;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+          min-height: 400px;
+        }
+ 
+        /* Sidebar kaartjes */
+        .offerte-stap-layout__card {
+          background: #ffffff;
+          border-radius: 10px;
+          padding: 20px 22px;
+          box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+        }
+        .offerte-stap-layout__card + .offerte-stap-layout__card {
+          margin-top: 16px;
+        }
+ 
+        .offerte-stap-layout__card-title {
+          margin: 0 0 14px;
+          font-size: 0.9rem;
+          font-weight: 700;
+          color: #1a2233;
+          text-transform: uppercase;
+          letter-spacing: 0.4px;
+        }
+ 
+        /* Info lijst */
+        .offerte-stap-layout__info-list {
+          margin: 0;
+          display: grid;
+          grid-template-columns: auto 1fr;
+          row-gap: 8px;
+          column-gap: 12px;
+        }
+        .offerte-stap-layout__info-list dt {
+          font-size: 0.78rem;
+          font-weight: 600;
+          color: #6b7a99;
+          text-transform: uppercase;
+          letter-spacing: 0.3px;
+          white-space: nowrap;
+        }
+        .offerte-stap-layout__info-list dd {
+          margin: 0;
+          font-size: 0.88rem;
+          color: #1a2233;
+          font-weight: 500;
+        }
+ 
+        /* Voortgangsbalk */
+        .offerte-stap-layout__progress-label {
+          margin: 0 0 10px;
+          font-size: 0.83rem;
+          color: #4a5568;
+        }
+        .offerte-stap-layout__progress-track {
+          background: #e2e8f0;
+          border-radius: 999px;
+          height: 8px;
+          overflow: hidden;
+        }
+        .offerte-stap-layout__progress-fill {
+          height: 100%;
+          background: #1a2233;
+          border-radius: 999px;
+          transition: width 0.4s ease;
+        }
+        .offerte-stap-layout__progress-pct {
+          display: block;
+          text-align: right;
+          font-size: 0.78rem;
+          color: #6b7a99;
+          margin-top: 4px;
+          font-weight: 600;
+        }
+ 
+        /* Navigatieknoppen */
+        .offerte-stap-layout__actions {
+          display: flex;
+          gap: 10px;
+          margin-top: 18px;
+        }
+        .offerte-stap-layout__btn {
+          flex: 1;
+          padding: 9px 12px;
+          border-radius: 7px;
+          font-size: 0.84rem;
+          font-weight: 600;
+          cursor: pointer;
+          border: none;
+          transition: background 0.15s, opacity 0.15s;
+        }
+        .offerte-stap-layout__btn--secondary {
+          background: #f0f2f5;
+          color: #1a2233;
+          border: 1px solid #d1d9e6;
+        }
+        .offerte-stap-layout__btn--secondary:hover:not(:disabled) {
+          background: #e2e8f0;
+        }
+        .offerte-stap-layout__btn--secondary:disabled {
+          opacity: 0.4;
+          cursor: not-allowed;
+        }
+        .offerte-stap-layout__btn--primary {
+          background: #1a2233;
+          color: #ffffff;
+        }
+        .offerte-stap-layout__btn--primary:hover {
+          background: #263450;
+        }
+ 
+        /* Responsive: onder elkaar op smalle schermen */
+        @media (max-width: 860px) {
+          .offerte-stap-layout__grid {
+            grid-template-columns: 1fr;
+          }
+          .offerte-stap-layout__sidebar {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+          }
+          .offerte-stap-layout__card + .offerte-stap-layout__card {
+            margin-top: 0;
+          }
+        }
 

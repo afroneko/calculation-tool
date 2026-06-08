@@ -2,7 +2,7 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import "./DescriptionCard.css";
 
-export default function ClickableCard({
+export default function DescriptionCard({
   title,
   description,
 }) {

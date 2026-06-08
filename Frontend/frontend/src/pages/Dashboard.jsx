@@ -2,8 +2,10 @@ import "./Dashboard.css";
 import ClickableCard from "../components/cards/clickable/ClickableCard";
 import DescriptionCard from "../components/cards/description/DescriptionCard";
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
   return (
    <div className="page">
       <div className="pageHeader">
@@ -15,7 +17,7 @@ export default function Dashboard() {
         title="Offerte calculeren"
         description="Maak een nieuwe calculatie voor een offerte"
         icon="mdi:cloud"
-        onClick={() => console.log("Navigate to calculatie")}
+        onClick={() => navigate("/stap1")}
       />
 
        <ClickableCard
