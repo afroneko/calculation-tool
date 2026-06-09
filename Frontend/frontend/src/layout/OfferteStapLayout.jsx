@@ -5,12 +5,12 @@ import ProgressCard from '../components/cards/progress/ProgressCard';
 export default function OfferteStapLayout({
   children,
   offerte = {},
-  voortgang = { stap: 2, totaal: 8 },
-  onVorige,
-  onVolgende,
-  toonVorige = false,
+  progress = { stap: 2, totaal: 8 },
+  onPrevious,
+  onNext,
+  showPrevious = true,
 }) {
-  const percentage = Math.round((voortgang.stap / voortgang.totaal) * 100);
+  const percentage = Math.round((progress.stap / progress.totaal) * 100);
  
   return (
     <div className="offerte-stap-layout">
@@ -34,11 +34,11 @@ export default function OfferteStapLayout({
             date={offerte.aangemaaktOp}
           />
           <ProgressCard
-            currentStep={voortgang.stap}
-            totalSteps={voortgang.totaal}
-            onPrevious={onVorige}
-            onNext={onVolgende}
-            showPrevious={toonVorige}
+            currentStep={progress.stap}
+            totalSteps={progress.totaal}
+            onPrevious={onPrevious}
+            onNext={onNext}
+            showPrevious={showPrevious}
           />
  
         </aside>
