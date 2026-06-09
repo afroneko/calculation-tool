@@ -1,0 +1,71 @@
+.nesting-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.nesting-header h2 {
+  margin: 0 0 4px 0;
+}
+
+.nesting-header p {
+  margin: 0;
+  color: #666;
+  font-size: 13px;
+}
+
+.bereken-knop {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: white;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bereken-knop:hover {
+  background: #f5f5f5;
+}
+
+.materiaal-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.materiaal-tabel th {
+  text-align: left;
+  padding: 10px 16px;
+  font-weight: 500;
+  color: #555;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.materiaal-tabel td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+}
+
+.materiaal-tabel tr:last-child td {
+  border-bottom: none;
+}
+
+.lege-staat {
+  text-align: center;
+  color: #aaa;
+  padding: 32px 0 !important;
+  font-size: 13px;
+}
+
+.nesting-totalen {
+  display: flex;
+  gap: 2rem;
+  padding: 16px;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 1rem;
+  font-size: 14px;
+  color: #333;
+}
