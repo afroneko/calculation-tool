@@ -1,0 +1,57 @@
+.materiaal-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+  font-size: 14px;
+}
+
+.materiaal-tabel th {
+  text-align: left;
+  padding: 10px 16px;
+  font-weight: 500;
+  color: #555;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.materiaal-tabel td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.materiaal-tabel tr:last-child td {
+  border-bottom: none;
+}
+
+.filter-icoon {
+  margin-left: 4px;
+  font-size: 11px;
+  color: #888;
+}
+
+.afbeelding-cel {
+  width: 48px;
+  text-align: center;
+}
+
+.dxf-icoon {
+  font-size: 20px;
+}
+
+.materiaal-tabel select {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+}
+
+.aantallen-input {
+  width: 64px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 13px;
+  text-align: center;
+}

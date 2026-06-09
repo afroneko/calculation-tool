@@ -36,9 +36,9 @@ const [files, setFiles] = useState([
         verkoper: 'Senne Scheeren',
         aangemaaktOp: '10-05-2026',
       }}
-      voortgang={{ stap: 1, totaal: 8 }}
-      onVorige={() => navigate('/stap/1')}
-      onVolgende={() => navigate('/stap/3')}
+      progress={{ stap: 1, totaal: 8 }}
+      onPrevious={() => navigate('/stap1')}
+      onNext={() => navigate('/stap3')}
     >
       
       <h2>DXF bestanden laden</h2>
