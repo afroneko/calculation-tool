@@ -1,3 +1,90 @@
 .dxf-invoer-page {
-    margin: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dxf-invoer__subtitle {
+  margin: 0 0 20px;
+  color: #4a5568;
+  font-size: 0.9rem;
+}
+
+/* Upload rij: dropzone + knop naast elkaar */
+.dxf-invoer__upload-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+
+/* Dropzone */
+.dxf-invoer__dropzone {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 24px;
+  border: 1.5px dashed #c8d0e0;
+  border-radius: 8px;
+  color: #6b7a99;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.dxf-invoer__dropzone:hover {
+  background: #f7f9fc;
+  border-color: #a0aec0;
+}
+
+/* Bestanden toevoegen knop */
+.dxf-invoer__add-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 20px;
+  border: 1.5px solid #c8d0e0;
+  border-radius: 8px;
+  color: #1a2233;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.dxf-invoer__add-btn:hover {
+  background: #f0f2f5;
+}
+
+/* Bestandslijst */
+.dxf-invoer__file-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.dxf-invoer__file-list-header {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #6b7a99;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 4px;
+}
+
+.dxf-invoer__file-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1a2233;
+  font-size: 0.88rem;
+}
+
+.dxf-invoer__file-row svg {
+  flex-shrink: 0;
+  color: #6b7a99;
 }

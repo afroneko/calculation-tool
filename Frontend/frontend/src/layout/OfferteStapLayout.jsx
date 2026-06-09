@@ -3,7 +3,6 @@ import DetailCard from '../components/cards/detail/DetailCard';
 import ProgressCard from '../components/cards/progress/ProgressCard';
 
 export default function OfferteStapLayout({
-  title,
   children,
   offerte = {},
   voortgang = { stap: 2, totaal: 8 },
