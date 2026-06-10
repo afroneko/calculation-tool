@@ -30,7 +30,7 @@
         .offerte-stap-layout__content {
           background: #ffffff;
           border-radius: 10px;
-          padding: 28px 32px;
+          padding: 0px 14px;
           box-shadow: 0 1px 4px rgba(0,0,0,0.07);
           min-height: 400px;
         }
