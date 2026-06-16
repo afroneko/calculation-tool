@@ -1,6 +1,6 @@
 import "./DxfInvoer.css";
-import Progressbar from "../../components/progressbar/Progressbar";
-import OfferteStapLayout from "../../layout/OfferteStapLayout";
+import Progressbar from "../../../components/progressbar/Progressbar";
+import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

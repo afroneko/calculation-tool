@@ -1,6 +1,6 @@
 import "./Nesting.css";
-import OfferteStapLayout from "../../layout/OfferteStapLayout";
-import Progressbar from "../../components/progressbar/Progressbar";
+import OfferteStapLayout from "../../../layout/OfferteStapLayout";
+import Progressbar from "../../../components/progressbar/Progressbar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

@@ -1,8 +1,17 @@
 import './Login.css'
 import { Icon } from "@iconify/react";
+import { useNavigate } from "react-router-dom";
 
 
 function LoginOverlay({onClose}) {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onClose();
+    navigate("/instellingen/tarieven");
+    
+  };
 
 return (
   
@@ -27,7 +36,7 @@ return (
         <form className="login-form"
           onSubmit={(e) => {
             e.preventDefault();
-            onLogin?.();
+            handleSubmit(e);
           }}
         >
           <div className='content-group'>

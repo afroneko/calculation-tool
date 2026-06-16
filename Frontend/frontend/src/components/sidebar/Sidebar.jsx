@@ -15,19 +15,19 @@ export default function Sidebar({ onAdminClick }) {
             <ul>
                 <li>
                     <NavLink to="/" className="nav-link">
-                        <Icon icon="clarity:home-line" className="nav-icon" />
+                        <Icon icon="clarity:home-line" className="sidebar-icon" />
                         Dashboard
                     </NavLink>
                 </li>
                  <li>
                     <NavLink to="/overview" className="nav-link">
-                        <Icon icon="ph:calculator" className="nav-icon" />
+                        <Icon icon="ph:calculator" className="sidebar-icon" />
                         Order
                     </NavLink>
                 </li>
                 <li>
                     <NavLink to="/overview" className="nav-link">
-                        <Icon icon="ph:calculator" className="nav-icon" />
+                        <Icon icon="ph:calculator" className="sidebar-icon" />
                         Offerte
                     </NavLink>
                 </li>
@@ -44,7 +44,7 @@ export default function Sidebar({ onAdminClick }) {
                   onAdminClick();
               }} 
             >
-              <Icon icon="lets-icons:user-light" className="nav-icon" />
+              <Icon icon="lets-icons:user-light" className="sidebar-icon" />
               Admin
             </NavLink>
         </nav>

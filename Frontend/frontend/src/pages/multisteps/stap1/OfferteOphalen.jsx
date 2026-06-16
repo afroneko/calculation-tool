@@ -1,7 +1,7 @@
 import "./OfferteOphalen.css";
-import Progressbar from "../../components/progressbar/Progressbar";
-import DetailCard from "../../components/cards/detail/DetailCard";
-import ProgressCard from "../../components/cards/progress/ProgressCard";
+import Progressbar from "../../../components/progressbar/Progressbar";
+import DetailCard from "../../../components/cards/detail/DetailCard";
+import ProgressCard from "../../../components/cards/progress/ProgressCard";
 import { useNavigate } from "react-router-dom";
 
 export default function OfferteOphalen() {

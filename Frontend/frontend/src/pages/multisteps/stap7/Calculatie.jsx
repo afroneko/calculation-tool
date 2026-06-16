@@ -1,6 +1,6 @@
 import "./Calculatie.css";
-import OfferteStapLayout from "../../layout/OfferteStapLayout";
-import Progressbar from "../../components/progressbar/Progressbar";
+import OfferteStapLayout from "../../../layout/OfferteStapLayout";
+import Progressbar from "../../../components/progressbar/Progressbar";
 import { useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
@@ -75,6 +75,7 @@ export default function Kostenoverzicht() {
     <div className="kostenoverzicht-page">
       <h1>Offerte calculeren</h1>
       <Progressbar />
+      
 
       <OfferteStapLayout
         offerte={{
