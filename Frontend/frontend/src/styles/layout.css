@@ -5,35 +5,73 @@
 }
 
 .content {
-  padding: 24px 35px;
+  padding: 20px 20px;
 }
 
+
 .offerte-stap-layout {
-          display: flex;
-          flex-direction: column;
-          gap: 24px;
-          padding: 20px 8px;
-          min-height: 100%;
-          box-sizing: border-box;
-          background: #f0f2f5;
-        }
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px 8px;
+  min-height: 100%;
+  box-sizing: border-box;
+  background: #f0f2f5;
+}
  
-        /* Tweekoloms grid */
-        .offerte-stap-layout__grid {
-          display: grid;
-          grid-template-columns: 1fr 280px;
-          gap: 24px;
-          align-items: start;
-        }
+/* Tweekoloms grid */
+.offerte-stap-layout__grid {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  gap: 24px;
+  align-items: start;
+}
  
-        /* Hoofd-content */
-        .offerte-stap-layout__content {
-          background: #ffffff;
-          border-radius: 10px;
-          padding: 0px 14px;
-          box-shadow: 0 1px 4px rgba(0,0,0,0.07);
-          min-height: 400px;
-        }
+/* Hoofd-content */
+.offerte-stap-layout__content {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 0px 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  min-height: 450px;
+}
+
+.offerte-stap-layout__sidebar {
+  display: grid;
+  gap: 24px;
+}
+
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 25px;
+  min-height: 100vh;
+}
+
+.settings-main-header {
+  margin-bottom: 24px;
+}
+
+.settings-main-header h1 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0 0 4px;
+}
+
+.settings-main-header p {
+  font-size: 13px;
+  color: var(--text-color);
+  margin: 0;
+}
+
+.settings-content {
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 24px;
+}
  
       
 

@@ -1,8 +1,8 @@
 import "./Controle.css";
-import OfferteStapLayout from "../../layout/OfferteStapLayout";
-import Progressbar from "../../components/progressbar/Progressbar";
-import StatusCard from "../../components/cards/status/StatusCard";
-import DropdownCard from "../../components/cards/dropdown/DropdownCard";
+import OfferteStapLayout from "../../../layout/OfferteStapLayout";
+import Progressbar from "../../../components/progressbar/Progressbar";
+import StatusCard from "../../../components/cards/status/StatusCard";
+import DropdownCard from "../../../components/cards/dropdown/DropdownCard";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 

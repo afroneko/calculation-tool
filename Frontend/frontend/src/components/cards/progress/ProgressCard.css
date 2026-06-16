@@ -1,7 +1,7 @@
 .progress-card {
   background: #ffffff;
   border-radius: 10px;
-  padding: 20px 22px;
+  padding: 12px 12px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.07);
 }
 
@@ -50,23 +50,23 @@
 
 .progress-card__btn {
   flex: 1;
-  padding: 9px 12px;
+  padding: 7px 7px;
   border-radius: 7px;
   font-size: 0.84rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
   border: none;
   transition: background 0.15s, opacity 0.15s;
 }
 
 .progress-card__btn--secondary {
-  background: #f0f2f5;
-  color: #1a2233;
+  background: var(--background-color);
+  color: var(--text-color);
   border: 1px solid #d1d9e6;
 }
 
 .progress-card__btn--secondary:hover:not(:disabled) {
-  background: #e2e8f0;
+  background: var(--accent-blue);
 }
 
 .progress-card__btn--secondary:disabled {
@@ -75,10 +75,10 @@
 }
 
 .progress-card__btn--primary {
-  background: #1a2233;
+  background: var(--text-color);
   color: #ffffff;
 }
 
 .progress-card__btn--primary:hover {
-  background: #263450;
+  background: var(--primary-blue);
 }

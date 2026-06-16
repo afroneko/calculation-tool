@@ -1,7 +1,7 @@
 import "./ExterneBewerkingen.css";
-import OfferteStapLayout from "../../layout/OfferteStapLayout";
+import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import { useNavigate } from "react-router-dom";
-import Progressbar from "../../components/progressbar/Progressbar";
+import Progressbar from "../../../components/progressbar/Progressbar";
 
 export default function ExterneBewerkingen() {
   const navigate = useNavigate();

@@ -1,0 +1,127 @@
+.settings-group {
+  margin-bottom: 32px;
+}
+
+.settings-group-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 4px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.settings-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 0;
+  border-bottom: 1px solid #f5f5f5;
+  gap: 24px;
+}
+
+.settings-row:last-child { border-bottom: none; }
+
+.settings-row-label { display: flex; flex-direction: column; gap: 2px; }
+.row-title   { font-size: 14px; font-weight: 500; color: #222; }
+.row-subtitle { font-size: 12px; color: #999; }
+
+.toggle {
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #ddd;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.toggle--on { background: #d4601a; }
+
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: white;
+  transition: transform 0.2s;
+}
+
+.toggle--on .toggle-thumb { transform: translateX(20px); }
+
+.settings-select {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #333;
+  background: white;
+  min-width: 160px;
+}
+
+.settings-input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #333;
+  min-width: 220px;
+}
+
+.logo-upload-btn {
+  padding: 6px 14px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #444;
+  background: white;
+  cursor: pointer;
+}
+
+.logo-upload-btn:hover { background: #f5f5f5; }
+
+.logo-preview {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-preview img {
+  height: 36px;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+
+.logo-remove {
+  font-size: 12px;
+  color: #c62828;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.settings-save-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+
+.settings-save-btn {
+  padding: 8px 20px;
+  background: #d4601a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.settings-save-btn:hover { background: #bf5518; }
