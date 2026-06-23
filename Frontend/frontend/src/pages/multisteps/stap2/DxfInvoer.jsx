@@ -37,8 +37,8 @@ const [files, setFiles] = useState([
         aangemaaktOp: '10-05-2026',
       }}
       progress={{ stap: 1, totaal: 8 }}
-      onPrevious={() => navigate('/stap1')}
-      onNext={() => navigate('/stap3')}
+      onPrevious={() => navigate('/stap1/:type')}
+      onNext={() => navigate('/stap3/:type')}
     >
       
       <h2>DXF bestanden laden</h2>

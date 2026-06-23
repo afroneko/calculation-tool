@@ -1,0 +1,64 @@
+﻿using CalculationTool.Models;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using System.Net.Http;
+using System.Web;
+
+namespace CalculationTool.Integrations.Ridder
+{
+    public class RidderAdapter : IRidderAdapter
+    {
+        private readonly HttpClient _httpClient;
+        private readonly string _apiKey = ConfigurationManager.AppSettings["RidderApiKey"];
+        private readonly string _apiUrl = ConfigurationManager.AppSettings["RidderApiUrl"];
+
+        public RidderAdapter()
+        {
+            _httpClient = new HttpClient();
+            System.Diagnostics.Debug.WriteLine($"API URL = '{_apiUrl}'");
+            System.Diagnostics.Debug.WriteLine($"API KEY = '{_apiKey}'");
+            _httpClient.DefaultRequestHeaders.Add("X-Api-Key", _apiKey);
+        }
+
+       
+
+        public QuoteDto GetQuote(string id)
+        {
+            var url = $"{_apiUrl.TrimEnd('/')}/order/{id}";
+            System.Diagnostics.Debug.WriteLine($"REQUEST URL: {url}");
+            var response = _httpClient.GetAsync(url).Result;
+            var json = response.Content.ReadAsStringAsync().Result;
+            var text = JsonConvert.DeserializeObject<string>(json);
+            System.Diagnostics.Debug.WriteLine($"RAW JSON: {json}");
+
+            System.Diagnostics.Debug.WriteLine("STATUS RIDDER:");
+            System.Diagnostics.Debug.WriteLine(response.StatusCode);
+
+            System.Diagnostics.Debug.WriteLine("BODY RIDDER:");
+            System.Diagnostics.Debug.WriteLine(json);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception($"Ridder API error: {response.StatusCode} - {json}");
+            }
+            var data = JsonConvert.DeserializeObject<dynamic>(json);
+
+            return new QuoteDto
+            {
+                Id = text
+                //Id = data.id,
+                //Customer = data.customerName,  
+                //Salesperson = data.salesperson,
+                //CreatedAt = data.createdAt
+            };
+        }
+
+        //QuoteDto IRidderAdapter.GetQuote(string id)
+        //{
+        //    throw new NotImplementedException();
+        //}
+    }
+}

@@ -37,8 +37,8 @@ export default function Materiaal()  {
             aangemaaktOp: '10-05-2026',
           }}
           progress={{ stap: 2, totaal: 8 }}
-          onPrevious={() => navigate('/stap2')}
-          onNext={() => navigate('/stap4')}
+          onPrevious={() => navigate('/stap2/:type')}
+          onNext={() => navigate('/stap4/:type')}
         >
           
           <h2>Materiaal selecteren</h2>
