@@ -39,8 +39,8 @@ export default function Nesting() {
           aangemaaktOp: '10-05-2026',
         }}
         progress={{ stap: 3, totaal: 8 }}
-        onPrevious={() => navigate('/stap3')}
-        onNext={() => navigate('/stap5')}
+        onPrevious={() => navigate('/stap3/:type')}
+        onNext={() => navigate('/stap5/:type')}
       >
 
       <div className="nesting-header">

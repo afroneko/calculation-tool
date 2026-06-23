@@ -82,7 +82,7 @@ function getStepState(stepId, currentStep) {
 
 export default function Progressbar() {
     const location = useLocation();
-    const currentSlug = location.pathname.split("/").pop();
+    const currentSlug = location.pathname.split("/")[1];
     const currentIndex = steps.findIndex((step) => step.slug === currentSlug);
     const segmentWidth = 100 / (steps.length - 1);
     let fillLeft;

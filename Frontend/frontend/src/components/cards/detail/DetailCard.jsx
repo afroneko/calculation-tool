@@ -3,6 +3,7 @@ import "./DetailCard.css";
 
 export default function DetailCard({
   title,
+  numberLabel,
   number,
   customer,
   salesperson,
@@ -14,7 +15,7 @@ export default function DetailCard({
  
       <dl className="detail-card__fields">
         <div className="detail-card__field">
-          <dt>Offertenummer</dt>
+          <dt>{numberLabel}</dt>
           <dd>{number}</dd>
         </div>
         <div className="detail-card__field">

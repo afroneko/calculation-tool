@@ -12,7 +12,6 @@ export default function Export() {
     klant: "Tummers Food Processing",
     verkoper: "Senne Scheeren",
     aangemaaktOp: "10-05-2026",
-    stuklijsten: "",
   };
 
   return (
@@ -23,8 +22,8 @@ export default function Export() {
       <OfferteStapLayout
         offerte={offerte}
         progress={{ stap: 8, totaal: 8 }}
-        onPrevious={() => navigate("/stap7")}
-        onNext={null}
+        onPrevious={() => navigate("/stap7/:type")}
+        onNext={() => navigate("/")}
       >
         <h2>Exporteren naar Ridder</h2>
         <p>Controleer de samenvatting en exporteer de calculatie naar Ridder.</p>

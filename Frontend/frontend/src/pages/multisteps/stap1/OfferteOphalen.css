@@ -5,9 +5,32 @@
   gap: 52px;
 }
 
-.primary-button {
+.search-bar {
+  display: flex;
+  align-items: center;
+  gap: 30px;
   align-self: center;
   margin-top: 20px;
+}
+
+.search-bar input {
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  background: var(--primary-white);
+  font-size: 16px;
+  font-weight: 400;
+  outline: none;
+}
+
+.error {
+  align-self: center;
+  color: red;
+  font-size: 14px;
+}
+
+.primary-button {
+  align-self: center;
   padding: 12px 20px;
   border: 1px solid var(--border-color);
   border-radius: 8px;

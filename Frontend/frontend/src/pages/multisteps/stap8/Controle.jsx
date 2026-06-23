@@ -3,7 +3,7 @@ import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import Progressbar from "../../../components/progressbar/Progressbar";
 import StatusCard from "../../../components/cards/status/StatusCard";
 import DropdownCard from "../../../components/cards/dropdown/DropdownCard";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 
 const sections = [
@@ -15,7 +15,7 @@ const sections = [
         type: "error",
         title: "Dikte ontbreekt bij 2 onderdelen",
         description: "Bij de volgende onderdelen is geen dikte opgegeven",
-        step: "/stap3",
+        step: "/stap3/:type",
         stepNumber: 3,
         files: ["20260120.5-S008.dxf", "20260120.5-S0014.dxf"],
       },
@@ -29,14 +29,14 @@ const sections = [
         type: "warning",
         title: "Inefficiënte plaatbenutting",
         description: "2 platen hebben een benutting onder 60%",
-        step: "/stap4",
+        step: "/stap4/:type",
         stepNumber: 4,
       },
       {
         type: "warning",
         title: "Grote reststrook",
         description: "Plaat RVS316 wgw 10mm heeft een reststrook van meer dan 30%",
-        step: "/stap4",
+        step: "/stap4/:type",
         stepNumber: 4,
       },
     ],
@@ -68,8 +68,8 @@ export default function Controle() {
           aangemaaktOp: "10-05-2026",
         }}
         progress={{ stap: 7, totaal: 9 }}
-        onPrevious={() => navigate("/stap7")}
-        onNext={() => navigate("/stap9")}
+        onPrevious={() => navigate("/stap7/:type")}
+        onNext={() => navigate("/stap9/:type")}
       >
         <h2>Controle & validatie</h2>
         <p>Hieronder zie je een overzicht van de controles. Los de waarschuwingen of fouten op voordat je verder gaat.</p>

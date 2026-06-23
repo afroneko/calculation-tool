@@ -9,7 +9,7 @@ function LoginOverlay({onClose}) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onClose();
-    navigate("/instellingen/tarieven");
+    navigate("/instellingen/algemeen");
     
   };
 
