@@ -1,28 +1,34 @@
 import "./DxfInvoer.css";
 import Progressbar from "../../../components/progressbar/Progressbar";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRef } from "react";
+import useCalculatieStore from "../../store/calculatieStore";
 
 export default function DxfInvoer() {
 const navigate = useNavigate();
-const [files, setFiles] = useState([
-    "20260120.5-S002.dxf",
-    "20260120.5-S005.dxf",
-    "20260120.5-S008.dxf",
-    "20260120.5-S0014.dxf",
-  ]);
+const { type } = useParams();
+const inputRef = useRef(null);
+const { files, addFile, removeFile, setType } = useCalculatieStore();
  
+const handleFiles = (selectedFiles) => {
+    setType(type);
+    Array.from(selectedFiles).forEach((file) => {
+      if (!file.name.endsWith(".dxf")) return;
+      if (files.find((f) => f.naam === file.naam)) return;
+
+      addFile({
+        id: crypto.randomUUID(),
+        naam: file.name,
+        file,
+      });
+    });
+  };
+
   function handleDrop(e) {
     e.preventDefault();
-    const dropped = Array.from(e.dataTransfer.files).map((f) => f.name);
-    setFiles((prev) => [...prev, ...dropped]);
-  }
- 
-  function handleFileInput(e) {
-    const picked = Array.from(e.target.files).map((f) => f.name);
-    setFiles((prev) => [...prev, ...picked]);
-  }
+    handleFiles(e.dataTransfer.files);
+  };
 
   return (
     <div className="dxf-invoer-page">
@@ -49,7 +55,7 @@ const [files, setFiles] = useState([
             className="dxf-invoer__dropzone"
             onDrop={handleDrop}
             onDragOver={(e) => e.preventDefault()}
-            onClick={() => document.getElementById("dxf-file-input").click()}
+            onClick={() => inputRef.current.click()}
           >
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
               <path d="M12 15V3m0 12-4-4m4 4 4-4" />
