@@ -44,7 +44,7 @@ namespace CalculationTool.Integrations.Ridder
             {
                 throw new Exception($"Ridder API error: {response.StatusCode} - {json}");
             }
-            var data = JsonConvert.DeserializeObject<dynamic>(json);
+            var data = JsonConvert.DeserializeObject<QuoteDto>(json);
 
             return new QuoteDto
             {
