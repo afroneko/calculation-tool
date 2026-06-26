@@ -1,10 +1,10 @@
 import { create } from "zustand";
 
 const useCalculatieStore = create((set) => ({
-  type: null,
-  files: [],
-  materials: [],
-  nestingData: [],
+  type: null, //Ofwel offerte of order
+  files: [],  //De geüploade DXF bestanden
+  materials: [],  //Bestanden aangevuld met materiaal/ditke enz. (stap 2)
+  nestingData: [],  //De uitgelezen afmetingen per bestand (stap 3)
 
   setType: (type) => set({ type }),
 

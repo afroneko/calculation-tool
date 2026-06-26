@@ -15,10 +15,13 @@ const { files, addFile, removeFile, setType } = useCalculatieStore();
 const handleFiles = (selectedFiles) => {
     setType(type);
     Array.from(selectedFiles).forEach((file) => {
+      //sla bestanden over die geen .dxf extensie hebben
       if (!file.name.endsWith(".dxf")) return;
+      //sla bestanden over die al in de lijst staan
       if (files.find((f) => f.naam === file.naam)) return;
 
       addFile({
+        //Uniek id aanmaken voor 
         id: crypto.randomUUID(),
         naam: file.name,
         file,
@@ -27,6 +30,7 @@ const handleFiles = (selectedFiles) => {
   };
 
   function handleDrop(e) {
+    //voorkomt dat de browser het besstand opent
     e.preventDefault();
     handleFiles(e.dataTransfer.files);
   };
