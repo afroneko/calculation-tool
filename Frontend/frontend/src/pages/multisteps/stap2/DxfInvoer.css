@@ -5,86 +5,77 @@
 
 .dxf-invoer__subtitle {
   margin: 0 0 20px;
-  color: #4a5568;
+  color: var(--text-color);
   font-size: 0.9rem;
-}
-
-/* Upload rij: dropzone + knop naast elkaar */
-.dxf-invoer__upload-row {
-  display: flex;
-  gap: 12px;
-  align-items: stretch;
-  margin-bottom: 24px;
 }
 
 /* Dropzone */
 .dxf-invoer__dropzone {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  text-align: center;
   padding: 18px 24px;
-  border: 1.5px dashed #c8d0e0;
+  border: 1.5px dashed var(--border-color);
   border-radius: 8px;
-  color: #6b7a99;
   font-size: 0.9rem;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
 }
 
 .dxf-invoer__dropzone:hover {
-  background: #f7f9fc;
-  border-color: #a0aec0;
+  background: var(--accent-blue);
+  border-color: var(--secundary-blue);
 }
 
-/* Bestanden toevoegen knop */
-.dxf-invoer__add-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 20px;
-  border: 1.5px solid #c8d0e0;
-  border-radius: 8px;
-  color: #1a2233;
-  font-size: 0.88rem;
+.upload-icon { color: var(--primary-grey); margin-bottom: 8px; }
+
+.upload-text {
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 4px;
+}
+
+.upload-link { color: var(--accent-orange); font-weight: 500; }
+
+.upload-subtext {
+  font-size: 12px;
+  color: #aaa;
+  margin: 0;
+}
+
+.upload-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 1rem;
+}
+
+.upload-table th {
+  text-align: left;
+  padding: 10px 16px;
   font-weight: 500;
+  color: #888;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.upload-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+  color: #333;
+}
+
+.upload-table tr:last-child td { border-bottom: none; }
+
+.file-icon-cel { width: 40px; color: #888; }
+
+.remove-btn {
+  background: none;
+  border: none;
   cursor: pointer;
-  white-space: nowrap;
-  transition: background 0.15s;
-}
-
-.dxf-invoer__add-btn:hover {
-  background: #f0f2f5;
-}
-
-/* Bestandslijst */
-.dxf-invoer__file-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.dxf-invoer__file-list-header {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #6b7a99;
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
-  padding-bottom: 8px;
-  border-bottom: 1px solid #e2e8f0;
-  margin-bottom: 4px;
-}
-
-.dxf-invoer__file-row {
+  color: #888;
+  padding: 4px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid #e2e8f0;
-  color: #1a2233;
-  font-size: 0.88rem;
 }
 
-.dxf-invoer__file-row svg {
-  flex-shrink: 0;
-  color: #6b7a99;
-}
+.remove-btn:hover { color: #c62828; background: #fdecea; }

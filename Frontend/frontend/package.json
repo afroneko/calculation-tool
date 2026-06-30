@@ -13,10 +13,12 @@
     "@fontsource/ubuntu": "^5.2.8",
     "@iconify/react": "^6.0.2",
     "axios": "^1.16.1",
+    "dxf-parser": "^1.1.2",
     "lucide-react": "^1.16.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^7.15.1"
+    "react-router-dom": "^7.15.1",
+    "zustand": "^5.0.14"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -31,7 +31,7 @@ namespace CalculationTool.Integrations.Ridder
             System.Diagnostics.Debug.WriteLine($"REQUEST URL: {url}");
             var response = _httpClient.GetAsync(url).Result;
             var json = response.Content.ReadAsStringAsync().Result;
-            var text = JsonConvert.DeserializeObject<string>(json);
+            //var text = JsonConvert.DeserializeObject<string>(json);
             System.Diagnostics.Debug.WriteLine($"RAW JSON: {json}");
 
             System.Diagnostics.Debug.WriteLine("STATUS RIDDER:");
@@ -44,11 +44,11 @@ namespace CalculationTool.Integrations.Ridder
             {
                 throw new Exception($"Ridder API error: {response.StatusCode} - {json}");
             }
-            var data = JsonConvert.DeserializeObject<dynamic>(json);
+            var data = JsonConvert.DeserializeObject<QuoteDto>(json);
 
             return new QuoteDto
             {
-                Id = text
+                Id = data.Id
                 //Id = data.id,
                 //Customer = data.customerName,  
                 //Salesperson = data.salesperson,

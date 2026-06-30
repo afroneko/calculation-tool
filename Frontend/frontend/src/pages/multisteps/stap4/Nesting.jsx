@@ -1,30 +1,101 @@
 import "./Nesting.css";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import Progressbar from "../../../components/progressbar/Progressbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import DxfParser from "dxf-parser";
+import useCalculatieStore from "../../../store/calculatieStore";
 
-const initieleMateriaalData = [
-  { id: 1, materiaal: "RVS304 zf", lengte: 3000, breedte: 1500, dikte: "2mm", gewicht: "11kg", aantallen: 2 },
-  { id: 2, materiaal: "RVS316 wgw", lengte: 3000, breedte: 1500, dikte: "10mm", gewicht: "28kg", aantallen: 3 },
-  { id: 3, materiaal: "RVS316 wgw", lengte: 3000, breedte: 1500, dikte: "12mm", gewicht: "30kg", aantallen: 1 },
-];
+const parseDxf = (file) => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const parser = new DxfParser();
+        const dxf = parser.parseSync(e.target.result);
+        const entities = dxf.entities || [];
+
+        // bounding box berekenen
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+
+        const circles = entities.filter((en) => en.type === "CIRCLE");
+
+        entities.forEach((en) => {
+          if (en.vertices) {
+            en.vertices.forEach((v) => {
+              minX = Math.min(minX, v.x);
+              minY = Math.min(minY, v.y);
+              maxX = Math.max(maxX, v.x);
+              maxY = Math.max(maxY, v.y);
+            });
+          }
+          if (en.center) {
+            minX = Math.min(minX, en.center.x - (en.radius || 0));
+            minY = Math.min(minY, en.center.y - (en.radius || 0));
+            maxX = Math.max(maxX, en.center.x + (en.radius || 0));
+            maxY = Math.max(maxY, en.center.y + (en.radius || 0));
+          }
+        });
+
+        const width  = Math.round(maxX - minX);
+        const height = Math.round(maxY - minY);
+
+        resolve({ width, height, holeCount: circles.length });
+      } catch (err) {
+        reject(err);
+      }
+    };
+    reader.onerror = reject;
+    reader.readAsText(file);
+  });
+};
 
 export default function Nesting() {
   const navigate = useNavigate();
-  const [materiaalData, setMateriaalData] = useState([]);
-  const [berekend, setBerekend] = useState(false);
+  const { type } = useParams();
+  const { files, materials, nestingData, setNestingData } = useCalculatieStore();
+  const [berekend, setBerekend] = useState(nestingData.length > 0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleBereken = () => {
-    setMateriaalData(initieleMateriaalData);
-    setBerekend(true);
+  const handleBereken = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      //promise kan alles tegelijk verwerken in plaats van 1 voor 1
+      const results = await Promise.all(
+        files.map(async (f) => {
+          const mat = materials.find((m) => m.id === f.id);
+          const { width, height, holeCount } = await parseDxf(f.file);
+
+          // gewicht berekening: lengte(m) * breedte(m) * dichtheid staal * dikte(mm)
+          // dit is een benadering, in werkelijkheid afhankelijk van het materiaal
+          const gewicht = Math.round((width / 1000) * (height / 1000) * 7.85 * (parseInt(mat?.dikte) || 1));
+          return {
+            id: f.id,
+            materiaal: mat?.materiaal ?? "-",
+            lengte: width,
+            breedte: height,
+            dikte: mat?.dikte ?? "-",
+            gewicht: `${gewicht}kg`,
+            aantallen: mat?.aantallen ?? 1,
+            gaten: holeCount,
+          };
+        })
+      );
+      setNestingData(results);
+      setBerekend(true);
+    } catch (err) {
+      setError("Er ging iets mis bij het uitlezen van de DXF bestanden.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const totaleOppervlakte = materiaalData.reduce((sum, r) => {
-    return sum + (r.lengte / 1000) * (r.breedte / 1000) * r.aantallen;
-  }, 0);
-
-  const aantalOnderdelen = materiaalData.reduce((sum, r) => sum + r.aantallen, 0);
+  const totaleOppervlakte = nestingData.reduce((sum, r) =>
+    sum + (r.lengte / 1000) * (r.breedte / 1000) * r.aantallen, 0
+  );
+  const aantalOnderdelen = nestingData.reduce((sum, r) => sum + r.aantallen, 0);
 
   return (
     <div className="nesting-page">
@@ -48,10 +119,12 @@ export default function Nesting() {
           <h2>Materiaalbehoeften</h2>
           <p>Bereken de hoeveelheid benodigd materiaal en kosten.</p>
         </div>
-        <button className="bereken-knop" onClick={handleBereken}>
-          Bereken materiaalbehoeften
-        </button>
+        <button className="bereken-knop" onClick={handleBereken} disabled={loading}>
+            {loading ? "Berekenen..." : "Bereken materiaalbehoeften"}
+          </button>
       </div>
+
+      {error && <p className="nesting-error">{error}</p>}
  
       <table className="materiaal-tabel">
         <thead>
@@ -66,7 +139,7 @@ export default function Nesting() {
         </thead>
         <tbody>
           {berekend ? (
-              materiaalData.map((rij) => (
+              nestingData.map((rij) => (
                 <tr key={rij.id}>
                   <td>{rij.materiaal}</td>
                   <td>{rij.lengte}</td>
@@ -78,7 +151,7 @@ export default function Nesting() {
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="lege-staat">
+                <td colSpan={7} className="lege-staat">
                   Klik op "Bereken materiaalbehoeften" om te starten.
                 </td>
               </tr>

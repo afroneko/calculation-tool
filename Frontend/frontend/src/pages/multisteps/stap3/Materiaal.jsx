@@ -1,28 +1,35 @@
 import "./Materiaal.css";
 import Progressbar from "../../../components/progressbar/Progressbar";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import useCalculatieStore from "../../../store/calculatieStore";
 
 const MATERIAAL_SOORTEN = ["RVS304 zf", "RVS316 wgw", "RVS316 zf", "S235", "S355"];
 const DIKTES = ["1mm", "2mm", "3mm", "4mm", "5mm", "6mm", "8mm", "10mm", "12mm", "15mm", "20mm"];
 
-const initieleBestanden = [
-  { id: 1, naam: "20260120.5-S002.dxf", materiaal: "RVS304 zf", dikte: "2mm", aantallen: 5 },
-  { id: 2, naam: "20260120.5-S005.dxf", materiaal: "RVS304 zf", dikte: "2mm", aantallen: 3 },
-  { id: 3, naam: "20260120.5-S008.dxf", materiaal: "RVS316 wgw", dikte: "10mm", aantallen: 12 },
-  { id: 4, naam: "20260120.5-S0014.dxf", materiaal: "RVS316 wgw", dikte: "12mm", aantallen: 1 },
-];
-
 export default function Materiaal()  {
-     const navigate = useNavigate();
-     const [bestanden, setBestanden] = useState(initieleBestanden);
+  const { files, materials, setMaterials, updateMaterial } = useCalculatieStore();
+  const navigate = useNavigate();
+  const {type} = useParams();
 
-  const updateRij = (id, veld, waarde) => {
-    setBestanden((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, [veld]: waarde } : b))
-    );
-  };
+   useEffect(() => {
+    if (files.length === 0) return;
+    // maak voor elk geüpload bestand een material entry aan
+    // als een bestand al in materials zit (gebruiker gaat terug), bewaar dan de bestaande waarden
+    const initialized = files.map((file) => {
+      const existing = materials.find((m) => m.id === file.id);
+      return existing ?? {
+        id: file.id,
+        naam: file.naam,
+        //Standaardopties als startwaarde
+        materiaal: MATERIAAL_SOORTEN[0],
+        dikte: DIKTES[0],
+        aantallen: 1,
+      };
+    });
+    setMaterials(initialized);
+  }, [files]);
 
      return (
         <div className="materiaal-page">
@@ -58,16 +65,16 @@ export default function Materiaal()  {
             </tr>
           </thead>
           <tbody>
-            {bestanden.map((bestand) => (
-              <tr key={bestand.id}>
+            {materials.map((mat) => (
+              <tr key={mat.id}>
                 <td className="afbeelding-cel">
                   <span className="dxf-icoon">📄</span>
                 </td>
-                <td>{bestand.naam}</td>
+                <td>{mat.naam}</td>
                 <td>
                   <select
-                    value={bestand.materiaal}
-                    onChange={(e) => updateRij(bestand.id, "materiaal", e.target.value)}
+                    value={mat.materiaal}
+                    onChange={(e) => updateMaterial(mat.id, "materiaal", e.target.value)}
                   >
                     {MATERIAAL_SOORTEN.map((m) => (
                       <option key={m} value={m}>{m}</option>
@@ -76,8 +83,8 @@ export default function Materiaal()  {
                 </td>
                 <td>
                   <select
-                    value={bestand.dikte}
-                    onChange={(e) => updateRij(bestand.id, "dikte", e.target.value)}
+                    value={mat.dikte}
+                    onChange={(e) => updateMaterial(mat.id, "dikte", e.target.value)}
                   >
                     {DIKTES.map((d) => (
                       <option key={d} value={d}>{d}</option>
@@ -88,8 +95,8 @@ export default function Materiaal()  {
                   <input
                     type="number"
                     min="1"
-                    value={bestand.aantallen}
-                    onChange={(e) => updateRij(bestand.id, "aantallen", parseInt(e.target.value) || 1)}
+                    value={mat.aantallen}
+                    onChange={(e) => updateMaterial(mat.id, "aantallen", parseInt(e.target.value) || 1)}
                     className="aantallen-input"
                   />
                 </td>
