@@ -80,3 +80,31 @@
   padding: 10px 14px;
   margin-bottom: 12px;
 }
+
+.platen-overzicht { margin-top: 1.5rem; }
+
+.platen-titel {
+  font-size: 14px;
+  font-weight: 600;
+  color: #222;
+  margin: 0 0 12px;
+}
+
+.platen-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.platen-tabel th {
+  text-align: left;
+  padding: 8px 12px;
+  font-weight: 500;
+  color: #888;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.platen-tabel td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+}

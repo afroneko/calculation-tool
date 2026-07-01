@@ -85,7 +85,7 @@ export default function Kostenoverzicht() {
           aangemaaktOp: "10-05-2026",
         }}
         progress={{ stap: 7, totaal: 9 }}
-        onPrevious={() => navigate("/stap7/:type")}
+        onPrevious={() => navigate("/stap6/:type")}
         onNext={() => navigate("/stap8/:type")}
       >
         <h2>Kostenoverzicht</h2>

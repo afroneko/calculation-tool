@@ -1,15 +1,9 @@
 import "./Bewerkingen.css";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import Progressbar from "../../../components/progressbar/Progressbar";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
-
-const initieleBestanden = [
-  { id: 1, naam: "20260120.5-S002.dxf", zet1eman: 10, zet2eman: null, walsen: null, borenTappenGaten: 5, lassen: null, afbramen: true },
-  { id: 2, naam: "20260120.5-S005.dxf", zet1eman: null, zet2eman: null, walsen: 15, borenTappenGaten: 10, lassen: null, afbramen: true },
-  { id: 3, naam: "20260120.5-S008.dxf", zet1eman: 25, zet2eman: 10, walsen: null, borenTappenGaten: null, lassen: 15, afbramen: true },
-  { id: 4, naam: "20260120.5-S0014.dxf", zet1eman: null, zet2eman: null, walsen: 25, borenTappenGaten: null, lassen: 15, afbramen: true },
-];
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect } from "react";
+import useCalculatieStore from "../../../store/calculatieStore";
 
 const BEWERKINGS_VELDEN = [
   { key: "zet1eman", label: "zet 1e man", type: "number" },
@@ -22,22 +16,34 @@ const BEWERKINGS_VELDEN = [
 
 export default function Bewerkingen() {
   const navigate = useNavigate();
-  const [bestanden, setBestanden] = useState(initieleBestanden);
+  const { type } =useParams();
 
-  const updateRij = (id, veld, waarde) => {
-    setBestanden((prev) =>
-      prev.map((b) => (b.id === id ? { ...b, [veld]: waarde } : b))
-    );
-  };
+  const { files, operations, setOperations, updateOperation } = useCalculatieStore();
+
+  useEffect(() => {
+    if (files.length === 0) return;
+
+    const initialized = files.map((file) => {
+      const existing = operations.find((o) => o.id === file.id);
+      return existing ?? {
+        id: file.id,
+        naam: file.naam,
+        zet1eman: null,
+        zet2eman: null,
+        walsen: null,
+        borenTappenGaten: null,
+        lassen: null,
+        afbramen: false,
+      };
+    });
+
+    setOperations(initialized);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files]);
 
   const berekenTotaal = (veld) => {
     if (veld === "afbramen") return null;
-    return bestanden.reduce((sum, b) => sum + (b[veld] || 0), 0) || null;
-  };
-
-  const formatWaarde = (waarde, type) => {
-    if (type === "boolean") return waarde ? "ja" : "-";
-    return waarde != null && waarde !== 0 ? waarde : "-";
+    return operations.reduce((sum, o) => sum + (o[veld] || 0), 0) || null;
   };
 
   return (
@@ -70,28 +76,28 @@ export default function Bewerkingen() {
             </tr>
           </thead>
           <tbody>
-            {bestanden.map((bestand) => (
-              <tr key={bestand.id}>
+            {operations.map((op) => (
+              <tr key={op.id}>
                 <td className="afbeelding-cel">
                   <span className="dxf-icoon">📄</span>
                 </td>
-                <td>{bestand.naam}</td>
+                <td>{op.naam}</td>
                 {BEWERKINGS_VELDEN.map((v) => (
                   <td key={v.key}>
                     {v.type === "boolean" ? (
                       <input
                         type="checkbox"
-                        checked={!!bestand[v.key]}
-                        onChange={(e) => updateRij(bestand.id, v.key, e.target.checked)}
+                        checked={!!op[v.key]}
+                        onChange={(e) => updateOperation(op.id, v.key, e.target.value === "" ? null : parseInt(e.target.value))}
                       />
                     ) : (
                       <input
                         type="number"
                         min="0"
-                        value={bestand[v.key] ?? ""}
+                        value={op[v.key] ?? ""}
                         placeholder="-"
                         onChange={(e) =>
-                          updateRij(bestand.id, v.key, e.target.value === "" ? null : parseInt(e.target.value))
+                          updateOperation(op.id, v.key, e.target.value === "" ? null : parseInt(e.target.value))
                         }
                         className="bewerkingen-input"
                       />
@@ -107,7 +113,7 @@ export default function Bewerkingen() {
               <td>Totaal</td>
               {BEWERKINGS_VELDEN.map((v) => {
                 const totaal = berekenTotaal(v.key);
-                return <td key={v.key}>{totaal || ""}</td>;
+                return <td key={v.key}>{totaal != null ? `${totaal} min` : ""}</td>;
               })}
             </tr>
           </tfoot>
