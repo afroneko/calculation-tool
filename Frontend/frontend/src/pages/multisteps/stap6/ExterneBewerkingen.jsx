@@ -96,7 +96,7 @@ export default function ExterneBewerkingen() {
                         value={file[op.key] ?? ""}
                         placeholder="-"
                         onChange={(e) =>
-                          updateExternalOperation(file.id, op.key, e.target.checked)
+                          updateExternalOperation(file.id, op.key, e.target.value === "" ? null : parseInt(e.target.value))
                         }
                         className="bewerkingen-input"
                       />

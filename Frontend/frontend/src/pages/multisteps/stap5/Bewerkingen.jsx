@@ -88,7 +88,7 @@ export default function Bewerkingen() {
                       <input
                         type="checkbox"
                         checked={!!op[v.key]}
-                        onChange={(e) => updateOperation(op.id, v.key, e.target.value === "" ? null : parseInt(e.target.value))}
+                        onChange={(e) => updateOperation(op.id, v.key, e.target.checked)}
                       />
                     ) : (
                       <input
