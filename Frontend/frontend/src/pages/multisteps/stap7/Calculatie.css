@@ -77,3 +77,6 @@
   border-bottom: none;
   padding: 14px 16px;
 }
+
+.kosten-laden { padding: 24px; color: #888; font-size: 14px; }
+.kosten-fout  { padding: 24px; color: #c62828; font-size: 14px; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using Newtonsoft.Json.Serialization;
 
 namespace CalculationTool
 {
@@ -10,6 +11,10 @@ namespace CalculationTool
     {
         public static void Register(HttpConfiguration config)
         {
+            // camelCase JSON serialisatie
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+            new CamelCasePropertyNamesContractResolver();
+
             //CORS inschakelen
             var cors = new EnableCorsAttribute(
             "http://localhost:5173", //react dev server
