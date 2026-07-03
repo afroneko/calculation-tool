@@ -1,4 +1,5 @@
 ﻿using CalculationTool.Integrations.Ridder;
+using CalculationTool.Models;
 using CalculationTool.Services;
 using System;
 using System.Collections.Generic;
@@ -25,5 +26,6 @@ namespace CalculationTool.Controllers
             var quote = _quoteService.GetQuote(id);
             return Ok(quote);
         }
+
     }
 }

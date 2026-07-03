@@ -1,9 +1,10 @@
 import "./ExterneBewerkingen.css";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Progressbar from "../../../components/progressbar/Progressbar";
-import { useState } from "react";
+import { useEffect } from "react";
 import { Icon } from "@iconify/react";
+import useCalculatieStore from "../../../store/calculatieStore";
 
 const EXTERNAL_OPERATIONS = [
   { key: "zwartcoaten",    label: "Zwartcoaten",    type: "boolean" },
@@ -12,26 +13,36 @@ const EXTERNAL_OPERATIONS = [
   { key: "graveren",       label: "Graveren",       type: "number"  },
 ];
 
-const initialFiles = [
-  { id: 1, naam: "20260120.5-S002.dxf",  zwartcoaten: false, parelcoaten: false, precisieGaten: null, graveren: null },
-  { id: 2, naam: "20260120.5-S005.dxf",  zwartcoaten: true,  parelcoaten: false, precisieGaten: 3,    graveren: null },
-  { id: 3, naam: "20260120.5-S008.dxf",  zwartcoaten: false, parelcoaten: true,  precisieGaten: null, graveren: 2    },
-  { id: 4, naam: "20260120.5-S0014.dxf", zwartcoaten: false, parelcoaten: false, precisieGaten: null, graveren: null },
-];
+
 
 export default function ExterneBewerkingen() {
   const navigate = useNavigate();
-  const [files, setFiles] = useState(initialFiles);
+  const { type } = useParams();
 
-  const updateRow = (id, field, value) => {
-    setFiles((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, [field]: value } : f))
-    );
-  };
+  const { files, externalOperations, setExternalOperations, updateExternalOperation } = useCalculatieStore();
 
-  const calcTotal = (field, type) => {
-    if (type === "boolean") return null;
-    return files.reduce((sum, f) => sum + (f[field] || 0), 0) || null;
+  useEffect(() => {
+    if (files.length === 0) return;
+
+    const initialized = files.map((file) => {
+      const existing = externalOperations.find((o) => o.id === file.id);
+      return existing ?? {
+        id: file.id,
+        naam: file.naam,
+        zwartcoaten: false,
+        parelcoaten: false,
+        precisieGaten: null,
+        graveren: null,
+      };
+    });
+
+    setExternalOperations(initialized);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [files]);
+
+  const calcTotal = (field, fieldType) => {
+    if (fieldType === "boolean") return null;
+    return externalOperations.reduce((sum, o) => sum + (o[field] || 0), 0) || null;
   };
 
   return (
@@ -64,7 +75,7 @@ export default function ExterneBewerkingen() {
             </tr>
           </thead>
           <tbody>
-            {files.map((file) => (
+            {externalOperations.map((file) => (
               <tr key={file.id}>
                 <td className="afbeelding-cel">
                   <Icon icon="pepicons-pencil:file" width={20} height={20} />
@@ -76,7 +87,7 @@ export default function ExterneBewerkingen() {
                       <input
                         type="checkbox"
                         checked={!!file[op.key]}
-                        onChange={(e) => updateRow(file.id, op.key, e.target.checked)}
+                        onChange={(e) => updateExternalOperation(file.id, op.key, e.target.checked)}
                       />
                     ) : (
                       <input
@@ -85,7 +96,7 @@ export default function ExterneBewerkingen() {
                         value={file[op.key] ?? ""}
                         placeholder="-"
                         onChange={(e) =>
-                          updateRow(file.id, op.key, e.target.value === "" ? null : parseInt(e.target.value))
+                          updateExternalOperation(file.id, op.key, e.target.value === "" ? null : parseInt(e.target.value))
                         }
                         className="bewerkingen-input"
                       />
@@ -101,7 +112,7 @@ export default function ExterneBewerkingen() {
               <td>Totaal</td>
               {EXTERNAL_OPERATIONS.map((op) => {
                 const total = calcTotal(op.key, op.type);
-                return <td key={op.key}>{total || ""}</td>;
+                return <td key={op.key}>{total != null ? `${total} min` : ""}</td>;
               })}
             </tr>
           </tfoot>

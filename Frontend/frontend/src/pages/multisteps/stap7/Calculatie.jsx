@@ -1,81 +1,65 @@
 import "./Calculatie.css";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import Progressbar from "../../../components/progressbar/Progressbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
+import useCalculatieStore from "../../../store/calculatieStore";
 
-const kostenposten = [
-  {
-    icon: "pepicons-pencil:file",
-    label: "Materiaal",
-    sublabel: "RVS 304, RVS316 | Diverse diktes",
-    kostprijs: 210.43,
-    toelichting: "Gebaseerd op nesting en materiaalkosten",
-  },
-  {
-    icon: "iconamoon:clock-light",
-    label: "Snijtijd",
-    sublabel: "Lasersnijden",
-    kostprijs: 56.75,
-    toelichting: "Totale snijtijd: 2u 14m",
-  },
-  {
-    icon: "material-symbols-light:devices-fold-outline",
-    label: "Zetting",
-    sublabel: "Kantbewerkingen",
-    kostprijs: 29.96,
-    toelichting: "Totaal 18 zettingen",
-  },
-  {
-    icon: "pepicons-pencil:square-off",
-    label: "Laswerk",
-    sublabel: "Lasmeters en -tijd",
-    kostprijs: 86.71,
-    toelichting: "Totale lengte en tijd: 24,6m en 30m",
-  },
-  {
-    icon: "fluent:person-wrench-20-regular",
-    label: "Overige bewerkingen",
-    sublabel: "boren, tappen, gaten, walsen",
-    kostprijs: 38.59,
-    toelichting: "Inclusief uitbreken en afbramen",
-  },
-  {
-    icon: "hugeicons:package-receive",
-    label: "Verpakking",
-    sublabel: "Verpakken en afhandelen",
-    kostprijs: 14.07,
-    toelichting: "Standaard verpakking",
-  },
-  {
-    icon: "vaadin:euro",
-    label: "Algemene kosten",
-    sublabel: "WVB, Opslag inkoop en magazijn, transport",
-    kostprijs: 20.43,
-    toelichting: "Bedrijfskosten",
-  },
-  {
-    icon: "ant-design:stock-outlined",
-    label: "Winst & risico",
-    sublabel: "Marge",
-    kostprijs: 9.53,
-    toelichting: "Inschatting risico en marge",
-  },
-];
+
 
 const formatEuro = (bedrag) =>
   `€ ${bedrag.toFixed(2).replace(".", ",")}`;
 
 export default function Kostenoverzicht() {
   const navigate = useNavigate();
+  const { type } = useParams();
 
-  const totaal = kostenposten.reduce((sum, k) => sum + k.kostprijs, 0);
+  const { nestingData, materials, operations, externalOperations } = useCalculatieStore();
+
+  const [kostenposten, setKostenposten] = useState([]);
+  const [totaal, setTotaal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCalculatie = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetch("/api/calculatie", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nestingData,
+            materials,
+            operations,
+            externalOperations,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Calculatie mislukt");
+
+        const data = await response.json();
+        setKostenposten(data.kostenposten);
+        setTotaal(data.totaal);
+      } catch (err) {
+        setError("Er ging iets mis bij het berekenen van de kosten.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (nestingData.length > 0) fetchCalculatie();
+  }, [nestingData, materials, operations, externalOperations]);
+
+  if (loading) return <p className="kosten-laden">Kosten berekenen...</p>;
+  if (error)   return <p className="kosten-fout">{error}</p>;
 
   return (
     <div className="kostenoverzicht-page">
       <h1>Offerte calculeren</h1>
       <Progressbar />
-      
 
       <OfferteStapLayout
         offerte={{
@@ -84,9 +68,9 @@ export default function Kostenoverzicht() {
           verkoper: "Senne Scheeren",
           aangemaaktOp: "10-05-2026",
         }}
-        progress={{ stap: 7, totaal: 9 }}
-        onPrevious={() => navigate("/stap7/:type")}
-        onNext={() => navigate("/stap8/:type")}
+        progress={{ stap: 6, totaal: 8 }}
+        onPrevious={() => navigate(`/${type}/stap5`)}
+        onNext={() => navigate(`/${type}/stap7`)}
       >
         <h2>Kostenoverzicht</h2>
         <p>Hieronder vind je een overzicht van alle kosten op basis van de ingevulde gegevens.</p>
@@ -102,7 +86,9 @@ export default function Kostenoverzicht() {
           </thead>
           <tbody>
             {kostenposten.map((post) => {
-              const percentage = ((post.kostprijs / totaal) * 100).toFixed(1);
+              const percentage = totaal > 0
+                ? ((post.kostprijs / totaal) * 100).toFixed(1)
+                : "0.0";
               return (
                 <tr key={post.label}>
                   <td className="kostenpost-cel">

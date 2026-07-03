@@ -6,6 +6,19 @@ import { useState } from "react";
 import DxfParser from "dxf-parser";
 import useCalculatieStore from "../../../store/calculatieStore";
 
+const PLAAT_BREEDTE_MM = 3000;
+const PLAAT_HOOGTE_MM = 1500;
+const PLAAT_OPPERVLAKTE_M2 = (PLAAT_BREEDTE_MM / 1000) * (PLAAT_HOOGTE_MM / 1000);
+const DICHTHEID = {
+  "RVS304 zf":  7.93,
+  "RVS316 wgw": 7.98,
+  "RVS316 zf":  7.98,
+  "S235":       7.85,
+  "S355":       7.85,
+  "Aluminium":  2.70,
+};
+const getDichtheid = (materiaal) => DICHTHEID[materiaal] ?? 7.85;
+
 const parseDxf = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -53,7 +66,7 @@ const parseDxf = (file) => {
 export default function Nesting() {
   const navigate = useNavigate();
   const { type } = useParams();
-  const { files, materials, nestingData, setNestingData } = useCalculatieStore();
+  const { files, materials, nestingData, setNestingData, platenData, setPlatenData} = useCalculatieStore();
   const [berekend, setBerekend] = useState(nestingData.length > 0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -70,20 +83,45 @@ export default function Nesting() {
 
           // gewicht berekening: lengte(m) * breedte(m) * dichtheid staal * dikte(mm)
           // dit is een benadering, in werkelijkheid afhankelijk van het materiaal
-          const gewicht = Math.round((width / 1000) * (height / 1000) * 7.85 * (parseInt(mat?.dikte) || 1));
+          const gewicht = parseFloat(
+            (
+              (width / 1000) *
+              (height / 1000) *
+              getDichtheid(mat?.materiaal) *
+              (parseInt(mat?.dikte) || 1)
+            ).toFixed(2)
+          );
+
           return {
             id: f.id,
             materiaal: mat?.materiaal ?? "-",
+            dikte: mat?.dikte ?? "-",
             lengte: width,
             breedte: height,
-            dikte: mat?.dikte ?? "-",
-            gewicht: `${gewicht}kg`,
+            gewicht,
             aantallen: mat?.aantallen ?? 1,
             gaten: holeCount,
           };
         })
       );
       setNestingData(results);
+
+      // groepeer per materiaal + dikte, want elke combinatie heeft eigen platen nodig
+    const groepen = {};
+    results.forEach((r) => {
+      const key = `${r.materiaal}-${r.dikte}`;
+      const oppervlakteOnderdeel = (r.lengte / 1000) * (r.breedte / 1000) * r.aantallen;
+      groepen[key] = (groepen[key] || 0) + oppervlakteOnderdeel;
+    });
+
+    // aantal platen per groep = totale oppervlakte van die groep / plaatoppervlakte, naar boven afgerond
+    const platenPerGroep = Object.entries(groepen).map(([key, oppervlakte]) => ({
+      groep: key,
+      benodigdeOppervlakte: oppervlakte,
+      aantalPlaten: Math.ceil(oppervlakte / PLAAT_OPPERVLAKTE_M2),
+    }));
+
+    setPlatenData(platenPerGroep);
       setBerekend(true);
     } catch (err) {
       setError("Er ging iets mis bij het uitlezen van de DXF bestanden.");
@@ -167,6 +205,30 @@ export default function Nesting() {
             <span>
               <strong>Aantal onderdelen:</strong> {aantalOnderdelen}
             </span>
+          </div>
+        )}
+
+        {berekend && platenData.length > 0 && (
+          <div className="platen-overzicht">
+            <h3 className="platen-titel">Benodigde platen</h3>
+            <table className="platen-tabel">
+              <thead>
+                <tr>
+                  <th>Materiaal / dikte</th>
+                  <th>Benodigde oppervlakte</th>
+                  <th>Aantal platen ({PLAAT_BREEDTE_MM}x{PLAAT_HOOGTE_MM}mm)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {platenData.map((p) => (
+                  <tr key={p.groep}>
+                    <td>{p.groep}</td>
+                    <td>{p.benodigdeOppervlakte.toFixed(2)}m²</td>
+                    <td>{p.aantalPlaten}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         )}
 
