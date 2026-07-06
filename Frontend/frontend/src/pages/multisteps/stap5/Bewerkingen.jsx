@@ -58,9 +58,9 @@ export default function Bewerkingen() {
           verkoper: "Senne Scheeren",
           aangemaaktOp: "10-05-2026",
         }}
-        progress={{ stap: 4, totaal: 8 }}
-        onPrevious={() => navigate("/stap4/:type")}
-        onNext={() => navigate("/stap6/:type")}
+        progress={{ stap: 4, totaal: 9 }}
+        onPrevious={() => navigate(`/stap4/${type}`)}
+        onNext={() => navigate(`/stap6/${type}`)}
       >
         <h2>Bewerkingen</h2>
         <p>Selecteer de juiste tijden en bewerkingen</p>

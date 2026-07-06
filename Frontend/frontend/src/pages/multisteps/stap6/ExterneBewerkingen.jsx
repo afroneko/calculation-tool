@@ -58,8 +58,8 @@ export default function ExterneBewerkingen() {
           aangemaaktOp: "10-05-2026",
         }}
         progress={{ stap: 5, totaal: 9 }}
-        onPrevious={() => navigate("/stap5/:type")}
-        onNext={() => navigate("/stap7/:type")}
+        onPrevious={() => navigate(`/stap5/${type}`)}
+        onNext={() => navigate(`/stap7/${type}`)}
       >
         <h2>Externe bewerkingen</h2>
         <p>Hier kunnen externe bewerkingen worden toegevoegd</p>

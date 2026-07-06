@@ -68,8 +68,8 @@ export default function Controle() {
           aangemaaktOp: "10-05-2026",
         }}
         progress={{ stap: 7, totaal: 9 }}
-        onPrevious={() => navigate("/stap7/:type")}
-        onNext={() => navigate("/stap9/:type")}
+        onPrevious={() => navigate(`/stap7/${type}`)}
+        onNext={() => navigate(`/stap9/${type}`)}
       >
         <h2>Controle & validatie</h2>
         <p>Hieronder zie je een overzicht van de controles. Los de waarschuwingen of fouten op voordat je verder gaat.</p>
