@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 const useCalculatieStore = create((set) => ({
   type: null, //Ofwel offerte of order
+  document: null,
   files: [],  //De geüploade DXF bestanden
   materials: [],  //Bestanden aangevuld met materiaal/ditke enz. (stap 2)
   nestingData: [],  //De uitgelezen afmetingen per bestand (stap 3)
@@ -10,6 +11,8 @@ const useCalculatieStore = create((set) => ({
   platenData: [],// plaatmaten (voor nu even 1)
 
   setType: (type) => set({ type }), 
+
+  setDocument: (document) => set ({ document}),
   
 //platen
   setPlatenData: (platenData) => set({ platenData }),
@@ -48,6 +51,7 @@ const useCalculatieStore = create((set) => ({
   // reset voor nieuwe offerte/order
   reset: () => set({ 
     type: null, 
+    document: null,
     files: [], 
     materials: [], 
     nestingData: [], 

@@ -11,7 +11,9 @@ const navigate = useNavigate();
 const { type } = useParams();
 const inputRef = useRef(null);
 const { files, addFile, removeFile, setType } = useCalculatieStore();
- 
+const { document } = useCalculatieStore();
+
+
 const handleFiles = (selectedFiles) => {
     setType(type);
     Array.from(selectedFiles).forEach((file) => {
@@ -42,14 +44,14 @@ const handleFiles = (selectedFiles) => {
 
        <OfferteStapLayout
       offerte={{
-        offertenummer: '23873',
-        klant: 'Tummers Food Processing',
-        verkoper: 'Senne Scheeren',
-        aangemaaktOp: '10-05-2026',
+        offertenummer: document?.quoteNumber ?? "-",
+        klant: document?.customer ?? "-",
+        verkoper: document?.salesperson ?? "-",
+        aangemaaktOp: document?.createdAt ?? "-",
       }}
-      progress={{ stap: 1, totaal: 8 }}
-      onPrevious={() => navigate('/stap1/:type')}
-      onNext={() => navigate('/stap3/:type')}
+      progress={{ stap: 1, totaal: 9 }}
+      onPrevious={() => navigate(`/stap1/${type}`)}
+      onNext={() => navigate(`/stap3/${type}`)}
     >
       
       <h2>DXF bestanden laden</h2>

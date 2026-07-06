@@ -68,9 +68,9 @@ export default function Kostenoverzicht() {
           verkoper: "Senne Scheeren",
           aangemaaktOp: "10-05-2026",
         }}
-        progress={{ stap: 6, totaal: 8 }}
-        onPrevious={() => navigate(`/${type}/stap5`)}
-        onNext={() => navigate(`/${type}/stap7`)}
+        progress={{ stap: 6, totaal: 9 }}
+        onPrevious={() => navigate(`/stap6/${type}`)}
+        onNext={() => navigate(`/stap8/${type}`)}
       >
         <h2>Kostenoverzicht</h2>
         <p>Hieronder vind je een overzicht van alle kosten op basis van de ingevulde gegevens.</p>

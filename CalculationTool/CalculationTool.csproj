@@ -187,6 +187,7 @@
     <Compile Include="Models\CalculatieResultDto.cs" />
     <Compile Include="Models\KostenpostDto.cs" />
     <Compile Include="Models\QuoteDto.cs" />
+    <Compile Include="Models\RidderOrderResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CalculatieService.cs" />
     <Compile Include="Services\ICalculatieService.cs" />

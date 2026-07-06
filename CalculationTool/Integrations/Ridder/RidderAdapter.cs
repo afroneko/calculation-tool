@@ -44,21 +44,15 @@ namespace CalculationTool.Integrations.Ridder
             {
                 throw new Exception($"Ridder API error: {response.StatusCode} - {json}");
             }
-            var data = JsonConvert.DeserializeObject<QuoteDto>(json);
+            var ridderData = JsonConvert.DeserializeObject<RidderOrderResponse>(json);
 
             return new QuoteDto
             {
-                Id = data.Id
-                //Id = data.id,
-                //Customer = data.customerName,  
-                //Salesperson = data.salesperson,
-                //CreatedAt = data.createdAt
+                QuoteNumber = ridderData.Order.OrderNumber.ToString(),
+                Customer = ridderData.Relation.RelationName,
+                Salesperson = ridderData.Order.SalesPerson,
+                CreatedAt = DateTime.Parse(ridderData.Order.DateCreated.ToString()).ToString("dd-MM-yyyy"),
             };
         }
-
-        //QuoteDto IRidderAdapter.GetQuote(string id)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

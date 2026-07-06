@@ -6,11 +6,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useQuote } from "../../../context/Context";
 import { getQuote, getOrder } from "../../../services/api";
+import useCalculatieStore from "../../../store/calculatieStore";
 
 export default function OfferteOphalen() {
   const navigate = useNavigate();
   const [number, setNumber] = useState("");
-  const {quote, setQuote} = useQuote();
+  const [loading, setLoading] = useState(false);
+  const {document, setDocument} = useCalculatieStore();
   const [error, setError] = useState(null);
 
    const { type } = useParams(); // "offerte" of "order"
@@ -20,13 +22,19 @@ export default function OfferteOphalen() {
 
     const handleSubmit = async () => {
         if (!number) return;
+        setLoading(true);
+        setError(null);
         try {
             const data = type === "offerte"
                 ? await getQuote(number)
                 : await getOrder(number);
-            setQuote(data);
-        } catch {
+                console.log(data);
+            setDocument(data);
+        } catch (err){
+          console.log(err);
             setError(`${type} niet gevonden`);
+        } finally {
+          setLoading(false);
         }
     };
   return (
@@ -50,15 +58,18 @@ export default function OfferteOphalen() {
         {error && <p className="error">{error}</p>}
 
         <div className="grid">
-          <DetailCard 
-          numberLabel={type === "offerte" ? "Offertenummer" : "Ordernummer"}
-          title={title}
-          number={quote?.id}
+          <DetailCard
+            numberLabel={label}
+            title={title}
+            number={document?.quoteNumber}
+            customer={document?.customer}
+            salesperson={document?.salesperson}
+            date={document?.createdAt}
           />
           <ProgressCard
           currentStep={0}
-          totalSteps={8}
-          onNext={() => navigate("/stap2/${type}")}
+          totalSteps={9}
+          onNext={() => navigate(`/stap2/${type}`)}
           showPrevious={false}
           />
         </div>

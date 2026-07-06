@@ -21,8 +21,8 @@ export default function Export() {
 
       <OfferteStapLayout
         offerte={offerte}
-        progress={{ stap: 8, totaal: 8 }}
-        onPrevious={() => navigate("/stap7/:type")}
+        progress={{ stap: 8, totaal: 9 }}
+        onPrevious={() => navigate(`/stap9/${type}`)}
         onNext={() => navigate("/")}
       >
         <h2>Exporteren naar Ridder</h2>
