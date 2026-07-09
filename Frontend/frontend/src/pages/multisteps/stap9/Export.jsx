@@ -7,16 +7,8 @@ import { Icon } from "@iconify/react";
 export default function Export() {
   const navigate = useNavigate();
 
-  const offerte = {
-    offertenummer: "23873",
-    klant: "Tummers Food Processing",
-    verkoper: "Senne Scheeren",
-    aangemaaktOp: "10-05-2026",
-  };
-
   return (
     <div className="export-page">
-      <h1>Offerte calculeren</h1>
       <Progressbar />
 
       <OfferteStapLayout

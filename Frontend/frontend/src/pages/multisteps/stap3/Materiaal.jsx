@@ -9,7 +9,7 @@ const MATERIAAL_SOORTEN = ["RVS304 zf", "RVS316 wgw", "RVS316 zf", "S235", "S355
 const DIKTES = ["1mm", "2mm", "3mm", "4mm", "5mm", "6mm", "8mm", "10mm", "12mm", "15mm", "20mm"];
 
 export default function Materiaal()  {
-  const { files, materials, setMaterials, updateMaterial } = useCalculatieStore();
+  const { files, materials, setMaterials, updateMaterial, document } = useCalculatieStore();
   const navigate = useNavigate();
   const {type} = useParams();
 
@@ -25,7 +25,7 @@ export default function Materiaal()  {
         //Standaardopties als startwaarde
         materiaal: MATERIAAL_SOORTEN[0],
         dikte: DIKTES[0],
-        aantallen: 1,
+        aantallen: null,
       };
     });
     setMaterials(initialized);
@@ -33,15 +33,14 @@ export default function Materiaal()  {
 
      return (
         <div className="materiaal-page">
-          <h1>Offerte calculeren</h1>
           <Progressbar />
     
            <OfferteStapLayout
           offerte={{
-            offertenummer: '23873',
-            klant: 'Tummers Food Processing',
-            verkoper: 'Senne Scheeren',
-            aangemaaktOp: '10-05-2026',
+            offertenummer: document?.quoteNumber ?? "-",
+            klant: document?.customer ?? "-",
+            verkoper: document?.salesperson ?? "-",
+            aangemaaktOp: document?.createdAt ?? "-",
           }}
           progress={{ stap: 2, totaal: 9 }}
           onPrevious={() => navigate(`/stap2/${type}`)}
@@ -94,9 +93,8 @@ export default function Materiaal()  {
                 <td>
                   <input
                     type="number"
-                    min="1"
-                    value={mat.aantallen}
-                    onChange={(e) => updateMaterial(mat.id, "aantallen", parseInt(e.target.value) || 1)}
+                    value={mat.aantallen ?? ""}
+                    onChange={(e) => updateMaterial(mat.id, "aantallen", e.target.value === "" ? null : parseInt(e.target.value))}
                     className="aantallen-input"
                   />
                 </td>

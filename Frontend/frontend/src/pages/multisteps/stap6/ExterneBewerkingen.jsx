@@ -19,7 +19,7 @@ export default function ExterneBewerkingen() {
   const navigate = useNavigate();
   const { type } = useParams();
 
-  const { files, externalOperations, setExternalOperations, updateExternalOperation } = useCalculatieStore();
+  const { files, externalOperations, setExternalOperations, updateExternalOperation, document } = useCalculatieStore();
 
   useEffect(() => {
     if (files.length === 0) return;
@@ -47,15 +47,14 @@ export default function ExterneBewerkingen() {
 
   return (
     <div className="externe-bewerkingen-page">
-      <h1>Offerte calculeren</h1>
       <Progressbar />
 
       <OfferteStapLayout
         offerte={{
-          offertenummer: "23873",
-          klant: "Tummers Food Processing",
-          verkoper: "Senne Scheeren",
-          aangemaaktOp: "10-05-2026",
+          offertenummer: document?.quoteNumber ?? "-",
+          klant: document?.customer ?? "-",
+          verkoper: document?.salesperson ?? "-",
+          aangemaaktOp: document?.createdAt ?? "-",
         }}
         progress={{ stap: 5, totaal: 9 }}
         onPrevious={() => navigate(`/stap5/${type}`)}

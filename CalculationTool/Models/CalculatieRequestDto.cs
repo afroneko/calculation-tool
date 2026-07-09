@@ -9,6 +9,8 @@ namespace CalculationTool.Models
         public List<MateriaalItemDto> Materials { get; set; }
         public List<BewerkingItemDto> Operations { get; set; }
         public List<ExterneBewerkingItemDto> ExternalOperations { get; set; }
+        public List<TariefItemDto> Tarieven { get; set; }
+        public List<NormtijdItemDto> Normtijden { get; set; }
     }
 
     // één rij uit de nestingData (uitgelezen DXF afmetingen)
@@ -56,5 +58,17 @@ namespace CalculationTool.Models
         public bool Parelcoaten { get; set; }
         public int? PrecisieGaten { get; set; }
         public int? Graveren { get; set; }
+    }
+
+    public class TariefItemDto
+    {
+        public string Label { get; set; }
+        public double Rate { get; set; }
+    }
+
+    public class NormtijdItemDto
+    {
+        public string Label { get; set; }
+        public double Time { get; set; }
     }
 }

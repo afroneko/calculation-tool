@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 const steps = [
   {
     slug: "stap1",
-    title: "Offerte ophalen",
+    title: "Document ophalen",
     subtitle: "Gegevens importeren",
     icon: "material-symbols-light:download",
   },

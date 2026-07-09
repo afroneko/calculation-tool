@@ -9,7 +9,7 @@ const BEWERKINGS_VELDEN = [
   { key: "zet1eman", label: "zet 1e man", type: "number" },
   { key: "zet2eman", label: "zet 2e man", type: "number" },
   { key: "walsen", label: "walsen", type: "number" },
-  { key: "borenTappenGaten", label: "Boren/tappen/gaten", type: "number" },
+  { key: "borenTappenGaten", label: "Boren/ tappen/ gaten", type: "number" },
   { key: "lassen", label: "lassen", type: "number" },
   { key: "afbramen", label: "afbramen", type: "boolean" },
 ];
@@ -18,7 +18,7 @@ export default function Bewerkingen() {
   const navigate = useNavigate();
   const { type } =useParams();
 
-  const { files, operations, setOperations, updateOperation } = useCalculatieStore();
+  const { files, operations, setOperations, updateOperation, document } = useCalculatieStore();
 
   useEffect(() => {
     if (files.length === 0) return;
@@ -48,15 +48,14 @@ export default function Bewerkingen() {
 
   return (
     <div className="bewerkingen-page">
-      <h1>Offerte calculeren</h1>
       <Progressbar />
 
       <OfferteStapLayout
         offerte={{
-          offertenummer: "23873",
-          klant: "Tummers Food Processing",
-          verkoper: "Senne Scheeren",
-          aangemaaktOp: "10-05-2026",
+          offertenummer: document?.quoteNumber ?? "-",
+          klant: document?.customer ?? "-",
+          verkoper: document?.salesperson ?? "-",
+          aangemaaktOp: document?.createdAt ?? "-",
         }}
         progress={{ stap: 4, totaal: 9 }}
         onPrevious={() => navigate(`/stap4/${type}`)}

@@ -15,7 +15,7 @@ export default function Kostenoverzicht() {
   const navigate = useNavigate();
   const { type } = useParams();
 
-  const { nestingData, materials, operations, externalOperations } = useCalculatieStore();
+  const { nestingData, materials, operations, externalOperations, tarieven, normtijden, document } = useCalculatieStore();
 
   const [kostenposten, setKostenposten] = useState([]);
   const [totaal, setTotaal] = useState(0);
@@ -35,6 +35,8 @@ export default function Kostenoverzicht() {
             materials,
             operations,
             externalOperations,
+            tarieven,
+            normtijden,
           }),
         });
 
@@ -58,15 +60,14 @@ export default function Kostenoverzicht() {
 
   return (
     <div className="kostenoverzicht-page">
-      <h1>Offerte calculeren</h1>
       <Progressbar />
 
       <OfferteStapLayout
         offerte={{
-          offertenummer: "23873",
-          klant: "Tummers Food Processing",
-          verkoper: "Senne Scheeren",
-          aangemaaktOp: "10-05-2026",
+          offertenummer: document?.quoteNumber ?? "-",
+          klant: document?.customer ?? "-",
+          verkoper: document?.salesperson ?? "-",
+          aangemaaktOp: document?.createdAt ?? "-",
         }}
         progress={{ stap: 6, totaal: 9 }}
         onPrevious={() => navigate(`/stap6/${type}`)}

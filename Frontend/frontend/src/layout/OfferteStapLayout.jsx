@@ -1,6 +1,7 @@
 import '../styles/layout.css';
 import DetailCard from '../components/cards/detail/DetailCard';
 import ProgressCard from '../components/cards/progress/ProgressCard';
+import { useParams } from "react-router-dom";
 
 export default function OfferteStapLayout({
   children,
@@ -11,6 +12,8 @@ export default function OfferteStapLayout({
   showPrevious = true,
 }) {
   const percentage = Math.round((progress.stap / progress.totaal) * 100);
+  const { type } = useParams();
+  const title = type === "offerte" ? "Offerte details" : "Order details";
  
   return (
     <div className="offerte-stap-layout">
@@ -27,7 +30,7 @@ export default function OfferteStapLayout({
         <aside className="offerte-stap-layout__sidebar">
  
           <DetailCard
-            title="Offerte informatie"
+            title={title}
             number={offerte.offertenummer}
             customer={offerte.klant}
             salesperson={offerte.verkoper}
