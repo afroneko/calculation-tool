@@ -19,8 +19,8 @@ namespace CalculationTool.Services
         {
             // haal tarieven en normtijden op uit Ridder
             // voorlopig placeholder totdat de Ridder integratie klaar is
-            var tarieven = GetPlaceholderTarieven();
-            var normtijden = GetPlaceholderNormtijden();
+            var tarieven = request.Tarieven.ToDictionary(t => t.Label, t => t.Rate);
+            var normtijden = request.Normtijden.ToDictionary(n => n.Label, n => n.Time);
 
             var kostenposten = new List<KostenpostDto>();
 

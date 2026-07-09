@@ -66,7 +66,7 @@ const parseDxf = (file) => {
 export default function Nesting() {
   const navigate = useNavigate();
   const { type } = useParams();
-  const { files, materials, nestingData, setNestingData, platenData, setPlatenData} = useCalculatieStore();
+  const { files, materials, nestingData, setNestingData, platenData, setPlatenData, document} = useCalculatieStore();
   const [berekend, setBerekend] = useState(nestingData.length > 0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -137,15 +137,14 @@ export default function Nesting() {
 
   return (
     <div className="nesting-page">
-      <h1>Offerte calculeren</h1>
       <Progressbar />
             
       <OfferteStapLayout
         offerte={{
-          offertenummer: '23873',
-          klant: 'Tummers Food Processing',
-          verkoper: 'Senne Scheeren',
-          aangemaaktOp: '10-05-2026',
+          offertenummer: document?.quoteNumber ?? "-",
+          klant: document?.customer ?? "-",
+          verkoper: document?.salesperson ?? "-",
+          aangemaaktOp: document?.createdAt ?? "-",
         }}
         progress={{ stap: 3, totaal: 9 }}
         onPrevious={() => navigate(`/stap3/${type}`)}

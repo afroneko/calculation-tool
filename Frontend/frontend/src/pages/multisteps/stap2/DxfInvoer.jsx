@@ -10,9 +10,7 @@ export default function DxfInvoer() {
 const navigate = useNavigate();
 const { type } = useParams();
 const inputRef = useRef(null);
-const { files, addFile, removeFile, setType } = useCalculatieStore();
-const { document } = useCalculatieStore();
-
+const { files, addFile, removeFile, setType, document } = useCalculatieStore();
 
 const handleFiles = (selectedFiles) => {
     setType(type);
@@ -39,7 +37,6 @@ const handleFiles = (selectedFiles) => {
 
   return (
     <div className="dxf-invoer-page">
-      <h1>Dxf Invoer</h1>
       <Progressbar />
 
        <OfferteStapLayout

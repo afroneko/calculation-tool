@@ -5,16 +5,19 @@
 }
 
 .content {
-  padding: 20px 20px;
+  padding: 0px 20px 20px 20px;
+  min-height: 100vh;
 }
 
+.content h1 {
+  margin: 15px 0px;
+}
 
 .offerte-stap-layout {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding: 20px 8px;
-  min-height: 100%;
+  padding: 10px 20px 0px 20px;
+  min-height: calc(100vh - 40px); /* 40px = padding van .content */
   box-sizing: border-box;
   background: #f0f2f5;
 }
@@ -31,14 +34,18 @@
 .offerte-stap-layout__content {
   background: #ffffff;
   border-radius: 10px;
-  padding: 0px 14px;
+  padding: 0px 14px 24px 14px;
   box-shadow: 0 1px 4px rgba(0,0,0,0.07);
   min-height: 450px;
+  margin-bottom: 24px;
 }
 
 .offerte-stap-layout__sidebar {
   display: grid;
   gap: 24px;
+  position: sticky;
+  top: 20px; /* afstand van de bovenkant van het scherm */
+  align-self: start;
 }
 
 

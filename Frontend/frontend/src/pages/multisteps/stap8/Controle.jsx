@@ -54,18 +54,19 @@ export default function Controle() {
   const warnings    = sections.flatMap((s) => s.alerts).filter((a) => a.type === "warning").length;
   const errors      = sections.flatMap((s) => s.alerts).filter((a) => a.type === "error").length;
   const total       = successful + warnings + errors;
+  const { type } = useParams();
+  const { document} = useCalculatieStore();
 
   return (
     <div className="controle-page">
-      <h1>Offerte calculeren</h1>
       <Progressbar />
 
       <OfferteStapLayout
         offerte={{
-          offertenummer: "23873",
-          klant: "Tummers Food Processing",
-          verkoper: "Senne Scheeren",
-          aangemaaktOp: "10-05-2026",
+          offertenummer: document?.quoteNumber ?? "-",
+          klant: document?.customer ?? "-",
+          verkoper: document?.salesperson ?? "-",
+          aangemaaktOp: document?.createdAt ?? "-",
         }}
         progress={{ stap: 7, totaal: 9 }}
         onPrevious={() => navigate(`/stap7/${type}`)}
