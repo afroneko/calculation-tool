@@ -2,5 +2,6 @@
   <Folder Name="/Solution Items/">
     <File Path=".gitignore" />
   </Folder>
+  <Project Path="CalculationTool.Tests/CalculationTool.Tests.csproj" Id="a41a9ce2-d9d4-45e6-a088-d109deb23229" />
   <Project Path="CalculationTool/CalculationTool.csproj" Id="d2ee663a-a48f-4c60-ae5f-351311c48159" />
 </Solution>
