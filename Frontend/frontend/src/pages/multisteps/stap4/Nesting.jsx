@@ -3,7 +3,7 @@ import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import Progressbar from "../../../components/progressbar/Progressbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
-import DxfParser from "dxf-parser";
+import { parseDxf } from "../../../services/parseDxf";
 import useCalculatieStore from "../../../store/calculatieStore";
 
 const PLAAT_BREEDTE_MM = 3000;
@@ -18,50 +18,6 @@ const DICHTHEID = {
   "Aluminium":  2.70,
 };
 const getDichtheid = (materiaal) => DICHTHEID[materiaal] ?? 7.85;
-
-const parseDxf = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      try {
-        const parser = new DxfParser();
-        const dxf = parser.parseSync(e.target.result);
-        const entities = dxf.entities || [];
-
-        // bounding box berekenen
-        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-
-        const circles = entities.filter((en) => en.type === "CIRCLE");
-
-        entities.forEach((en) => {
-          if (en.vertices) {
-            en.vertices.forEach((v) => {
-              minX = Math.min(minX, v.x);
-              minY = Math.min(minY, v.y);
-              maxX = Math.max(maxX, v.x);
-              maxY = Math.max(maxY, v.y);
-            });
-          }
-          if (en.center) {
-            minX = Math.min(minX, en.center.x - (en.radius || 0));
-            minY = Math.min(minY, en.center.y - (en.radius || 0));
-            maxX = Math.max(maxX, en.center.x + (en.radius || 0));
-            maxY = Math.max(maxY, en.center.y + (en.radius || 0));
-          }
-        });
-
-        const width  = Math.round(maxX - minX);
-        const height = Math.round(maxY - minY);
-
-        resolve({ width, height, holeCount: circles.length });
-      } catch (err) {
-        reject(err);
-      }
-    };
-    reader.onerror = reject;
-    reader.readAsText(file);
-  });
-};
 
 export default function Nesting() {
   const navigate = useNavigate();
