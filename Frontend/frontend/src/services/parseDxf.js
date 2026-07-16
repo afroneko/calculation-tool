@@ -5,6 +5,7 @@ export const parseDxf = (file) => {
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
+        console.log(e.target.result);
         const parser = new DxfParser();
         const dxf = parser.parseSync(e.target.result);
         console.log(JSON.stringify(dxf.entities, null, 2));
