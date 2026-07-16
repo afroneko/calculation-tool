@@ -25,16 +25,7 @@ namespace CalculationTool.Models
         public int Aantallen { get; set; }
         public int Gaten { get; set; }
     }
-
-    // één rij uit materials (materiaalsoort, dikte, aantallen per bestand)
-    public class MateriaalItemDto
-    {
-        public string Id { get; set; }
-        public string Naam { get; set; }
-        public string Materiaal { get; set; }
-        public string Dikte { get; set; }
-        public int Aantallen { get; set; }
-    }
+   
 
     // één rij uit operations (bewerkingstijden per bestand)
     public class BewerkingItemDto

@@ -27,12 +27,28 @@ export default function Kostenoverzicht() {
       setLoading(true);
       setError(null);
       try {
+        console.log("materials:", materials.map((m) => ({
+              id: m.id,
+              naam: m.naam,
+              artikelgroepId: m.artikelgroepId,  // dit meesturen
+              zoekCode: m.zoekCode,
+              dikte: m.dikte,
+              aantallen: m.aantallen,
+            })));
+
         const response = await fetch("/api/calculatie", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             nestingData,
-            materials,
+            materials: materials.map((m) => ({
+              id: m.id,
+              naam: m.naam,
+              artikelgroepId: m.artikelgroepId,
+              zoekCode: m.zoekCode,
+              dikte: m.dikte,
+              aantallen: m.aantallen,
+            })),
             operations,
             externalOperations,
             tarieven,

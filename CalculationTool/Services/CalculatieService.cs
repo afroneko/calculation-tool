@@ -27,8 +27,13 @@ namespace CalculationTool.Services
             // -- Materiaal --
             double materiaalKosten = request.NestingData.Sum(n =>
             {
-                // prijs per kg op basis van materiaalsoort, later uit Ridder
-                double prijsPerKg = GetPrijsPerKg(n.Materiaal);
+                var mat = request.Materials.Find(m => m.Id == n.Id);
+                if (mat?.ArtikelgroepId == null || mat.ZoekCode == null) return 0;
+
+                // dikte als int doorgeven (strip "mm" eraf)
+                int dikte = int.Parse(mat.Dikte.Replace("mm", ""));
+
+                double prijsPerKg = GetPrijsPerKg(mat.ArtikelgroepId.Value, mat.ZoekCode, dikte);
                 return n.Gewicht * n.Aantallen * prijsPerKg;
             });
 
@@ -196,17 +201,10 @@ namespace CalculationTool.Services
         }
 
         // placeholder totdat Ridder integratie klaar is
-        private double GetPrijsPerKg(string materiaal)
+        private double GetPrijsPerKg(int artikelgroepId, string zoekcode, int dikte)
         {
-            var prijzen = new Dictionary<string, double>
-            {
-                { "RVS304 zf",  3.20 },
-                { "RVS316 wgw", 4.10 },
-                { "RVS316 zf",  4.05 },
-                { "S235",       0.85 },
-                { "S355",       0.90 },
-            };
-            return prijzen.TryGetValue(materiaal, out double prijs) ? prijs : 3.0;
+            var detail = _ridderAdapter.GetMateriaalDetail(artikelgroepId, zoekcode, dikte);
+            return detail.PrijsPerKg;
         }
 
         // placeholder tarieven totdat Ridder integratie klaar is
