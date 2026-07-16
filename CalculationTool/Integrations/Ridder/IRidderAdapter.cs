@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace CalculationTool.Integrations.Ridder
 {
+    
     public interface IRidderAdapter
     {
         QuoteDto GetQuote(string id);
+        MateriaalDetailDto GetMateriaalDetail(int id, string beschrijving, int dikte);
     }
 }
