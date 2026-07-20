@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function Algemeen() {
   const [darkMode, setDarkMode] = useState(false);
-  const [companyName, setCompanyName] = useState("Tummers Food Processing");
+  const [companyName, setCompanyName] = useState("Tummers Metal Solutions");
   const [logo, setLogo] = useState(null);
   const [currency, setCurrency] = useState("EUR");
   const [language, setLanguage] = useState("nl");
