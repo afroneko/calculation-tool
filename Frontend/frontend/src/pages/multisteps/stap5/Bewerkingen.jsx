@@ -6,12 +6,12 @@ import { useEffect } from "react";
 import useCalculatieStore from "../../../store/calculatieStore";
 
 const BEWERKINGS_VELDEN = [
-  { key: "zet1eman", label: "zet 1e man", type: "number" },
-  { key: "zet2eman", label: "zet 2e man", type: "number" },
-  { key: "walsen", label: "walsen", type: "number" },
-  { key: "borenTappenGaten", label: "Boren/ tappen/ gaten", type: "number" },
-  { key: "lassen", label: "lassen", type: "number" },
-  { key: "afbramen", label: "afbramen", type: "boolean" },
+  { key: "zet1eman",          label: "zet 1e man",            type: "number" },
+  { key: "zet2eman",          label: "zet 2e man",            type: "number" },
+  { key: "walsen",            label: "walsen",                type: "number" },
+  { key: "borenTappenGaten",  label: "Boren/ tappen/ gaten",  type: "number" },
+  { key: "lassen",            label: "lassen (m)",                type: "number" },
+  { key: "afbramen",          label: "afbramen",              type: "boolean" },
 ];
 
 export default function Bewerkingen() {
@@ -112,7 +112,7 @@ export default function Bewerkingen() {
               <td>Totaal</td>
               {BEWERKINGS_VELDEN.map((v) => {
                 const totaal = berekenTotaal(v.key);
-                return <td key={v.key}>{totaal != null ? `${totaal} min` : ""}</td>;
+                return <td key={v.key}>{totaal != null ? `${totaal} st` : ""}</td>;
               })}
             </tr>
           </tfoot>

@@ -10,9 +10,9 @@ const useCalculatieStore = create((set) => ({
   externalOperations: [],//externe bewerkingen per bestand (coaten, graveren, etc.)
   platenData: [],// plaatmaten (voor nu even 1)
 
-    // nieuw: instellingen
+    // instellingen
   tarieven: [
-    { id: 1, label: "Lasersnijden",                        unit: "€ / min", rate: 2.63   },
+    { id: 1, label: "Lasersnijden",                        unit: "€ / min", rate: 5.27   },
     { id: 2, label: "W.v.b",                               unit: "€ / uur", rate: 91.00  },
     { id: 3, label: "Zetwerk machine + 1e man",            unit: "€ / uur", rate: 85.00  },
     { id: 4, label: "Plaatwerk 2e man",                    unit: "€ / uur", rate: 75.00  },
@@ -23,13 +23,13 @@ const useCalculatieStore = create((set) => ({
     { id: 9, label: "Verpakken",                           unit: "€ / uur", rate: 64.00  },
   ],
   normtijden: [
-    { id: 1, label: "Zetting 1e man", unit: "min / zetting", time: 3.5 },
-    { id: 2, label: "Zetting 2e man", unit: "min / zetting", time: 2.0 },
+    { id: 1, label: "Zetting 1e man", unit: "min / zetting", time: 8.5 },
+    { id: 2, label: "Zetting 2e man", unit: "min / zetting", time: 8.5 },
     { id: 3, label: "Laswerk",        unit: "min / meter",   time: 8.0 },
     { id: 4, label: "Boren",          unit: "min / gat",     time: 1.5 },
     { id: 5, label: "Tappen",         unit: "min / gat",     time: 2.0 },
     { id: 6, label: "Verzinken",      unit: "min / gat",     time: 1.0 },
-    { id: 7, label: "Walsen",         unit: "min / meter",   time: 4.0 },
+    { id: 7, label: "Walsen",         unit: "min / meter",   time: 16.0 },
     { id: 8, label: "Afbramen",       unit: "min / stuk",    time: 2.5 },
     { id: 9, label: "Verpakken",      unit: "min / stuk",    time: 3.0 },
   ],
