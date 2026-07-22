@@ -84,5 +84,23 @@ namespace CalculationTool.Integrations.Ridder
                 Gewicht     = data.WEIGHT,
             };
         }
+
+        public RidderLoginResponseDto Login(string gebruikersnaam, string wachtwoord)
+        {
+            var url = $"{_apiUrl.TrimEnd('/')}/TMS/login/{gebruikersnaam}/{wachtwoord}";
+            var response = _httpClient.GetAsync(url).Result;
+            var json = response.Content.ReadAsStringAsync().Result;
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var data = JsonConvert.DeserializeObject<dynamic>(json);
+
+            return new RidderLoginResponseDto
+            {
+                Id = (int)data.GebruikerID,
+                Gebruikersnaam = data.Gebruikersnaam.ToString().Trim(),
+            };
+        }
     }
 }

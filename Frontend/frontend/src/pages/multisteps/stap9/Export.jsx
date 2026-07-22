@@ -1,21 +1,29 @@
 import "./Export.css";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import Progressbar from "../../../components/progressbar/Progressbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
+import useCalculatieStore from "../../../store/calculatieStore";
 
 export default function Export() {
   const navigate = useNavigate();
+  const { type } = useParams();
+  const { document } = useCalculatieStore();
 
   return (
     <div className="export-page">
       <Progressbar />
 
       <OfferteStapLayout
-        offerte={offerte}
-        progress={{ stap: 8, totaal: 9 }}
-        onPrevious={() => navigate(`/stap9/${type}`)}
-        onNext={() => navigate("/")}
+        offerte={{
+          offertenummer: document?.quoteNumber ?? "-",
+          klant: document?.customer ?? "-",
+          verkoper: document?.salesperson ?? "-",
+          aangemaaktOp: document?.createdAt ?? "-",
+        }}
+        progress={{ stap: 9, totaal: 9 }}
+        onPrevious={() => navigate(`/stap8/${type}`)}
+        onNext={null}
       >
         <h2>Exporteren naar Ridder</h2>
         <p>Controleer de samenvatting en exporteer de calculatie naar Ridder.</p>
@@ -34,11 +42,10 @@ export default function Export() {
             <table className="export-info-table">
               <tbody>
                 {[
-                  ["Offertenummer", offerte.offertenummer],
-                  ["Klant",         offerte.klant],
-                  ["Verkoper",      offerte.verkoper],
-                  ["Aangemaakt op", offerte.aangemaaktOp],
-                  ["Stuklijsten",   offerte.stuklijsten],
+                  ["Offertenummer", document?.quoteNumber ?? "-"],
+                  ["Klant",         document?.customer ?? "-"],
+                  ["Verkoper",      document?.salesperson ?? "-"],
+                  ["Aangemaakt op", document?.createdAt ?? "-"],
                 ].map(([label, value]) => (
                   <tr key={label}>
                     <td className="info-label">{label}</td>

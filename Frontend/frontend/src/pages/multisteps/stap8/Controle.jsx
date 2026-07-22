@@ -5,6 +5,7 @@ import StatusCard from "../../../components/cards/status/StatusCard";
 import DropdownCard from "../../../components/cards/dropdown/DropdownCard";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
+import useCalculatieStore from "../../../store/calculatieStore";
 
 const sections = [
   {

@@ -10,14 +10,20 @@ const PLAAT_BREEDTE_MM = 3000;
 const PLAAT_HOOGTE_MM = 1500;
 const PLAAT_OPPERVLAKTE_M2 = (PLAAT_BREEDTE_MM / 1000) * (PLAAT_HOOGTE_MM / 1000);
 const DICHTHEID = {
-  "RVS304 zf":  7.93,
-  "RVS316 wgw": 7.98,
-  "RVS316 zf":  7.98,
-  "S235":       7.85,
-  "S355":       7.85,
-  "Aluminium":  2.70,
+  135: 7.93, // RVS304
+  137: 7.98, // RVS316
+  182: 7.98, // RVS316 GESL
+  183: 7.98, // RVS316 GESL ZF
+  143: 7.93, // RVS304 TRPL
+  134: 7.85, // Staal
+  144: 7.85, // Staal TRPL
+  139: 2.70, // Alu
+  141: 2.70, // Alu TRPL
+  138: 7.93, // Perfo RVS
+  140: 8.96, // Koper
+  142: 7.93, // Rigidized
 };
-const getDichtheid = (materiaal) => DICHTHEID[materiaal] ?? 7.85;
+const getDichtheid = (artikelgroepId) => DICHTHEID[artikelgroepId] ?? 7.85;
 
 export default function Nesting() {
   const navigate = useNavigate();
@@ -37,23 +43,23 @@ export default function Nesting() {
           const mat = materials.find((m) => m.id === f.id);
           const { width, height, holeCount } = await parseDxf(f.file);
 
-          // gewicht berekening: lengte(m) * breedte(m) * dichtheid staal * dikte(mm)
-          // dit is een benadering, in werkelijkheid afhankelijk van het materiaal
+          const oppervlakte = (width / 1000) * (height / 1000);
+          const dikte = parseInt(mat?.dikte) || 1;
+
+         // gewicht per onderdeel: oppervlakte(m²) × dikte(m) × dichtheid(kg/m³)
           const gewicht = parseFloat(
-            (
-              (width / 1000) *
-              (height / 1000) *
-              getDichtheid(mat?.materiaal) *
-              (parseInt(mat?.dikte) || 1)
-            ).toFixed(2)
+            (oppervlakte * (dikte / 1000) * getDichtheid(mat?.artikelgroepId)).toFixed(2)
           );
 
           return {
-            id: f.id,
-            materiaal: mat?.materiaal ?? "-",
+             id: f.id,
+            materiaalNaam: mat?.materiaalNaam ?? "-",
+            artikelgroepId: mat?.artikelgroepId ?? null,
+            zoekCode: mat?.zoekCode ?? null,
             dikte: mat?.dikte ?? "-",
             lengte: width,
             breedte: height,
+            oppervlakte,
             gewicht,
             aantallen: mat?.aantallen ?? 1,
             gaten: holeCount,
@@ -62,22 +68,36 @@ export default function Nesting() {
       );
       setNestingData(results);
 
-      // groepeer per materiaal + dikte, want elke combinatie heeft eigen platen nodig
-    const groepen = {};
-    results.forEach((r) => {
-      const key = `${r.materiaal}-${r.dikte}`;
-      const oppervlakteOnderdeel = (r.lengte / 1000) * (r.breedte / 1000) * r.aantallen;
-      groepen[key] = (groepen[key] || 0) + oppervlakteOnderdeel;
-    });
+      // groepeer per materiaal + dikte voor plaatberekening
+      const groepen = {};
+      results.forEach((r) => {
+        const key = `${r.materiaalNaam}-${r.dikte}`;
+        if (!groepen[key]) {
+          groepen[key] = {
+            materiaalNaam: r.materiaalNaam,
+            dikte: r.dikte,
+            artikelgroepId: r.artikelgroepId,
+            zoekCode: r.zoekCode,
+            totaleOppervlakte: 0,
+            totaalGewicht: 0,
+          };
+        }
+        groepen[key].totaleOppervlakte += r.oppervlakte * r.aantallen;
+        groepen[key].totaalGewicht += r.gewicht * r.aantallen;
+      });
 
-    // aantal platen per groep = totale oppervlakte van die groep / plaatoppervlakte, naar boven afgerond
-    const platenPerGroep = Object.entries(groepen).map(([key, oppervlakte]) => ({
-      groep: key,
-      benodigdeOppervlakte: oppervlakte,
-      aantalPlaten: Math.ceil(oppervlakte / PLAAT_OPPERVLAKTE_M2),
-    }));
+      const platenPerGroep = Object.entries(groepen).map(([key, groep]) => ({
+        groep: key,
+        materiaalNaam: groep.materiaalNaam,
+        dikte: groep.dikte,
+        artikelgroepId: groep.artikelgroepId,
+        zoekCode: groep.zoekCode,
+        totaleOppervlakte: parseFloat(groep.totaleOppervlakte.toFixed(2)),
+        totaalGewicht: parseFloat(groep.totaalGewicht.toFixed(2)),
+        aantalPlaten: Math.ceil(groep.totaleOppervlakte / PLAAT_OPPERVLAKTE_M2),
+      }));
 
-    setPlatenData(platenPerGroep);
+      setPlatenData(platenPerGroep);
       setBerekend(true);
     } catch (err) {
       setError("Er ging iets mis bij het uitlezen van de DXF bestanden.");
@@ -87,7 +107,7 @@ export default function Nesting() {
   };
 
   const totaleOppervlakte = nestingData.reduce((sum, r) =>
-    sum + (r.lengte / 1000) * (r.breedte / 1000) * r.aantallen, 0
+    sum + r.oppervlakte * r.aantallen, 0
   );
   const aantalOnderdelen = nestingData.reduce((sum, r) => sum + r.aantallen, 0);
 
@@ -123,23 +143,27 @@ export default function Nesting() {
         <thead>
           <tr>
             <th>Materiaal</th>
-            <th>Lengte</th>
-            <th>Breedte</th>
-            <th>Dikte</th>
-            <th>Gewicht</th>
-            <th>Aantallen</th>
-          </tr>
-        </thead>
-        <tbody>
-          {berekend ? (
+              <th>Lengte (mm)</th>
+              <th>Breedte (mm)</th>
+              <th>Dikte</th>
+              <th>Oppervlakte (m²)</th>
+              <th>Gewicht (kg)</th>
+              <th>Aantallen</th>
+              <th>Gaten</th>
+            </tr>
+          </thead>
+          <tbody>
+            {berekend ? (
               nestingData.map((rij) => (
                 <tr key={rij.id}>
-                  <td>{rij.materiaal}</td>
+                  <td>{rij.materiaalNaam}</td>
                   <td>{rij.lengte}</td>
                   <td>{rij.breedte}</td>
                   <td>{rij.dikte}</td>
-                  <td>{rij.gewicht}</td>
+                  <td>{rij.oppervlakte.toFixed(3)}</td>
+                  <td>{rij.gewicht.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}kg</td>
                   <td>{rij.aantallen}</td>
+                  <td>{rij.gaten}</td>
                 </tr>
               ))
             ) : (
@@ -155,7 +179,7 @@ export default function Nesting() {
         {berekend && (
           <div className="nesting-totalen">
             <span>
-              <strong>Totale oppervlakte:</strong> {totaleOppervlakte.toFixed(0)}m²
+              <strong>Totale oppervlakte:</strong> {totaleOppervlakte.toFixed(2)}m²
             </span>
             <span>
               <strong>Aantal onderdelen:</strong> {aantalOnderdelen}
@@ -169,16 +193,20 @@ export default function Nesting() {
             <table className="platen-tabel">
               <thead>
                 <tr>
-                  <th>Materiaal / dikte</th>
-                  <th>Benodigde oppervlakte</th>
-                  <th>Aantal platen ({PLAAT_BREEDTE_MM}x{PLAAT_HOOGTE_MM}mm)</th>
+                  <th>Materiaal</th>
+                  <th>Dikte</th>
+                  <th>Totale oppervlakte</th>
+                  <th>Totaal gewicht</th>
+                  <th>Aantal platen ({PLAAT_BREEDTE_MM}×{PLAAT_HOOGTE_MM}mm)</th>
                 </tr>
               </thead>
               <tbody>
                 {platenData.map((p) => (
                   <tr key={p.groep}>
-                    <td>{p.groep}</td>
-                    <td>{p.benodigdeOppervlakte.toFixed(2)}m²</td>
+                    <td>{p.materiaalNaam}</td>
+                    <td>{p.dikte}</td>
+                    <td>{p.totaleOppervlakte.toFixed(2)}m²</td>
+                    <td>{p.totaalGewicht.toLocaleString("nl-NL", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}kg</td>
                     <td>{p.aantalPlaten}</td>
                   </tr>
                 ))}
