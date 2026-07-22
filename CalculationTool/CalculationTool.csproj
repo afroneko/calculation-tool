@@ -191,6 +191,7 @@
     <Compile Include="Models\MateriaalDetailDto.cs" />
     <Compile Include="Models\MateriaalItemDto.cs" />
     <Compile Include="Models\QuoteDto.cs" />
+    <Compile Include="Models\RidderLoginResponseDto.cs" />
     <Compile Include="Models\RidderOrderResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CalculatieService.cs" />
