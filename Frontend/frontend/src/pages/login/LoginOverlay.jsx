@@ -30,9 +30,11 @@ export default function LoginOverlay({ onClose }) {
       if (data.succes) {
         login({ gebruikersnaam });
         onClose();
-        navigate("/instellingen/tarieven");
+        navigate("/instellingen/algemeen");
       } else {
         setFout(data.foutmelding);
+        setGebruikersnaam("");
+        setWachtwoord("");
       }
     } catch {
       setFout("Er ging iets mis. Probeer het opnieuw.");

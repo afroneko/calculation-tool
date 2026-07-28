@@ -59,6 +59,17 @@
     background-color: var(--secundary-blue);
 }
 
+.sidebar button.nav-link {
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar button.nav-link:hover {
+    background-color: var(--secundary-blue);
+}
+
 .sidebar-icon {
     font-size: 32px;
 }
