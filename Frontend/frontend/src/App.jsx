@@ -32,10 +32,11 @@ export default function App() {
           <Route path="/stap7/:type" element={<Calculatie />} />
           <Route path="/stap8/:type" element={<Controle />} />
           <Route path="/stap9/:type" element={<Export />} />
-          <Route path="/instellingen/algemeen" element={<Algemeen />} />
-          <Route path="/instellingen/materialen" element={<Materialen />} />
-          <Route path="/instellingen/tarieven" element={<Tarrifs />} />
-          <Route path="/instellingen/normtijden" element={<Normtijden />} />
+
+          <Route path="/instellingen/algemeen" element={<ProtectedRoute><Algemeen /></ProtectedRoute>} />
+          <Route path="/instellingen/materialen" element={<ProtectedRoute><Materialen /></ProtectedRoute>} />
+          <Route path="/instellingen/tarieven" element={<ProtectedRoute><Tarrifs /></ProtectedRoute>} />
+          <Route path="/instellingen/normtijden" element={<ProtectedRoute><Normtijden /></ProtectedRoute>} />
          
         </Route>
       </Routes>

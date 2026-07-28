@@ -14,6 +14,7 @@ namespace CalculationTool.Integrations.Ridder
         private readonly HttpClient _httpClient;
         private readonly string _apiKey = ConfigurationManager.AppSettings["RidderApiKey"];
         private readonly string _apiUrl = ConfigurationManager.AppSettings["RidderApiUrl"];
+        private readonly string _tmsApiUrl = ConfigurationManager.AppSettings["TmsApiUrl"];
 
         public RidderAdapter()
         {
@@ -87,9 +88,18 @@ namespace CalculationTool.Integrations.Ridder
 
         public RidderLoginResponseDto Login(string gebruikersnaam, string wachtwoord)
         {
-            var url = $"{_apiUrl.TrimEnd('/')}/TMS/login/{gebruikersnaam}/{wachtwoord}";
+            var url = $"{_tmsApiUrl.TrimEnd('/')}/TMS/login/{gebruikersnaam}/{wachtwoord}";
+            System.Diagnostics.Debug.WriteLine($"REQUEST URL: {url}");
             var response = _httpClient.GetAsync(url).Result;
             var json = response.Content.ReadAsStringAsync().Result;
+
+            System.Diagnostics.Debug.WriteLine($"RAW JSON: {json}");
+
+            System.Diagnostics.Debug.WriteLine("STATUS RIDDER:");
+            System.Diagnostics.Debug.WriteLine(response.StatusCode);
+
+            System.Diagnostics.Debug.WriteLine("BODY RIDDER:");
+            System.Diagnostics.Debug.WriteLine(json);
 
             if (!response.IsSuccessStatusCode)
                 return null;
@@ -98,7 +108,7 @@ namespace CalculationTool.Integrations.Ridder
 
             return new RidderLoginResponseDto
             {
-                Id = (int)data.GebruikerID,
+                GebruikerID = (int)data.GebruikerID,
                 Gebruikersnaam = data.Gebruikersnaam.ToString().Trim(),
             };
         }
