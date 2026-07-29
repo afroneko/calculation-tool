@@ -76,5 +76,25 @@ namespace CalculationTool.Controllers
             _pogingen.Remove(gebruikersnaam);
             return Ok(new LoginResultDto { Succes = true });
         }
+
+
+        [HttpPost, Route("registreer")]
+        public IHttpActionResult Registreer([FromBody] RegistratieRequestDto request)
+        {
+            if (request == null || string.IsNullOrEmpty(request.Gebruikersnaam) || string.IsNullOrEmpty(request.WachtwoordHash))
+                return BadRequest("Gebruikersnaam en wachtwoord zijn verplicht");
+
+            var result = _ridderAdapter.RegistreerGebruiker(request.Gebruikersnaam, request.WachtwoordHash);
+
+            if (!result.Succes)
+                return Ok(new RegistratieResultDto
+                {
+                    Succes = false,
+                    Foutmelding = "Registratie mislukt. Gebruikersnaam bestaat mogelijk al."
+                });
+
+            return Ok(new RegistratieResultDto { Succes = true });
+        }
+
     }
 }

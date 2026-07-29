@@ -1,0 +1,36 @@
+.gebruiker-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+}
+
+.gebruiker-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gebruiker-field label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #555;
+}
+
+.gebruiker-fout {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #c62828;
+  margin: 0;
+}
+
+.gebruiker-succes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #2e7d32;
+  margin: 0;
+}

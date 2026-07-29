@@ -112,5 +112,29 @@ namespace CalculationTool.Integrations.Ridder
                 Gebruikersnaam = data.Gebruikersnaam.ToString().Trim(),
             };
         }
+
+        public RegistratieResultDto RegistreerGebruiker(string gebruikersnaam, string wachtwoord)
+        {
+            var url = $"{_tmsApiUrl}/TMS/login";
+            var body = new StringContent(
+                JsonConvert.SerializeObject(new
+                {
+                    Gebruikersnaam = gebruikersnaam,
+                    WachtwoordHash = wachtwoord,
+                }),
+                System.Text.Encoding.UTF8,
+                "application/json"
+            );
+
+            var response = _httpClient.PostAsync(url, body).Result;
+            var json = response.Content.ReadAsStringAsync().Result;
+
+            System.Diagnostics.Debug.WriteLine($"REGISTRATIE URL: {url}");
+            System.Diagnostics.Debug.WriteLine($"REGISTRATIE STATUS: {response.StatusCode}");
+            System.Diagnostics.Debug.WriteLine($"REGISTRATIE BODY: {json}");
+
+            return new RegistratieResultDto { Succes = response.IsSuccessStatusCode };
+        }
+
     }
 }
