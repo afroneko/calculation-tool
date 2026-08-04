@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useQuote } from "../../../context/Context";
 import { getQuote, getOrder } from "../../../services/api";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
 
 export default function OfferteOphalen() {
   const navigate = useNavigate();
@@ -37,6 +38,18 @@ export default function OfferteOphalen() {
           setLoading(false);
         }
     };
+
+    const [fout, setFout] = useState(null);
+    const store = useCalculatieStore();
+    const handleNext = () => {
+    const validatie = valideerStap(1, store);
+      if (!validatie.geldig) {
+        setError(validatie.fout);
+        return;
+      }
+      navigate(`/stap2/${type}`);
+    };
+
   return (
     <div className="page">
       <h1>{type === "offerte" ? "Offerte" : "Order"} Ophalen</h1>
@@ -68,8 +81,8 @@ export default function OfferteOphalen() {
           />
           <ProgressCard
           currentStep={0}
-          totalSteps={9}
-          onNext={() => navigate(`/stap2/${type}`)}
+          totalSteps={8}
+          onNext={handleNext}
           showPrevious={false}
           />
         </div>

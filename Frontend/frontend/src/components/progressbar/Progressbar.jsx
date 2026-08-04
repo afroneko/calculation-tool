@@ -47,12 +47,6 @@ const steps = [
   },
   {
     slug: "stap8",
-    title: "Controle",
-    subtitle: "Validatie",
-    icon: "material-symbols-light:data-check-rounded",
-  },
-  {
-    slug: "stap9",
     title: "Export",
     subtitle: "Ridder, mail, pdf",
     icon: "material-symbols-light:upload",

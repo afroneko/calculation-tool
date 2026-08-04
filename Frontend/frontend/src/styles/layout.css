@@ -48,6 +48,16 @@
   align-self: start;
 }
 
+.stap-fout {
+  font-size: 13px;
+  color: #c62828;
+  background: #fdecea;
+  border: 1px solid #ef9a9a;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+}
+
 
 .settings-layout {
   display: grid;

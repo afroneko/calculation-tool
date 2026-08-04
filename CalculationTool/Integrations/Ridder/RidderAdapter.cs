@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
+using BC = BCrypt.Net.BCrypt;
 
 namespace CalculationTool.Integrations.Ridder
 {
@@ -88,7 +89,7 @@ namespace CalculationTool.Integrations.Ridder
 
         public RidderLoginResponseDto Login(string gebruikersnaam, string wachtwoord)
         {
-            var url = $"{_tmsApiUrl.TrimEnd('/')}/TMS/login/{gebruikersnaam}/{wachtwoord}";
+            var url = $"{_tmsApiUrl}/TMS/login/{gebruikersnaam}/{Uri.EscapeDataString(wachtwoord)}";
             System.Diagnostics.Debug.WriteLine($"REQUEST URL: {url}");
             var response = _httpClient.GetAsync(url).Result;
             var json = response.Content.ReadAsStringAsync().Result;
@@ -104,7 +105,13 @@ namespace CalculationTool.Integrations.Ridder
             if (!response.IsSuccessStatusCode)
                 return null;
 
-            var data = JsonConvert.DeserializeObject<dynamic>(json);
+            var data = JsonConvert.DeserializeObject<RidderLoginResponseDto>(json);
+
+            if (data == null || string.IsNullOrEmpty(data.WachtwoordHash))
+                return null;
+
+            if (!BCrypt.Net.BCrypt.Verify(wachtwoord, data.WachtwoordHash))
+                return null;
 
             return new RidderLoginResponseDto
             {
@@ -115,12 +122,14 @@ namespace CalculationTool.Integrations.Ridder
 
         public RegistratieResultDto RegistreerGebruiker(string gebruikersnaam, string wachtwoord)
         {
+            var wachtwoordHash = BC.HashPassword(wachtwoord);
+            System.Diagnostics.Debug.WriteLine($"Password: {wachtwoord}");
             var url = $"{_tmsApiUrl}/TMS/login";
             var body = new StringContent(
                 JsonConvert.SerializeObject(new
                 {
                     Gebruikersnaam = gebruikersnaam,
-                    WachtwoordHash = wachtwoord,
+                    WachtwoordHash = wachtwoordHash,
                 }),
                 System.Text.Encoding.UTF8,
                 "application/json"

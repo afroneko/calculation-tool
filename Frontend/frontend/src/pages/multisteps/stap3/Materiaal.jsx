@@ -2,8 +2,9 @@ import "./Materiaal.css";
 import Progressbar from "../../../components/progressbar/Progressbar";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
 
 const DIKTES = ["1mm", "2mm", "3mm", "4mm", "5mm", "6mm", "8mm", "10mm", "12mm", "15mm", "20mm"];
 
@@ -89,6 +90,7 @@ const MATERIALEN = [
   { naam: "MESSING",               materiaalnr: 1611, increment: 4, artikelgroepCode: 1785, artikelgroepId: 140, zoekCode: "messing" },
 ];
 
+
 export default function Materiaal()  {
   const { files, materials, setMaterials, updateMaterial, document } = useCalculatieStore();
   const navigate = useNavigate();
@@ -115,6 +117,20 @@ export default function Materiaal()  {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
+  const [fout, setFout] = useState(null);
+  const store = useCalculatieStore();
+  const handleNext = () => {
+    const validatie = valideerStap(3, store);
+
+    if (!validatie.geldig) {
+      setFout(validatie.fout);
+      return;
+    }
+
+    setFout(null);
+    navigate(`/stap4/${type}`);
+  };
+
      return (
         <div className="materiaal-page">
           <Progressbar />
@@ -128,9 +144,9 @@ export default function Materiaal()  {
           }}
           progress={{ stap: 2, totaal: 9 }}
           onPrevious={() => navigate(`/stap2/${type}`)}
-          onNext={() => navigate(`/stap4/${type}`)}
+          onNext={handleNext}
         >
-          
+
           <h2>Materiaal selecteren</h2>
           <p>selecteer het juiste materiaal, dikte en aantallen.</p>
 
@@ -201,6 +217,8 @@ export default function Materiaal()  {
             ))}
           </tbody>
         </table>
+
+        {fout && <p className="stap-fout">{fout}</p>}
          
         </OfferteStapLayout>
         </div>

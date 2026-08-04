@@ -2,8 +2,10 @@ import "./Bewerkingen.css";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import Progressbar from "../../../components/progressbar/Progressbar";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
+import ConfirmModal from "../../../components/modal/ConfirmModal";
 
 const BEWERKINGS_VELDEN = [
   { key: "zet1eman",          label: "zet 1e man",            type: "number" },
@@ -46,6 +48,32 @@ export default function Bewerkingen() {
     return operations.reduce((sum, o) => sum + (o[veld] || 0), 0) || null;
   };
 
+  const [modal, setModal] = useState(null);
+  const [fout, setFout] = useState(null);
+  const store = useCalculatieStore();
+  const handleNext = () => {
+  const validatie = valideerStap(5, store);
+
+  if (!validatie.geldig) {
+    setFout(validatie.fout);
+    return;
+  }
+
+  if (validatie.waarschuwing) {
+    setModal({
+      message: validatie.waarschuwing,
+      onConfirm: () => {
+        setModal(null);
+        navigate(`/stap6/${type}`);
+      },
+    });
+    return;
+  }
+
+  setFout(null);
+  navigate(`/stap6/${type}`);
+};
+
   return (
     <div className="bewerkingen-page">
       <Progressbar />
@@ -59,7 +87,7 @@ export default function Bewerkingen() {
         }}
         progress={{ stap: 4, totaal: 9 }}
         onPrevious={() => navigate(`/stap4/${type}`)}
-        onNext={() => navigate(`/stap6/${type}`)}
+        onNext={handleNext}
       >
         <h2>Bewerkingen</h2>
         <p>Selecteer de juiste tijden en bewerkingen</p>
@@ -117,6 +145,15 @@ export default function Bewerkingen() {
             </tr>
           </tfoot>
         </table>
+
+        {modal && (
+          <ConfirmModal
+            title="Weet je het zeker?"
+            message={modal.message}
+            onConfirm={modal.onConfirm}
+            onCancel={() => setModal(null)}
+          />
+        )} 
       </OfferteStapLayout>
     </div>
   );
