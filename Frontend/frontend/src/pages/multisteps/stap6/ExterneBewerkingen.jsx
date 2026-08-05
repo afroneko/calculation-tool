@@ -84,7 +84,7 @@ export default function ExterneBewerkingen() {
           verkoper: document?.salesperson ?? "-",
           aangemaaktOp: document?.createdAt ?? "-",
         }}
-        progress={{ stap: 5, totaal: 9 }}
+        progress={{ stap: 5, totaal: 8 }}
         onPrevious={() => navigate(`/stap5/${type}`)}
         onNext={handleNext}
       >

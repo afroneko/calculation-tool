@@ -137,7 +137,7 @@ export default function Nesting() {
           verkoper: document?.salesperson ?? "-",
           aangemaaktOp: document?.createdAt ?? "-",
         }}
-        progress={{ stap: 3, totaal: 9 }}
+        progress={{ stap: 3, totaal: 8 }}
         onPrevious={() => navigate(`/stap3/${type}`)}
         onNext={handleNext}
       >

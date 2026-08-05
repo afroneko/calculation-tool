@@ -142,7 +142,7 @@ export default function Materiaal()  {
             verkoper: document?.salesperson ?? "-",
             aangemaaktOp: document?.createdAt ?? "-",
           }}
-          progress={{ stap: 2, totaal: 9 }}
+          progress={{ stap: 2, totaal: 8 }}
           onPrevious={() => navigate(`/stap2/${type}`)}
           onNext={handleNext}
         >

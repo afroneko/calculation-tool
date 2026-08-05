@@ -21,8 +21,8 @@ export default function Export() {
           verkoper: document?.salesperson ?? "-",
           aangemaaktOp: document?.createdAt ?? "-",
         }}
-        progress={{ stap: 9, totaal: 9 }}
-        onPrevious={() => navigate(`/stap8/${type}`)}
+        progress={{ stap: 8, totaal: 8 }}
+        onPrevious={() => navigate(`/stap7/${type}`)}
         onNext={null}
       >
         <h2>Exporteren naar Ridder</h2>
