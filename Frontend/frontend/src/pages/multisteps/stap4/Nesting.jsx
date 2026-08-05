@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { parseDxf } from "../../../services/parseDxf";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
 
 const PLAAT_BREEDTE_MM = 3000;
 const PLAAT_HOOGTE_MM = 1500;
@@ -111,6 +112,20 @@ export default function Nesting() {
   );
   const aantalOnderdelen = nestingData.reduce((sum, r) => sum + r.aantallen, 0);
 
+  const [fout, setFout] = useState(null);
+  const store = useCalculatieStore();
+  const handleNext = () => {
+    const validatie = valideerStap(4, store);
+
+    if (!validatie.geldig) {
+      setFout(validatie.fout);
+      return;
+    }
+
+    setFout(null);
+    navigate(`/stap5/${type}`);
+  };
+
   return (
     <div className="nesting-page">
       <Progressbar />
@@ -122,9 +137,9 @@ export default function Nesting() {
           verkoper: document?.salesperson ?? "-",
           aangemaaktOp: document?.createdAt ?? "-",
         }}
-        progress={{ stap: 3, totaal: 9 }}
+        progress={{ stap: 3, totaal: 8 }}
         onPrevious={() => navigate(`/stap3/${type}`)}
-        onNext={() => navigate(`/stap5/${type}`)}
+        onNext={handleNext}
       >
 
       <div className="nesting-header">
@@ -214,6 +229,8 @@ export default function Nesting() {
             </table>
           </div>
         )}
+
+        {fout && <p className="stap-fout">{fout}</p>}
 
       </OfferteStapLayout>
     </div>

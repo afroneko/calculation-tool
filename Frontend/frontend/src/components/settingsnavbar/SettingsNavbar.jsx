@@ -7,6 +7,7 @@ const navItems = [
   { label: "Materialen", sublabel: "Materiaalsoorten en prijzen",   path: "/instellingen/materialen", icon: "material-symbols-light:devices-fold-outline" },
   { label: "Tarieven",   sublabel: "Machine en bewerkingstarieven", path: "/instellingen/tarieven",   icon: "ant-design:stock-outlined" },
   { label: "Normtijden", sublabel: "Tijden per bewerking",          path: "/instellingen/normtijden", icon: "iconamoon:clock-light" },
+  { label: "Gebruikers",  sublabel: "Gebruikersbeheer", path: "/instellingen/gebruikers", icon: "mdi:account-group-outline" },
 ];
 
 export default function SettingsNavbar() {

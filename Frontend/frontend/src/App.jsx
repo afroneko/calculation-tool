@@ -15,6 +15,8 @@ import Algemeen from "./pages/settings/algemeen/Algemeen";
 import Materialen from "./pages/settings/materialen/Materialen";
 import Tarrifs from "./pages/settings/tarieven/Tarrifs";
 import Normtijden from "./pages/settings/normtijden/Normtijden";
+import Gebruikers from "./pages/settings/gebruikers/Gebruikers";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   return (
@@ -37,6 +39,7 @@ export default function App() {
           <Route path="/instellingen/materialen" element={<ProtectedRoute><Materialen /></ProtectedRoute>} />
           <Route path="/instellingen/tarieven" element={<ProtectedRoute><Tarrifs /></ProtectedRoute>} />
           <Route path="/instellingen/normtijden" element={<ProtectedRoute><Normtijden /></ProtectedRoute>} />
+          <Route path="/instellingen/gebruikers" element={<ProtectedRoute><Gebruikers /></ProtectedRoute>} />
          
         </Route>
       </Routes>

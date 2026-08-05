@@ -5,6 +5,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import { useEffect, useState } from "react";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
 
 
 
@@ -85,7 +86,7 @@ export default function Kostenoverzicht() {
           verkoper: document?.salesperson ?? "-",
           aangemaaktOp: document?.createdAt ?? "-",
         }}
-        progress={{ stap: 6, totaal: 9 }}
+        progress={{ stap: 6, totaal: 8 }}
         onPrevious={() => navigate(`/stap6/${type}`)}
         onNext={() => navigate(`/stap8/${type}`)}
       >

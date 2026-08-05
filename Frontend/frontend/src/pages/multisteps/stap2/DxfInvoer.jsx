@@ -1,10 +1,11 @@
 import "./DxfInvoer.css";
 import Progressbar from "../../../components/progressbar/Progressbar";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
-import { useNavigate, useParams } from "react-router-dom";
-import { useRef } from "react";
+import { useNavigate, useParams} from "react-router-dom";
+import { useRef, useState } from "react";
 import { Icon } from "@iconify/react";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
 
 export default function DxfInvoer() {
 const navigate = useNavigate();
@@ -35,6 +36,20 @@ const handleFiles = (selectedFiles) => {
     handleFiles(e.dataTransfer.files);
   };
 
+  const [fout, setFout] = useState(null);
+  const store = useCalculatieStore();
+  const handleNext = () => {
+    const validatie = valideerStap(2, store);
+
+    if (!validatie.geldig) {
+      setFout(validatie.fout);
+      return;
+    }
+
+    setFout(null);
+    navigate(`/stap3/${type}`);
+  };
+
   return (
     <div className="dxf-invoer-page">
       <Progressbar />
@@ -46,10 +61,12 @@ const handleFiles = (selectedFiles) => {
         verkoper: document?.salesperson ?? "-",
         aangemaaktOp: document?.createdAt ?? "-",
       }}
-      progress={{ stap: 1, totaal: 9 }}
+      progress={{ stap: 1, totaal: 8 }}
       onPrevious={() => navigate(`/stap1/${type}`)}
-      onNext={() => navigate(`/stap3/${type}`)}
+      onNext={handleNext}
     >
+
+      {fout && <p className="stap-fout">{fout}</p>}
       
       <h2>DXF bestanden laden</h2>
       <p>Upload de DXF bestanden van de onderdelen</p>

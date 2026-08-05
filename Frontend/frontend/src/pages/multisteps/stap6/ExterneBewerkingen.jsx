@@ -2,9 +2,11 @@ import "./ExterneBewerkingen.css";
 import OfferteStapLayout from "../../../layout/OfferteStapLayout";
 import { useNavigate, useParams } from "react-router-dom";
 import Progressbar from "../../../components/progressbar/Progressbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Icon } from "@iconify/react";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
+import ConfirmModal from "../../../components/modal/ConfirmModal";
 
 const EXTERNAL_OPERATIONS = [
   { key: "zwartcoaten",    label: "Zwartcoaten",    type: "boolean" },
@@ -45,6 +47,32 @@ export default function ExterneBewerkingen() {
     return externalOperations.reduce((sum, o) => sum + (o[field] || 0), 0) || null;
   };
 
+  const [modal, setModal] = useState(null);
+  const [fout, setFout] = useState(null);
+  const store = useCalculatieStore();
+  const handleNext = () => {
+    const validatie = valideerStap(6, store);
+
+    if (!validatie.geldig) {
+      setFout(validatie.fout);
+      return;
+    }
+
+    if (validatie.waarschuwing) {
+      setModal({
+        message: validatie.waarschuwing,
+        onConfirm: () => {
+          setModal(null);
+          navigate(`/stap7/${type}`);
+        },
+      });
+      return;
+    }
+
+    setFout(null);
+    navigate(`/stap7/${type}`);
+  };
+
   return (
     <div className="externe-bewerkingen-page">
       <Progressbar />
@@ -56,9 +84,9 @@ export default function ExterneBewerkingen() {
           verkoper: document?.salesperson ?? "-",
           aangemaaktOp: document?.createdAt ?? "-",
         }}
-        progress={{ stap: 5, totaal: 9 }}
+        progress={{ stap: 5, totaal: 8 }}
         onPrevious={() => navigate(`/stap5/${type}`)}
-        onNext={() => navigate(`/stap7/${type}`)}
+        onNext={handleNext}
       >
         <h2>Externe bewerkingen</h2>
         <p>Hier kunnen externe bewerkingen worden toegevoegd</p>
@@ -116,6 +144,15 @@ export default function ExterneBewerkingen() {
             </tr>
           </tfoot>
         </table>
+
+        {modal && (
+          <ConfirmModal
+            title="Weet je het zeker?"
+            message={modal.message}
+            onConfirm={modal.onConfirm}
+            onCancel={() => setModal(null)}
+          />
+        )}
       </OfferteStapLayout>
     </div>
   );
