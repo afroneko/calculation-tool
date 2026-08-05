@@ -4,11 +4,16 @@ import Progressbar from "../../../components/progressbar/Progressbar";
 import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import useCalculatieStore from "../../../store/calculatieStore";
+import { genereerPdf } from "../../../services/pdfService";
 
 export default function Export() {
   const navigate = useNavigate();
   const { type } = useParams();
-  const { document } = useCalculatieStore();
+  const { document, nestingData, operations, kostenposten, totaal } = useCalculatieStore();
+
+  const handleDownloadPdf = () => {
+    genereerPdf(document, nestingData, operations, kostenposten, totaal);
+  };
 
   return (
     <div className="export-page">
@@ -59,7 +64,7 @@ export default function Export() {
           <div className="export-actions">
             <div className="export-actions-group">
               <p className="export-actions-title">Voorblad</p>
-              <button className="export-action-button">
+              <button className="export-action-button" onClick={handleDownloadPdf}>
                 Downloaden als pdf
                 <Icon icon="pepicons-pencil:file" width={18} height={18} />
               </button>

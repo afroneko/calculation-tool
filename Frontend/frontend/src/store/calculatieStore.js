@@ -9,6 +9,8 @@ const useCalculatieStore = create((set) => ({
   operations: [], //bewerkingen per bestand (zet, walsen, lassen, etc.)
   externalOperations: [],//externe bewerkingen per bestand (coaten, graveren, etc.)
   platenData: [],// plaatmaten (voor nu even 1)
+  kostenposten: [],
+  totaal: 0,
 
     // instellingen
   tarieven: [
@@ -34,17 +36,14 @@ const useCalculatieStore = create((set) => ({
     { id: 9, label: "Verpakken",      unit: "min / stuk",    time: 3.0 },
   ],
 
+  setKostenposten: (kostenposten) => set({ kostenposten }),
+  setTotaal: (totaal) => set({ totaal }),
   setTarieven: (tarieven) => set({ tarieven }),
   setNormtijden: (normtijden) => set({ normtijden }),
-
   setType: (type) => set({ type }), 
-
   setDocument: (document) => set ({ document}),
-  
-//platen
   setPlatenData: (platenData) => set({ platenData }),
 
-  // files
   setFiles: (files) => set({ files }),
   addFile: (file) => set((state) => ({ files: [...state.files, file] })),
   removeFile: (id) => set((state) => ({ files: state.files.filter((f) => f.id !== id) })),
@@ -84,7 +83,11 @@ const useCalculatieStore = create((set) => ({
     nestingData: [], 
     operations: [],
     externalOperations: [],
-    platenData: [],}),
+    platenData: [],
+    kostenposten: [],
+    totaal: 0,
+  }),
+    
 }));
 
 export default useCalculatieStore;
