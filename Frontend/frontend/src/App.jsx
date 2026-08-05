@@ -32,8 +32,8 @@ export default function App() {
           <Route path="/stap5/:type" element={<Bewerkingen />} />
           <Route path="/stap6/:type" element={<ExterneBewerkingen />} />
           <Route path="/stap7/:type" element={<Calculatie />} />
-          <Route path="/stap8/:type" element={<Controle />} />
-          <Route path="/stap9/:type" element={<Export />} />
+          <Route path="/stap9/:type" element={<Controle />} />
+          <Route path="/stap8/:type" element={<Export />} />
 
           <Route path="/instellingen/algemeen" element={<ProtectedRoute><Algemeen /></ProtectedRoute>} />
           <Route path="/instellingen/materialen" element={<ProtectedRoute><Materialen /></ProtectedRoute>} />

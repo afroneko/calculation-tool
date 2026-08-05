@@ -16,10 +16,7 @@ export default function Kostenoverzicht() {
   const navigate = useNavigate();
   const { type } = useParams();
 
-  const { nestingData, materials, operations, externalOperations, tarieven, normtijden, document } = useCalculatieStore();
-
-  const [kostenposten, setKostenposten] = useState([]);
-  const [totaal, setTotaal] = useState(0);
+  const { nestingData, materials, operations, externalOperations, tarieven, normtijden, document, kostenposten, totaal, setKostenposten, setTotaal } = useCalculatieStore();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -58,12 +55,15 @@ export default function Kostenoverzicht() {
         });
 
         if (!response.ok) throw new Error("Calculatie mislukt");
+        console.log(response.status);
 
         const data = await response.json();
+        console.log(data);
         setKostenposten(data.kostenposten);
         setTotaal(data.totaal);
       } catch (err) {
-        setError("Er ging iets mis bij het berekenen van de kosten.");
+        console.error(err);
+        setError(err.message);
       } finally {
         setLoading(false);
       }
@@ -71,6 +71,7 @@ export default function Kostenoverzicht() {
 
     if (nestingData.length > 0) fetchCalculatie();
   }, [nestingData, materials, operations, externalOperations]);
+
 
   if (loading) return <p className="kosten-laden">Kosten berekenen...</p>;
   if (error)   return <p className="kosten-fout">{error}</p>;
