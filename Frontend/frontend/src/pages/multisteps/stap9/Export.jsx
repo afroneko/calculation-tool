@@ -5,6 +5,24 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import useCalculatieStore from "../../../store/calculatieStore";
 import { genereerPdf } from "../../../services/pdfService";
+import { exportNaarRidder } from "../../../services/exportService";
+
+const [exportLoading, setExportLoading] = useState(false);
+const [exportFout, setExportFout] = useState(null);
+const [exportSucces, setExportSucces] = useState(false);
+
+const handleExport = async () => {
+  setExportLoading(true);
+  setExportFout(null);
+  try {
+    await exportNaarRidder(document, nestingData, operations, externalOperations, kostenposten, totaal);
+    setExportSucces(true);
+  } catch {
+    setExportFout("Export mislukt. Probeer het opnieuw.");
+  } finally {
+    setExportLoading(false);
+  }
+};
 
 export default function Export() {
   const navigate = useNavigate();
@@ -74,10 +92,17 @@ export default function Export() {
               </button>
             </div>
 
+            {exportFout && <p className="export-fout">{exportFout}</p>}
+            {exportSucces && <p className="export-succes">Export succesvol verstuurd naar Ridder!</p>}
+
             <div className="export-actions-group">
               <p className="export-actions-title">Calculatie</p>
-              <button className="export-action-button export-action-button--primary">
-                Exporteren naar Ridder
+              <button
+                className="export-action-button export-action-button--primary"
+                onClick={handleExport}
+                disabled={exportLoading}
+              >
+                {exportLoading ? "Exporteren..." : "Exporteren naar Ridder"}
                 <Icon icon="mdi:export" width={18} height={18} />
               </button>
             </div>

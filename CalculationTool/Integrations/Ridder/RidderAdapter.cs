@@ -145,5 +145,26 @@ namespace CalculationTool.Integrations.Ridder
             return new RegistratieResultDto { Succes = response.IsSuccessStatusCode };
         }
 
+        public bool ExporteerNaarRidder(ExportRequestDto request)
+        {
+            // TODO: vervang door echte Ridder endpoint zodra beschikbaar
+            var url = $"{_apiUrl.TrimEnd('/')}/PLACEHOLDER_ENDPOINT";
+
+            var body = new StringContent(
+                JsonConvert.SerializeObject(request),
+                System.Text.Encoding.UTF8,
+                "application/json"
+            );
+
+            System.Diagnostics.Debug.WriteLine($"EXPORT URL: {url}");
+            System.Diagnostics.Debug.WriteLine($"EXPORT BODY: {JsonConvert.SerializeObject(request)}");
+
+            var response = _httpClient.PostAsync(url, body).Result;
+
+            System.Diagnostics.Debug.WriteLine($"EXPORT STATUS: {response.StatusCode}");
+
+            return response.IsSuccessStatusCode;
+        }
+
     }
 }
