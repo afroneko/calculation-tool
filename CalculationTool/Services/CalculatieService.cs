@@ -206,23 +206,7 @@ namespace CalculationTool.Services
             var detail = _ridderAdapter.GetMateriaalDetail(artikelgroepId, zoekcode, dikte);
             return detail.PrijsPerKg;
         }
-
-        // placeholder tarieven totdat Ridder integratie klaar is
-        private Dictionary<string, double> GetPlaceholderTarieven()
-        {
-            return new Dictionary<string, double>
-            {
-                { "Lasersnijden",                        2.63  },
-                { "W.v.b",                               91.00 },
-                { "Zetwerk machine + 1e man",            85.00 },
-                { "Plaatwerk 2e man",                    75.00 },
-                { "Zaagwerk/lassen/beitsen/schuren",     75.00 },
-                { "Boren/tappen/gaten verzinken",        70.00 },
-                { "Uitbreken/afbramen/trommelontbramen", 64.00 },
-                { "Walsen",                              136.50 },
-                { "Verpakken",                           64.00 },
-            };
-        }
+       
 
         // placeholder normtijden totdat Ridder integratie klaar is
         private Dictionary<string, double> GetNormtijden()
@@ -241,7 +225,6 @@ namespace CalculationTool.Services
             };
         }
 
-        // fix: GetNormtijden was verkeerd aangeroepen, deze wrapper lost dat op
-        private Dictionary<string, double> GetPlaceholderNormtijden() => GetNormtijden();
+   
     }
 }

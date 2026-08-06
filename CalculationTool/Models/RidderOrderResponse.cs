@@ -9,8 +9,8 @@ public class RidderOrderResponse
 
 public class RidderOrder
 {
+    public int OrderId { get; set; }
     public int OrderNumber { get; set; }
-
     public string SalesPerson { get; set; }
     public DateTime DateCreated { get; set; }
 

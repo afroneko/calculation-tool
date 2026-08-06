@@ -74,6 +74,7 @@ export default function OfferteOphalen() {
           <DetailCard
             numberLabel={label}
             title={title}
+            id={document?.quoteId}
             number={document?.quoteNumber}
             customer={document?.customer}
             salesperson={document?.salesperson}

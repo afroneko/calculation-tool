@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 const useCalculatieStore = create((set) => ({
   type: null, //Ofwel offerte of order
+  documentId: null, //Het id van de offerte/order in de database
   document: null,
   files: [],  //De geüploade DXF bestanden
   materials: [],  //Bestanden aangevuld met materiaal/ditke enz. (stap 2)
@@ -41,6 +42,7 @@ const useCalculatieStore = create((set) => ({
   setTarieven: (tarieven) => set({ tarieven }),
   setNormtijden: (normtijden) => set({ normtijden }),
   setType: (type) => set({ type }), 
+  setDocumentId: (documentId) => set({ documentId }),
   setDocument: (document) => set ({ document}),
   setPlatenData: (platenData) => set({ platenData }),
 
@@ -78,6 +80,7 @@ const useCalculatieStore = create((set) => ({
   reset: () => set({ 
     type: null, 
     document: null,
+    documentId: null,
     files: [], 
     materials: [], 
     nestingData: [], 

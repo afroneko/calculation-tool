@@ -4,6 +4,7 @@ namespace CalculationTool.Models
 {
     public class ExportRequestDto
     {
+        public int OrderId { get; set; }
         public List<VerkoopRegelDto> Verkoopregels { get; set; }
         public List<KostenpostDto> Kostenposten { get; set; }
         public double TotaalPrijs { get; set; }

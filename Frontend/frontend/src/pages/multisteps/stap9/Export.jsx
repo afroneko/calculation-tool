@@ -6,32 +6,39 @@ import { Icon } from "@iconify/react";
 import useCalculatieStore from "../../../store/calculatieStore";
 import { genereerPdf } from "../../../services/pdfService";
 import { exportNaarRidder } from "../../../services/exportService";
+import { openMail } from "../../../services/mailService";
+import { useState } from "react";
 
-const [exportLoading, setExportLoading] = useState(false);
-const [exportFout, setExportFout] = useState(null);
-const [exportSucces, setExportSucces] = useState(false);
 
-const handleExport = async () => {
-  setExportLoading(true);
-  setExportFout(null);
-  try {
-    await exportNaarRidder(document, nestingData, operations, externalOperations, kostenposten, totaal);
-    setExportSucces(true);
-  } catch {
-    setExportFout("Export mislukt. Probeer het opnieuw.");
-  } finally {
-    setExportLoading(false);
-  }
-};
 
 export default function Export() {
   const navigate = useNavigate();
   const { type } = useParams();
-  const { document, nestingData, operations, kostenposten, totaal } = useCalculatieStore();
+  const { documentId, document, nestingData, operations, externalOperations, kostenposten, totaal, files, materials } = useCalculatieStore();
+  const [exportLoading, setExportLoading] = useState(false);
+  const [exportFout, setExportFout] = useState(null);
+  const [exportSucces, setExportSucces] = useState(false);
+
+  const handleExport = async () => {
+    setExportLoading(true);
+    setExportFout(null);
+    try {
+      await exportNaarRidder(document.orderId, document, nestingData, operations, externalOperations, kostenposten, totaal, files, materials);
+      setExportSucces(true);
+    } catch (err){
+      console.log(err);
+      setExportFout("Export mislukt. Probeer het opnieuw.");
+    } finally {
+      setExportLoading(false);
+    }
+  };
 
   const handleDownloadPdf = () => {
     genereerPdf(document, nestingData, operations, kostenposten, totaal);
   };
+  const handleMail = () => {
+    openMail(document, nestingData, operations, kostenposten, totaal);
+  }
 
   return (
     <div className="export-page">
@@ -39,6 +46,7 @@ export default function Export() {
 
       <OfferteStapLayout
         offerte={{
+          id: document?.quoteId ?? "-",
           offertenummer: document?.quoteNumber ?? "-",
           klant: document?.customer ?? "-",
           verkoper: document?.salesperson ?? "-",
@@ -65,6 +73,7 @@ export default function Export() {
             <table className="export-info-table">
               <tbody>
                 {[
+                  ["Id",            document?.quoteId ?? "-"],
                   ["Offertenummer", document?.quoteNumber ?? "-"],
                   ["Klant",         document?.customer ?? "-"],
                   ["Verkoper",      document?.salesperson ?? "-"],
@@ -86,7 +95,7 @@ export default function Export() {
                 Downloaden als pdf
                 <Icon icon="pepicons-pencil:file" width={18} height={18} />
               </button>
-              <button className="export-action-button">
+              <button className="export-action-button" onClick={handleMail}>
                 Doormailen
                 <Icon icon="mdi:email-outline" width={18} height={18} />
               </button>
@@ -94,6 +103,7 @@ export default function Export() {
 
             {exportFout && <p className="export-fout">{exportFout}</p>}
             {exportSucces && <p className="export-succes">Export succesvol verstuurd naar Ridder!</p>}
+
 
             <div className="export-actions-group">
               <p className="export-actions-title">Calculatie</p>

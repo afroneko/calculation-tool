@@ -28,6 +28,7 @@ export default function Kostenoverzicht() {
         console.log("materials:", materials.map((m) => ({
               id: m.id,
               naam: m.naam,
+              materiaalId: m.materiaalnr,
               artikelgroepId: m.artikelgroepId,  // dit meesturen
               zoekCode: m.zoekCode,
               dikte: m.dikte,
@@ -42,6 +43,7 @@ export default function Kostenoverzicht() {
             materials: materials.map((m) => ({
               id: m.id,
               naam: m.naam,
+              materiaalId: m.materiaalnr,
               artikelgroepId: m.artikelgroepId,
               zoekCode: m.zoekCode,
               dikte: m.dikte,

@@ -24,7 +24,10 @@ namespace CalculationTool.Controllers
             if (request.Verkoopregels == null || request.Verkoopregels.Count == 0)
                 return BadRequest("Geen verkoopregels gevonden");
 
-            var succes = _ridderAdapter.ExporteerNaarRidder(request);
+            System.Diagnostics.Debug.WriteLine($"REQUEST ORDER ID: {request.OrderId}");
+            System.Diagnostics.Debug.WriteLine($"AANTAL VERKOOPREGELS: {request.Verkoopregels.Count}");
+
+            var succes = _ridderAdapter.ExporteerNaarRidder(request, request.OrderId);
 
             if (!succes)
                 return InternalServerError(new System.Exception("Export naar Ridder mislukt"));

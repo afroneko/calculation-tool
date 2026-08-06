@@ -11,7 +11,7 @@ export default function DxfInvoer() {
 const navigate = useNavigate();
 const { type } = useParams();
 const inputRef = useRef(null);
-const { files, addFile, removeFile, setType, document } = useCalculatieStore();
+const { files, addFile, removeFile, setType, document, documentId } = useCalculatieStore();
 
 const handleFiles = (selectedFiles) => {
     setType(type);
@@ -56,6 +56,7 @@ const handleFiles = (selectedFiles) => {
 
        <OfferteStapLayout
       offerte={{
+        id: documentId ?? "-",
         offertenummer: document?.quoteNumber ?? "-",
         klant: document?.customer ?? "-",
         verkoper: document?.salesperson ?? "-",

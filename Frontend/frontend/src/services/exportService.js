@@ -1,11 +1,13 @@
-export const exportNaarRidder = async (document, nestingData, operations, externalOperations, kostenposten, totaal) => {
+export const exportNaarRidder = async (documentId, document, nestingData, operations, externalOperations, kostenposten, totaal, files, materials) => {
   const verkoopregels = nestingData.map((r) => {
     const bewerking = operations.find((o) => o.id === r.id) ?? {};
     const extern = externalOperations.find((o) => o.id === r.id) ?? {};
+    const materiaal = materials.find((m) => m.id === r.id) ?? {};
+    const file = files.find((f) => f.id === r.id) ?? {};
 
     return {
-      dxfNaam:              r.naam,
-      materiaalnr:          r.materiaalnr,
+      dxfNaam:              file.naam,
+      materiaalnr:          materiaal.materiaalnr ??0,
       materiaalOmschrijving: r.materiaalNaam,
       dikte:                r.dikte,
       aantallen:            r.aantallen,
@@ -30,22 +32,22 @@ export const exportNaarRidder = async (document, nestingData, operations, extern
   });
 
   const body = {
-    orderInfo: {
-      orderNummer:  document?.quoteNumber ?? "-",
-      klant:        document?.customer ?? "-",
-      verkoper:     document?.salesperson ?? "-",
-      aangemaaktOp: document?.createdAt ?? "-",
-    },
+    orderId: document?.orderId ?? 0,
     verkoopregels,
     kostenposten,
     totaalPrijs: totaal,
   };
+
+  console.log("EXPORT BODY", body);
 
   const response = await fetch("/api/export", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(body),
   });
+
+  console.log("Export response status:", response.status);
+console.log("Export response body:", await response.text());
 
   if (!response.ok) throw new Error("Export mislukt");
   return await response.json();
