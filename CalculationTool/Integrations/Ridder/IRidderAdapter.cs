@@ -14,5 +14,6 @@ namespace CalculationTool.Integrations.Ridder
         MateriaalDetailDto GetMateriaalDetail(int id, string beschrijving, int dikte);
         RidderLoginResponseDto Login(string gebruikersnaam, string wachtwoord);
         RegistratieResultDto RegistreerGebruiker(string gebruikersnaam, string wachtwoord);
+        bool ExporteerNaarRidder(ExportRequestDto request, int OrderId);
     }
 }

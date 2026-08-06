@@ -4,19 +4,13 @@ namespace CalculationTool.Models
 {
     public class ExportRequestDto
     {
-        public OrderInfoDto OrderInfo { get; set; }
+        public int OrderId { get; set; }
         public List<VerkoopRegelDto> Verkoopregels { get; set; }
         public List<KostenpostDto> Kostenposten { get; set; }
         public double TotaalPrijs { get; set; }
     }
 
-    public class OrderInfoDto
-    {
-        public string OrderNummer { get; set; }
-        public string Klant { get; set; }
-        public string Verkoper { get; set; }
-        public string AangemaaktOp { get; set; }
-    }
+
 
     public class VerkoopRegelDto
     {

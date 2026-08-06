@@ -47,9 +47,17 @@ namespace CalculationTool.Integrations.Ridder
                 throw new Exception($"Ridder API error: {response.StatusCode} - {json}");
             }
             var ridderData = JsonConvert.DeserializeObject<RidderOrderResponse>(json);
+            System.Diagnostics.Debug.WriteLine(
+    $"RIDDER ORDER ID: {ridderData.Order.OrderId}"
+);
+
+            System.Diagnostics.Debug.WriteLine(
+                $"RIDDER ORDER NUMBER: {ridderData.Order.OrderNumber}"
+            );
 
             return new QuoteDto
             {
+                OrderId = ridderData.Order.OrderId,
                 QuoteNumber = ridderData.Order.OrderNumber.ToString(),
                 Customer = ridderData.Relation.RelationName,
                 Salesperson = ridderData.Order.SalesPerson,
@@ -143,6 +151,29 @@ namespace CalculationTool.Integrations.Ridder
             System.Diagnostics.Debug.WriteLine($"REGISTRATIE BODY: {json}");
 
             return new RegistratieResultDto { Succes = response.IsSuccessStatusCode };
+        }
+
+        public bool ExporteerNaarRidder(ExportRequestDto request, int OrderId)
+        {
+            // TODO: vervang door echte Ridder endpoint zodra beschikbaar
+            var url = $"{_apiUrl.TrimEnd('/')}/order/export/{OrderId}";
+
+            var body = new StringContent(
+                JsonConvert.SerializeObject(request.Verkoopregels),
+                System.Text.Encoding.UTF8,
+                "application/json"
+            );
+
+            System.Diagnostics.Debug.WriteLine($"EXPORT BODY: {JsonConvert.SerializeObject(request.Verkoopregels)}");
+
+            var response = _httpClient.PostAsync(url, body).Result;
+            var responseBody = response.Content.ReadAsStringAsync().Result;
+
+            System.Diagnostics.Debug.WriteLine($"EXPORT URL: {url}");
+            System.Diagnostics.Debug.WriteLine($"EXPORT STATUS: {response.StatusCode}");
+            System.Diagnostics.Debug.WriteLine($"EXPORT RESPONSE: {responseBody}");
+
+            return response.IsSuccessStatusCode;
         }
 
     }
