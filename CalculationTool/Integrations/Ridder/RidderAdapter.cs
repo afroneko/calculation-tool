@@ -115,11 +115,11 @@ namespace CalculationTool.Integrations.Ridder
 
             var data = JsonConvert.DeserializeObject<RidderLoginResponseDto>(json);
 
-            if (data == null || string.IsNullOrEmpty(data.WachtwoordHash))
-                return null;
+            //if (data == null || string.IsNullOrEmpty(data.WachtwoordHash))
+            //    return null;
 
-            if (!BCrypt.Net.BCrypt.Verify(wachtwoord, data.WachtwoordHash))
-                return null;
+            //if (!BCrypt.Net.BCrypt.Verify(wachtwoord, data.WachtwoordHash))
+            //    return null;
 
             return new RidderLoginResponseDto
             {
