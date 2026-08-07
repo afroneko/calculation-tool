@@ -191,6 +191,42 @@ namespace CalculationTool.Tests
             Assert.AreEqual(2.67, overig.Kostprijs, 0.01);
         }
 
+        // -- Externe bewerkingen --
+
+        [TestMethod]
+        public void BerekenKosten_PrecisieGaten_KloptMetTarief()
+        {
+            // 3 precisie gaten × €5.00 = €15.00
+            var request = MaakRequest(
+                externalOperations: new List<ExterneBewerkingItemDto>
+                {
+            new ExterneBewerkingItemDto { Id = "1", PrecisieGaten = 3 }
+                }
+            );
+
+            var result = _service.BerekenKosten(request);
+            var overig = result.Kostenposten.Find(k => k.Label == "Externe bewerkingen");
+
+            Assert.AreEqual(15.00, overig.Kostprijs, 0.01);
+        }
+
+        [TestMethod]
+        public void BerekenKosten_Graveren_KloptMetTarief()
+        {
+            // 2 graveringen × €8.00 = €16.00
+            var request = MaakRequest(
+                externalOperations: new List<ExterneBewerkingItemDto>
+                {
+            new ExterneBewerkingItemDto { Id = "1", Graveren = 2 }
+                }
+            );
+
+            var result = _service.BerekenKosten(request);
+            var overig = result.Kostenposten.Find(k => k.Label == "Externe bewerkingen");
+
+            Assert.AreEqual(16.00, overig.Kostprijs, 0.01);
+        }
+
         // -- Verpakking --
 
         [TestMethod]
@@ -227,6 +263,33 @@ namespace CalculationTool.Tests
             var subtotaal = result.Totaal - winstRisico.Kostprijs;
 
             Assert.AreEqual(subtotaal * 0.02, winstRisico.Kostprijs, 0.01);
+        }
+
+        // -- Export --
+
+        [TestMethod]
+        public void ExportController_LegeVerkoopregels_GeeftBadRequest()
+        {
+            var controller = new CalculationTool.Controllers.ExportController();
+            var request = new ExportRequestDto
+            {
+                OrderId = 64311,  // was: OrderInfo
+                Verkoopregels = new List<VerkoopRegelDto>(),
+                Kostenposten = new List<KostenpostDto>(),
+                TotaalPrijs = 0,
+            };
+
+            var result = controller.Export(request);
+            Assert.IsInstanceOfType(result, typeof(System.Web.Http.Results.BadRequestErrorMessageResult));
+        }
+
+        [TestMethod]
+        public void ExportController_NullRequest_GeeftBadRequest()
+        {
+            var controller = new CalculationTool.Controllers.ExportController();
+            var result = controller.Export(null);
+
+            Assert.IsInstanceOfType(result, typeof(System.Web.Http.Results.BadRequestErrorMessageResult));
         }
     }
 }

@@ -37,6 +37,7 @@ export default function Export() {
     genereerPdf(document, nestingData, operations, kostenposten, totaal);
   };
   const handleMail = () => {
+    console.log("Mail knop ingedrukt");
     openMail(document, nestingData, operations, kostenposten, totaal);
   }
 

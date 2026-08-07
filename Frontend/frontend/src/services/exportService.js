@@ -32,7 +32,7 @@ export const exportNaarRidder = async (documentId, document, nestingData, operat
   });
 
   const body = {
-    orderId: document?.orderId ?? 0,
+    orderId: documentId,
     verkoopregels,
     kostenposten,
     totaalPrijs: totaal,
