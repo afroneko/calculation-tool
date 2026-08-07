@@ -9,8 +9,7 @@ import Nesting from "./pages/multisteps/stap4/Nesting";
 import Bewerkingen from "./pages/multisteps/stap5/Bewerkingen";
 import ExterneBewerkingen from "./pages/multisteps/stap6/ExterneBewerkingen";
 import Calculatie from "./pages/multisteps/stap7/Calculatie";
-import Controle from "./pages/multisteps/stap8/Controle";
-import Export from "./pages/multisteps/stap9/Export";
+import Export from "./pages/multisteps/stap8/Export";
 import Algemeen from "./pages/settings/algemeen/Algemeen";
 import Materialen from "./pages/settings/materialen/Materialen";
 import Tarrifs from "./pages/settings/tarieven/Tarrifs";
@@ -32,7 +31,6 @@ export default function App() {
           <Route path="/stap5/:type" element={<Bewerkingen />} />
           <Route path="/stap6/:type" element={<ExterneBewerkingen />} />
           <Route path="/stap7/:type" element={<Calculatie />} />
-          <Route path="/stap9/:type" element={<Controle />} />
           <Route path="/stap8/:type" element={<Export />} />
 
           <Route path="/instellingen/algemeen" element={<ProtectedRoute><Algemeen /></ProtectedRoute>} />

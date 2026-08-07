@@ -3,6 +3,8 @@ import SettingsLayout from "../../../layout/SettingsLayout";
 import { useState } from "react";
 import { Icon } from "@iconify/react";
 
+// ----> USER MANAGEMENT PAGE <----
+
 export default function Gebruikers() {
   const [gebruikersnaam, setGebruikersnaam] = useState("");
   const [wachtwoord, setWachtwoord] = useState("");
@@ -10,6 +12,7 @@ export default function Gebruikers() {
   const [succes, setSucces] = useState(null);
   const [fout, setFout] = useState(null);
 
+  // Function to handle user registration, including form validation, API call, and state updates for success or error messages
   const handleRegistreer = async () => {
     if (!gebruikersnaam || !wachtwoord) {
       setFout("Vul beide velden in");

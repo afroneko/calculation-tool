@@ -1,5 +1,7 @@
 import "./ConfirmModal.css";
 
+// ----> CONFIRM MODAL COMPONENT FOR LEAVING STEP 5 AND 6 EMPTY <----
+
 export default function ConfirmModal({ title, message, onConfirm, onCancel }) {
   return (
     <div className="modal-overlay">

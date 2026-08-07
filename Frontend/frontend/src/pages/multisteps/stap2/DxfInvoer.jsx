@@ -7,22 +7,22 @@ import { Icon } from "@iconify/react";
 import useCalculatieStore from "../../../store/calculatieStore";
 import { valideerStap } from "../../../services/validatie";
 
+// ----> 2ND STEP PAGE: DXF FILE UPLOAD <----
+
 export default function DxfInvoer() {
 const navigate = useNavigate();
 const { type } = useParams();
 const inputRef = useRef(null);
 const { files, addFile, removeFile, setType, document, documentId } = useCalculatieStore();
 
+// Function to handle the selected files, filter for .dxf files, and add them to the store
 const handleFiles = (selectedFiles) => {
     setType(type);
     Array.from(selectedFiles).forEach((file) => {
-      //sla bestanden over die geen .dxf extensie hebben
       if (!file.name.endsWith(".dxf")) return;
-      //sla bestanden over die al in de lijst staan
       if (files.find((f) => f.naam === file.naam)) return;
 
       addFile({
-        //Uniek id aanmaken voor 
         id: crypto.randomUUID(),
         naam: file.name,
         file,
@@ -30,8 +30,8 @@ const handleFiles = (selectedFiles) => {
     });
   };
 
+  // Function to handle the drop event, prevent default behavior, and process the dropped files
   function handleDrop(e) {
-    //voorkomt dat de browser het besstand opent
     e.preventDefault();
     handleFiles(e.dataTransfer.files);
   };

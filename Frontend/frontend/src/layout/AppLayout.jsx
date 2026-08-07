@@ -4,6 +4,8 @@ import "../styles/layout.css";
 import LoginOverlay from "../pages/login/LoginOverlay";
 import { useState } from "react";
 
+// ----> MAIN LAYOUT: SIDEBAR + MAIN CONTENT <----
+
 export default function AppLayout() {
   const [showLogin, setShowLogin] = useState(false);
 
@@ -15,7 +17,7 @@ export default function AppLayout() {
         <Outlet />
       </main>
 
-      {/* LOGIN OVERLAY BOVEN HELE APP */}
+      {/* LOGIN OVERLAY OVER ENTIRE APP */}
       {showLogin && (
         <LoginOverlay onClose={() => setShowLogin(false)} />
       )}

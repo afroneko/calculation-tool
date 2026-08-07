@@ -4,6 +4,8 @@ import SettingsLayout from "../../../layout/SettingsLayout";
 import { Icon } from "@iconify/react";
 import { useState } from "react";
 
+// ----> MATERIAL MANAGEMENT PAGE <----
+
 const initialMaterials = [
   { id: 1,  category: "Staal",     name: "S235",  thickness: "1mm",  foil: false, pricePerKg: 0.85 },
   { id: 2,  category: "Staal",     name: "S235",  thickness: "2mm",  foil: false, pricePerKg: 0.82 },
@@ -26,15 +28,18 @@ export default function Materialen() {
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
 
+  // Filter materials based on the selected category
   const filtered = activeCategory === "Alle"
     ? materials
     : materials.filter((m) => m.category === activeCategory);
 
+    // Function to start editing a material's price, setting the editing state and initial value
   const startEdit = (item) => {
     setEditingId(item.id);
     setEditValue(item.pricePerKg.toString().replace(".", ","));
   };
 
+  // Function to save the edited price, parsing the input and updating the materials state
   const saveEdit = (id) => {
     const parsed = parseFloat(editValue.replace(",", "."));
     if (!isNaN(parsed)) {
@@ -43,6 +48,7 @@ export default function Materialen() {
     setEditingId(null);
   };
 
+  // Function to delete a material from the list, filtering it out of the materials state
   const deleteItem = (id) => setMaterials((prev) => prev.filter((m) => m.id !== id));
 
   return (

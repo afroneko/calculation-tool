@@ -7,6 +7,8 @@ import useCalculatieStore from "../../../store/calculatieStore";
 import { valideerStap } from "../../../services/validatie";
 import ConfirmModal from "../../../components/modal/ConfirmModal";
 
+// ----> 5TH STEP PAGE: OPERATIONS <----
+
 const BEWERKINGS_VELDEN = [
   { key: "zet1eman",          label: "zet 1e man",            type: "number" },
   { key: "zet2eman",          label: "zet 2e man",            type: "number" },
@@ -22,6 +24,7 @@ export default function Bewerkingen() {
 
   const { files, operations, setOperations, updateOperation, document } = useCalculatieStore();
 
+  // Effect to initialize operations based on the uploaded files, ensuring that each file has a corresponding operation entry in the store
   useEffect(() => {
     if (files.length === 0) return;
 

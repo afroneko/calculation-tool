@@ -6,8 +6,11 @@ import { useEffect, useState } from "react";
 import useCalculatieStore from "../../../store/calculatieStore";
 import { valideerStap } from "../../../services/validatie";
 
+// ----> 3RD STEP PAGE: MATERIAL SELECTION <----
+
 const DIKTES = ["1mm", "2mm", "3mm", "4mm", "5mm", "6mm", "8mm", "10mm", "12mm", "15mm", "20mm"];
 
+// List of available materials with their properties
 const MATERIALEN = [
   // RVS 304
   { naam: "RVS304 KGW F",           materiaalnr: 600,  increment: 4, artikelgroepCode: 1700, artikelgroepId: 135, zoekCode: "rvs 304" },
@@ -96,7 +99,7 @@ export default function Materiaal()  {
   const navigate = useNavigate();
   const {type} = useParams();
 
-  // initialiseer materials vanuit files
+  // Effect to initialize materials based on the uploaded files, ensuring that each file has a corresponding material entry in the store
   useEffect(() => {
     if (files.length === 0) return;
     const initialized = files.map((file) => {
@@ -113,8 +116,8 @@ export default function Materiaal()  {
         aantallen: null,
       };
     });
+    // Update the materials in the store with the initialized list
     setMaterials(initialized);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
   const [fout, setFout] = useState(null);

@@ -2,6 +2,9 @@ import "./Progressbar.css";
 import { Icon } from "@iconify/react";
 import { useLocation } from "react-router-dom";
 
+// ----> PROGRESSBAR COMPONENT FOR TRACKING STEP COMPLETION <----
+
+//array of steps with their respective titles, subtitles, and icons
 const steps = [
   {
     slug: "stap1",

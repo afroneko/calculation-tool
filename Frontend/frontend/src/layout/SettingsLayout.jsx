@@ -1,6 +1,8 @@
 import "../styles/layout.css";
 import SettingsNavbar from "../components/settingsnavbar/SettingsNavbar";
 
+// ----> LAYOUT FOR THE SETTINGS PAGES <----
+
 export default function SettingsLayout({ title, description, children }) {
   return (
     <div className="settings-layout">

@@ -9,6 +9,8 @@ import { getQuote, getOrder } from "../../../services/api";
 import useCalculatieStore from "../../../store/calculatieStore";
 import { valideerStap } from "../../../services/validatie";
 
+// ----> 1ST STEP PAGE: DOCUMENT RETRIEVAL FROM RIDDER <----
+
 export default function OfferteOphalen() {
   const navigate = useNavigate();
   const [number, setNumber] = useState("");
@@ -21,6 +23,7 @@ export default function OfferteOphalen() {
     const label = type === "offerte" ? "Offertenummer" : "Ordernummer";
     const title = type === "offerte" ? "Offerte details" : "Order details";
 
+    // Function to handle the submission of the document number and retrieve the corresponding document from Ridder
     const handleSubmit = async () => {
         if (!number) return;
         setLoading(true);
@@ -41,6 +44,8 @@ export default function OfferteOphalen() {
 
     const [fout, setFout] = useState(null);
     const store = useCalculatieStore();
+
+    // Function to handle the "Next" button click, validate the current step, and navigate to the next step if valid
     const handleNext = () => {
     const validatie = valideerStap(1, store);
       if (!validatie.geldig) {

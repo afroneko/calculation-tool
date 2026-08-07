@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import useCalculatieStore from "../../../store/calculatieStore";
 import { valideerStap } from "../../../services/validatie";
 
-
+// ----> 7TH STEP PAGE: CALCULATION <----
 
 const formatEuro = (bedrag) =>
   `€ ${bedrag.toFixed(2).replace(".", ",")}`;
@@ -20,6 +20,7 @@ export default function Kostenoverzicht() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Effect to fetch the calculation data from the backend whenever the nesting data, materials, operations, or external operations change
   useEffect(() => {
     const fetchCalculatie = async () => {
       setLoading(true);
@@ -35,6 +36,7 @@ export default function Kostenoverzicht() {
               aantallen: m.aantallen,
             })));
 
+        // Send a POST request to the backend with the necessary data for calculation    
         const response = await fetch("/api/calculatie", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -59,6 +61,7 @@ export default function Kostenoverzicht() {
         if (!response.ok) throw new Error("Calculatie mislukt");
         console.log(response.status);
 
+        // Parse the response JSON and update the store with the calculated costs and total
         const data = await response.json();
         console.log(data);
         setKostenposten(data.kostenposten);

@@ -8,6 +8,8 @@ import useCalculatieStore from "../../../store/calculatieStore";
 import { valideerStap } from "../../../services/validatie";
 import ConfirmModal from "../../../components/modal/ConfirmModal";
 
+// ----> 6TH STEP PAGE: EXTERNAL OPERATIONS <----
+
 const EXTERNAL_OPERATIONS = [
   { key: "zwartcoaten",    label: "Zwartcoaten",    type: "boolean" },
   { key: "parelcoaten",    label: "Parelcoaten",    type: "boolean" },
@@ -23,6 +25,7 @@ export default function ExterneBewerkingen() {
 
   const { files, externalOperations, setExternalOperations, updateExternalOperation, document } = useCalculatieStore();
 
+  // Effect to initialize external operations based on the uploaded files, ensuring that each file has a corresponding external operation entry in the store
   useEffect(() => {
     if (files.length === 0) return;
 
@@ -42,6 +45,7 @@ export default function ExterneBewerkingen() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [files]);
 
+  // Function to calculate the total for a specific field across all external operations, returning null for boolean fields
   const calcTotal = (field, fieldType) => {
     if (fieldType === "boolean") return null;
     return externalOperations.reduce((sum, o) => sum + (o[field] || 0), 0) || null;

@@ -1,6 +1,8 @@
 import React from "react";
 import "./DetailCard.css";
 
+// ----> DETAIL CARD COMPONENT FOR THE DOCUMENTDETAILS <----
+
 export default function DetailCard({
   title,
   numberLabel,

@@ -2,6 +2,8 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import "./ClickableCard.css";
 
+// ----> CLICKABLE CARD COMPONENT FOR DASHBOARDPAGE <----
+
 export default function ClickableCard({
   title,
   description,

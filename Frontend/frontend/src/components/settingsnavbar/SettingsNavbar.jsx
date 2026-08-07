@@ -2,6 +2,8 @@ import "./SettingsNavbar.css";
 import { NavLink } from "react-router-dom";
 import { Icon } from "@iconify/react";
 
+// ----> NAVBAR COMPONENT FOR THE SETTINGS PAGES <----
+
 const navItems = [
   { label: "Algemeen",   sublabel: "Algemene instellingen",         path: "/instellingen/algemeen",   icon: "mdi:cog-outline" },
   { label: "Materialen", sublabel: "Materiaalsoorten en prijzen",   path: "/instellingen/materialen", icon: "material-symbols-light:devices-fold-outline" },

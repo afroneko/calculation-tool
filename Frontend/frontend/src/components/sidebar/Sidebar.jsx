@@ -3,6 +3,8 @@ import { Icon } from "@iconify/react";
 import "./Sidebar.css";
 import useAuthStore from "../../store/authStore";
 
+// ----> MAIN NAVBAR COMPONENT FOR THE WHOLE APPLICATION <----
+
 export default function Sidebar({ onAdminClick }) {
   const { isLoggedIn, logout } = useAuthStore();
 

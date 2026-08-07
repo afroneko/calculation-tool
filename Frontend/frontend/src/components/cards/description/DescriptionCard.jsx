@@ -2,6 +2,8 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import "./DescriptionCard.css";
 
+// ----> DESCRIPTION CARD COMPONENT FOR DASHBOARDPAGE <----
+
 export default function DescriptionCard({
   title,
   description,

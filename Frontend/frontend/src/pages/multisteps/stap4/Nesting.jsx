@@ -7,6 +7,8 @@ import { parseDxf } from "../../../services/parseDxf";
 import useCalculatieStore from "../../../store/calculatieStore";
 import { valideerStap } from "../../../services/validatie";
 
+// ----> 4TH STEP PAGE: CALCULATION USING SQUARE SIZES  <----
+
 const PLAAT_BREEDTE_MM = 3000;
 const PLAAT_HOOGTE_MM = 1500;
 const PLAAT_OPPERVLAKTE_M2 = (PLAAT_BREEDTE_MM / 1000) * (PLAAT_HOOGTE_MM / 1000);
@@ -38,7 +40,7 @@ export default function Nesting() {
     setLoading(true);
     setError(null);
     try {
-      //promise kan alles tegelijk verwerken in plaats van 1 voor 1
+      //promise can be used to wait for all dxf files to be parsed and the results to be stored in the state
       const results = await Promise.all(
         files.map(async (f) => {
           const mat = materials.find((m) => m.id === f.id);
@@ -47,7 +49,7 @@ export default function Nesting() {
           const oppervlakte = (width / 1000) * (height / 1000);
           const dikte = parseInt(mat?.dikte) || 1;
 
-         // gewicht per onderdeel: oppervlakte(m²) × dikte(m) × dichtheid(kg/m³)
+         //weight per part: area(m²) × thickness(m) × density(kg/m³)
           const gewicht = parseFloat(
             (oppervlakte * (dikte / 1000) * getDichtheid(mat?.artikelgroepId)).toFixed(2)
           );
@@ -69,7 +71,7 @@ export default function Nesting() {
       );
       setNestingData(results);
 
-      // groepeer per materiaal + dikte voor plaatberekening
+      //group by material + thickness for plate calculation
       const groepen = {};
       results.forEach((r) => {
         const key = `${r.materiaalNaam}-${r.dikte}`;
@@ -87,6 +89,7 @@ export default function Nesting() {
         groepen[key].totaalGewicht += r.gewicht * r.aantallen;
       });
 
+      //calculate the number of plates needed for each group based on the total area and the area of a single plate
       const platenPerGroep = Object.entries(groepen).map(([key, groep]) => ({
         groep: key,
         materiaalNaam: groep.materiaalNaam,

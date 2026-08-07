@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useState } from "react";
 import useCalculatieStore from "../store/calculatieStore";
 
+// ----> LAYOUT FOR THE STEP PAGES: MAIN CONTENT + DETAIL AND PROGRESS CARDS <----
+
 export default function OfferteStapLayout({
   children,
   offerte = {},

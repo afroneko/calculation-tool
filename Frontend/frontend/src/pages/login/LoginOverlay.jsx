@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import { useState } from "react";
 
+// ----> LOGIN OVERLAY COMPONENT FOR DISPLAYING THE LOGIN FORM <----
 
 export default function LoginOverlay({ onClose }) {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ export default function LoginOverlay({ onClose }) {
     setLoading(true);
     setFout(null);
 
+    // Send login request to the backend
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",

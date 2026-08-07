@@ -1,6 +1,8 @@
 import React from "react";
 import "./ProgressCard.css";
 
+// ----> PROGRESS CARD COMPONENT FOR STEP PROGRESS AND NAVIGATION <----
+
 export default function ProgressCard({
   currentStep,
   totalSteps,
@@ -8,6 +10,8 @@ export default function ProgressCard({
   onNext,
   showPrevious = true,
 }) {
+  
+  // Calculate the percentage of completion
   const percentage = Math.round((currentStep / totalSteps) * 100);
 
   return (

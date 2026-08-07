@@ -9,7 +9,7 @@ import { exportNaarRidder } from "../../../services/exportService";
 import { openMail } from "../../../services/mailService";
 import { useState } from "react";
 
-
+// ----> FINAL STEP PAGE: EXPORT <----
 
 export default function Export() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ export default function Export() {
   const [exportFout, setExportFout] = useState(null);
   const [exportSucces, setExportSucces] = useState(false);
 
+  // Function to handle the export process, including setting loading state, handling errors, and calling the export service
   const handleExport = async () => {
     setExportLoading(true);
     setExportFout(null);
@@ -33,9 +34,11 @@ export default function Export() {
     }
   };
 
+  // Function to handle the PDF download, calling the PDF generation service with the necessary data
   const handleDownloadPdf = () => {
     genereerPdf(document, nestingData, operations, kostenposten, totaal);
   };
+  // Function to handle the email sending, calling the mail service with the necessary data
   const handleMail = () => {
     console.log("Mail knop ingedrukt");
     openMail(document, nestingData, operations, kostenposten, totaal);

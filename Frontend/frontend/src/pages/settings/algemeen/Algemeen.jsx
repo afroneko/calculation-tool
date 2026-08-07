@@ -2,6 +2,8 @@ import "./Algemeen.css";
 import SettingsLayout from "../../../layout/SettingsLayout";
 import { useState } from "react";
 
+// ----> GENERAL SETTINGS PAGE <----
+
 export default function Algemeen() {
   const [darkMode, setDarkMode] = useState(false);
   const [companyName, setCompanyName] = useState("Tummers Metal Solutions");
