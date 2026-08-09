@@ -1,0 +1,41 @@
+:root {
+  --text-color: #05162F;
+  --border-color: #C5C3BE;
+  --primary-blue: #123154;
+  --secundary-blue: #1E5088;
+  --background-color: #F0F0F0;
+  --primary-grey: #A9A49E;
+  --secundary-grey: #C2C2C2;
+  --primary-white: #FFFFFF;
+  --secundary-white: #E0E0E0;
+  --accent-orange: #E77B2D;
+  --accent-blue: #DEEAF8;
+  --primary-check: #85BE81;
+  --secundary-check: #EDF7EC;
+  --primary-warning: #E9C572;
+  --secundary-warning: #F9EDDC;
+  --primary-problem: #C43A43;
+  --secundary-problem: #F9E8EA;
+}
+
+body {
+  margin: 0;
+  font-family: "Ubuntu", sans-serif ;
+  background-color: var(--background-color);;
+}
+
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+button {
+  font-family: inherit;
+}

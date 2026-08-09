@@ -1,0 +1,58 @@
+import '../styles/layout.css';
+import DetailCard from '../components/cards/detail/DetailCard';
+import ProgressCard from '../components/cards/progress/ProgressCard';
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import useCalculatieStore from "../store/calculatieStore";
+
+// ----> LAYOUT FOR THE STEP PAGES: MAIN CONTENT + DETAIL AND PROGRESS CARDS <----
+
+export default function OfferteStapLayout({
+  children,
+  offerte = {},
+  progress = { stap: 2, totaal: 8 },
+  onPrevious,
+  onNext,
+  showPrevious = true,
+}) {
+  const { type } = useParams();
+  const store = useCalculatieStore();
+
+  const percentage = Math.round((progress.stap / progress.totaal) * 100);
+  const title = type === "offerte" ? "Offerte details" : "Order details";
+ 
+  return (
+    <div className="offerte-stap-layout">
+ 
+      {/* Tweekoloms grid: content + sidebar */}
+      <div className="offerte-stap-layout__grid">
+ 
+        {/* ── Linker kolom: hoofd-content ── */}
+        <main className="offerte-stap-layout__content">
+          {children}
+        </main>
+ 
+        {/* ── Rechter kolom: sidebar ── */}
+        <aside className="offerte-stap-layout__sidebar">
+ 
+          <DetailCard
+            title={title}
+            numberLabel={type === "offerte" ? "Offertenummer" : "Ordernummer"}
+            number={offerte.offertenummer}
+            customer={offerte.klant}
+            salesperson={offerte.verkoper}
+            date={offerte.aangemaaktOp}
+          />
+          <ProgressCard
+            currentStep={progress.stap}
+            totalSteps={progress.totaal}
+            onPrevious={onPrevious}
+            onNext={onNext}
+            showPrevious={showPrevious}
+          />
+ 
+        </aside>
+      </div>
+    </div>
+  );
+}

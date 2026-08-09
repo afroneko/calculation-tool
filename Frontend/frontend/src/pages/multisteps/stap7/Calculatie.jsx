@@ -1,0 +1,146 @@
+import "./Calculatie.css";
+import OfferteStapLayout from "../../../layout/OfferteStapLayout";
+import Progressbar from "../../../components/progressbar/Progressbar";
+import { useNavigate, useParams } from "react-router-dom";
+import { Icon } from "@iconify/react";
+import { useEffect, useState } from "react";
+import useCalculatieStore from "../../../store/calculatieStore";
+import { valideerStap } from "../../../services/validatie";
+
+// ----> 7TH STEP PAGE: CALCULATION <----
+
+const formatEuro = (bedrag) =>
+  `€ ${bedrag.toFixed(2).replace(".", ",")}`;
+
+export default function Kostenoverzicht() {
+  const navigate = useNavigate();
+  const { type } = useParams();
+
+  const { nestingData, materials, operations, externalOperations, tarieven, normtijden, document, kostenposten, totaal, setKostenposten, setTotaal } = useCalculatieStore();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  // Effect to fetch the calculation data from the backend whenever the nesting data, materials, operations, or external operations change
+  useEffect(() => {
+    const fetchCalculatie = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        console.log("materials:", materials.map((m) => ({
+              id: m.id,
+              naam: m.naam,
+              materiaalId: m.materiaalnr,
+              artikelgroepId: m.artikelgroepId,  // dit meesturen
+              zoekCode: m.zoekCode,
+              dikte: m.dikte,
+              aantallen: m.aantallen,
+            })));
+
+        // Send a POST request to the backend with the necessary data for calculation    
+        const response = await fetch("/api/calculatie", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nestingData,
+            materials: materials.map((m) => ({
+              id: m.id,
+              naam: m.naam,
+              materiaalId: m.materiaalnr,
+              artikelgroepId: m.artikelgroepId,
+              zoekCode: m.zoekCode,
+              dikte: m.dikte,
+              aantallen: m.aantallen,
+            })),
+            operations,
+            externalOperations,
+            tarieven,
+            normtijden,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Calculatie mislukt");
+        console.log(response.status);
+
+        // Parse the response JSON and update the store with the calculated costs and total
+        const data = await response.json();
+        console.log(data);
+        setKostenposten(data.kostenposten);
+        setTotaal(data.totaal);
+      } catch (err) {
+        console.error(err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (nestingData.length > 0) fetchCalculatie();
+  }, [nestingData, materials, operations, externalOperations]);
+
+
+  if (loading) return <p className="kosten-laden">Kosten berekenen...</p>;
+  if (error)   return <p className="kosten-fout">{error}</p>;
+
+  return (
+    <div className="kostenoverzicht-page">
+      <Progressbar />
+
+      <OfferteStapLayout
+        offerte={{
+          offertenummer: document?.quoteNumber ?? "-",
+          klant: document?.customer ?? "-",
+          verkoper: document?.salesperson ?? "-",
+          aangemaaktOp: document?.createdAt ?? "-",
+        }}
+        progress={{ stap: 6, totaal: 8 }}
+        onPrevious={() => navigate(`/stap6/${type}`)}
+        onNext={() => navigate(`/stap8/${type}`)}
+      >
+        <h2>Kostenoverzicht</h2>
+        <p>Hieronder vind je een overzicht van alle kosten op basis van de ingevulde gegevens.</p>
+
+        <table className="kosten-tabel">
+          <thead>
+            <tr>
+              <th className="col-kostenpost">Kostenpost</th>
+              <th className="col-kostprijs">kostprijs</th>
+              <th className="col-percentage">% van totaal</th>
+              <th className="col-toelichting">Toelichting</th>
+            </tr>
+          </thead>
+          <tbody>
+            {kostenposten.map((post) => {
+              const percentage = totaal > 0
+                ? ((post.kostprijs / totaal) * 100).toFixed(1)
+                : "0.0";
+              return (
+                <tr key={post.label}>
+                  <td className="kostenpost-cel">
+                    <div className="kostenpost-icoon">
+                      <Icon icon={post.icon} width={20} height={20} />
+                    </div>
+                    <div>
+                      <span className="kostenpost-label">{post.label}</span>
+                      <span className="kostenpost-sublabel">{post.sublabel}</span>
+                    </div>
+                  </td>
+                  <td className="kostprijs-cel">{formatEuro(post.kostprijs)}</td>
+                  <td className="percentage-cel">{percentage}%</td>
+                  <td className="toelichting-cel">{post.toelichting}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+          <tfoot>
+            <tr className="totaal-rij">
+              <td>Totale kostprijs</td>
+              <td>{formatEuro(totaal)}</td>
+              <td>100%</td>
+              <td />
+            </tr>
+          </tfoot>
+        </table>
+      </OfferteStapLayout>
+    </div>
+  );
+}

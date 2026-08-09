@@ -1,0 +1,49 @@
+.bewerkingen-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  margin-top: 1.5rem;
+}
+
+.bewerkingen-tabel th {
+  text-align: left;
+  padding: 10px 12px;
+  font-weight: 500;
+  color: #555;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.bewerkingen-tabel td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.bewerkingen-tabel tr:last-child td {
+  border-bottom: none;
+}
+
+.afbeelding-cel {
+  width: 40px;
+  text-align: center;
+}
+
+.bewerkingen-input {
+  width: 40px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 3px 6px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.bewerkingen-input::placeholder {
+  color: #bbb;
+}
+
+.totaal-rij td {
+  font-weight: 500;
+  border-top: 1px solid #e0e0e0;
+  border-bottom: none;
+  padding-top: 14px;
+}

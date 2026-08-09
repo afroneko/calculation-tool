@@ -13,7 +13,7 @@ namespace CalculationTool.Controllers
         [Route("api/test")]
         public IHttpActionResult Get()
         {
-            return Ok("Backend werkt!");
+            return Ok(new {message = "backend werkt!"});
         }
     }
 }
